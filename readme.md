@@ -55,7 +55,7 @@ Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU 
 ./example1.out -b ./datasets/twitter_small_records.json
 ```
 
-### Example 2 (JSON Lines, Twitter):
+### Example 2 (Standard JSON, Twitter):
 
 For running Example 2 (Standard JSON, Twitter), you have to change the `./test/example1.cu` to `./test/example2.cu` and also `./datasets/twitter_small_records.json` to `./datasets/twitter_large_record.json`.
 
