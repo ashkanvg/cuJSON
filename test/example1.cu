@@ -20,15 +20,16 @@
 #include <thrust/partition.h>
 #include <thrust/execution_policy.h>
 #include <inttypes.h>
-#include "./query/query_iterator.cpp"
+#include "../src/query/query_iterator.cpp"
 #include <thrust/host_vector.h>
 #include <device_launch_parameters.h>
 #include <vector>
 #include <cstring>
 
+
+
 // #include "./12-GJSON-Class.cuh"
-//                                                                                                    2147483647
-//                                                                                                    183463832
+
 #define         MAXLINELENGTH     268435456   //4194304 8388608 33554432 67108864 134217728 201326592 268435456 536870912 805306368 1073741824// Max record size
                                               //4MB       8MB     32BM    64MB      128MB    192MB     256MB     512MB     768MB       1GB
 #define         BUFSIZE           268435456   //4194304 8388608 33554432 67108864 134217728 201326592 268435456 536870912 805306368 1073741824
@@ -48,6 +49,8 @@
 #define ROW5 5
 
 using namespace std;
+using namespace std::chrono;
+
 
 struct inputStartStruct{
     uint32_t  size;
@@ -1463,22 +1466,13 @@ inline uint8_t * Tokenize(  uint8_t* block_GPU,
     //t cudaEventRecord(start, 0);
 
     // auto start = chrono::high_resolution_clock::now();
-    // __________________Create_Bit-Map_Character___________________
+    // // __________________Create_Bit-Map_Character___________________
     // cudaEvent_t start, stop;
     // cudaEventCreate(&start);
     // cudaEventCreate(&stop);
 
-    // // Step 1
-    // cudaEventRecord(start, 0);
-    // bitMapCreator<<<numBlock, BLOCKSIZE>>>(block_GPU, backslashes_GPU, quote_GPU, op_GPU, newLine_GPU, size, total_padded_32);
-    // bitMapCreator2<<<numBlock, BLOCKSIZE>>>(block_GPU, backslashes_GPU, quote_GPU, op_GPU, newLine_GPU, size, total_padded_32);
-    // bitMapCreator3<<<numBlock, BLOCKSIZE>>>(block_GPU, backslashes_GPU, quote_GPU, op_GPU, newLine_GPU, size, total_padded_32);
-    // bitMapCreatorByte<<<numBlock_8, BLOCKSIZE>>>(block_GPU, backslashes_GPU, quote_GPU, op_GPU, newLine_GPU, size, total_padded_32, total_padded_8);
-    // bitMapCreatorLookup8<<<numBlock_8, BLOCKSIZE>>>(block_GPU, backslashes_GPU, quote_GPU, op_GPU, newLine_GPU, size, total_padded_8);
-    // debugPrint<<<numBlock, BLOCKSIZE>>>((uint32_t*) block_GPU, total_padded_32);
+    // Step 1
     bitMapCreatorSimd<<<numBlock_8, BLOCKSIZE>>>( (uint32_t*) block_GPU, (uint8_t*) backslashes_GPU, (uint8_t*) quote_GPU, (uint8_t*) op_GPU, (uint8_t*) open_close_GPU, size, total_padded_8);
-    // bitMapCreatorSimd32<<<numBlock, BLOCKSIZE>>>( (uint32_t*) block_GPU, backslashes_GPU, quote_GPU, op_GPU, newLine_GPU, size, total_padded_32);
-    // bitMapCreatorLookup2<<<numBlock, BLOCKSIZE>>>(block_GPU, backslashes_GPU, quote_GPU, op_GPU, newLine_GPU, size, total_padded_32);
     cudaStreamSynchronize(0);
 
 
@@ -2145,7 +2139,7 @@ inline void *start(void* inputStart){
     uint64_t lastStructuralIndex = ((inputStartStruct *)inputStart)->lastStructuralIndex;
     uint64_t lastChunkIndex = ((inputStartStruct *)inputStart)->lastChunkIndex;
 
-    // cout << "here start! \n";
+
 
 
     uint8_t* block_GPU;        // BLOCKS in GPU
@@ -2180,9 +2174,6 @@ inline void *start(void* inputStart){
     time_EE.copy_start += elapsedTimeHD;
 
 
-    cudaEventDestroy(startHD);
-    cudaEventDestroy(stopHD);
-
 
 
 
@@ -2205,25 +2196,20 @@ inline void *start(void* inputStart){
         exit(0);
     }
 
-    cudaEventRecord(stopValEE, 0);
-    cudaEventSynchronize(stopValEE);
+    // cudaEventRecord(stopValEE, 0);
+    // cudaEventSynchronize(stopValEE);
     float elapsedTimeVal;
-    cudaEventElapsedTime(&elapsedTimeVal, startValEE, stopValEE);
+    // cudaEventElapsedTime(&elapsedTimeVal, startValEE, stopValEE);
 
     time_EE.EE_t_val += elapsedTimeVal;
     time_EE.EE_t += elapsedTimeVal;
 
 
-
-    cudaEventDestroy(startValEE);
-    cudaEventDestroy(stopValEE);
-
-
     // __________________Tokenizer___________________
-    cudaEvent_t startTokEE, stopTokEE;
-    cudaEventCreate(&startTokEE);
-    cudaEventCreate(&stopTokEE);
-    cudaEventRecord(startTokEE, 0);
+    // cudaEvent_t startTokEE, stopTokEE;
+    // cudaEventCreate(&startTokEE);
+    // cudaEventCreate(&stopTokEE);
+    // cudaEventRecord(startTokEE, 0);
     
 
     uint32_t last_index_tokens;
@@ -2235,26 +2221,21 @@ inline void *start(void* inputStart){
     open_close_GPU = Tokenize(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
     // cudaStreamSynchronize(0);
 
-    cudaEventRecord(stopTokEE, 0);
-    cudaEventSynchronize(stopTokEE);
-    float elapsedTimeTok;
-    cudaEventElapsedTime(&elapsedTimeTok, startTokEE, stopTokEE);
+    // cudaEventRecord(stopTokEE, 0);
+    // cudaEventSynchronize(stopTokEE);
+    // float elapsedTimeTok;
+    // cudaEventElapsedTime(&elapsedTimeTok, startTokEE, stopTokEE);
 
-    time_EE.EE_t_tok += elapsedTimeTok;
-    time_EE.EE_t += elapsedTimeTok;
+    // time_EE.EE_t_tok += elapsedTimeTok;
+    // time_EE.EE_t += elapsedTimeTok;
 
 
-    cudaEventDestroy(startTokEE);
-    cudaEventDestroy(stopTokEE);
+
     
 
     // cudaEventRecord(start, 0);
     // cout << "index-after sort by key [after tok]" << endl;
     // printUInt32ArrayFromGPU( open_close_index_GPU, last_index_tokens_open_close);
-
-
-    cudaFreeAsync(block_GPU,0); 
-    cudaStreamSynchronize(0);
 
     int32_t* result_GPU;
     int32_t* result;
@@ -2262,10 +2243,10 @@ inline void *start(void* inputStart){
 
     // cudaStreamSynchronize(0);
     // __________________Parsing_____________________
-    cudaEvent_t startParseEE, stopParseEE;
-    cudaEventCreate(&startParseEE);
-    cudaEventCreate(&stopParseEE);
-    cudaEventRecord(startParseEE, 0);
+    // cudaEvent_t startParseEE, stopParseEE;
+    // cudaEventCreate(&startParseEE);
+    // cudaEventCreate(&stopParseEE);
+    // cudaEventRecord(startParseEE, 0);
 
     // result_GPU = Parser((char *)tokens_GPU, (int32_t **)(&tokens_index_GPU),  last_index_tokens, result_size);
     // result_GPU = Parser(open_close_GPU, 
@@ -2292,17 +2273,16 @@ inline void *start(void* inputStart){
     // cout << total_tokens << endl;
     uint32_t total_result_size = (uint32_t) result_size*ROW2;
 
-    cudaEventRecord(stopParseEE, 0);
-    cudaEventSynchronize(stopParseEE);
-    float elapsedTimeParse;
-    cudaEventElapsedTime(&elapsedTimeParse, startParseEE, stopParseEE);
+    // cudaEventRecord(stopParseEE, 0);
+    // cudaEventSynchronize(stopParseEE);
+    // float elapsedTimeParse;
+    // cudaEventElapsedTime(&elapsedTimeParse, startParseEE, stopParseEE);
 
-    time_EE.EE_t_pars += elapsedTimeParse;
-    time_EE.EE_t += elapsedTimeParse;
+    // time_EE.EE_t_pars += elapsedTimeParse;
+    // time_EE.EE_t += elapsedTimeParse;
 
-    cudaEventDestroy(startParseEE);
-    cudaEventDestroy(stopParseEE);
 
+    cudaFreeAsync(block_GPU,0); 
 
     return (void *)result_GPU;
     
@@ -2341,7 +2321,7 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
     cudaMallocHost(&buf, sizeof(uint8_t)*BUFSIZE);                          // input (each chunk)
     cudaMallocHost(&res_buf, sizeof(uint32_t)*BUFSIZE*chunks_count*ROW2);   // output(all chunks together)
 
-    // cout << "test \n";
+
     resultStruct->chunkCount = chunks_count;
     resultStruct->structural = res_buf;
     resultStruct->pair_pos = res_buf + BUFSIZE*chunks_count;
@@ -2355,8 +2335,7 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
     size_t   len = 0;
     uint32_t total = 0;
     uint32_t lines = 0;
-    // uint32_t lineLengths[1<<25]; //the maximum size of the array // we can convert it to 1 instead of array or remove it
-    uint32_t *lineLengths = (uint32_t *) malloc((1<<25) * sizeof(uint32_t));
+    uint32_t lineLengths[1<<20]; //the maximum size of the array // we can convert it to 1 instead of array or remove it
 
     // //read start of file
     int i = 0;
@@ -2364,12 +2343,9 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
     int total_result_size = 0;          // latest index structural
     int latest_index_realJSON = 0;      // latest index realJSON
     while((read = getline((char **)&line, &len, handle)) != -1){        
-        // cout << "line: " << line <<endl;
         int readLimit = total + read;
-        // cout << readLimit << " "; 
         if(readLimit > BUFSIZE){
             // cout << current_chunk_num << endl;
-            // cout << "test 2\n";
             inputStartStruct inputStart;
             inputStart.block = buf;
             inputStart.size  = lineLengths[i-1];
@@ -2377,14 +2353,12 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
             inputStart.lastStructuralIndex = total_result_size;
             res = (int32_t*) start( (void*) &inputStart);
 
-            // cout << "BOMB!" <<endl;
             // device to host time:
-            cudaEvent_t startDtoH, stopDtoH;
-            cudaEventCreate(&startDtoH);
-            cudaEventCreate(&stopDtoH);
-            cudaEventRecord(startDtoH, 0);
+            // cudaEvent_t startDtoH, stopDtoH;
+            // cudaEventCreate(&startDtoH);
+            // cudaEventCreate(&stopDtoH);
+            // cudaEventRecord(startDtoH, 0);
             
-
             cudaMemcpy(res_buf + 1 + total_result_size,                            res,                          sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
             cudaMemcpy(res_buf + 1 + BUFSIZE * chunks_count + total_result_size,   res + inputStart.result_size, sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
 
@@ -2394,11 +2368,11 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
             (resultStruct->resultSizes).push_back(inputStart.result_size);
 
 
-            cudaEventRecord(stopDtoH, 0);
-            cudaEventSynchronize(stopDtoH);
-            float elapsedTime;
-            cudaEventElapsedTime(&elapsedTime, startDtoH, stopDtoH);
-            time_EE.copy_end += elapsedTime;
+            // cudaEventRecord(stopDtoH, 0);
+            // cudaEventSynchronize(stopDtoH);
+            // float elapsedTime;
+            // cudaEventElapsedTime(&elapsedTime, startDtoH, stopDtoH);
+            // time_EE.copy_end += elapsedTime;
             
             cudaFree(res);
             res = res_buf;
@@ -2420,7 +2394,6 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
 
 
         }else{
-            // cout << "1 ";
             memcpy(buf+total, line, sizeof(uint8_t)*read);
             total += read;
             // totalChar += read;
@@ -2433,7 +2406,6 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
 
     // remaining parts that aree very small
     if(total > 0){
-        // printf("remaining injast\n");
         //print8(buf, total, ROW1);
         inputStartStruct inputStart;
         inputStart.block = buf;
@@ -2441,18 +2413,19 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
         inputStart.lastChunkIndex = latest_index_realJSON;
         inputStart.lastStructuralIndex = total_result_size;
 
+        // printf("remaining injast\n");
         //printf("%s \n",buf);
         res = (int32_t*) start( (void*) &inputStart);
-        // printf("remaining injast 2\n");
+        //printf("remaining injast 2\n");
 
 
-        cudaEvent_t startDtoH, stopDtoH;
-        cudaEventCreate(&startDtoH);
-        cudaEventCreate(&stopDtoH);
-        cudaEventRecord(startDtoH, 0);
+        // cudaEvent_t startDtoH, stopDtoH;
+        // cudaEventCreate(&startDtoH);
+        // cudaEventCreate(&stopDtoH);
+        // cudaEventRecord(startDtoH, 0);
         
 
-    
+            
 
         cudaMemcpy(res_buf + 1 + total_result_size,                            res,                          sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost);
         cudaMemcpy(res_buf + 1 + total_result_size + BUFSIZE * chunks_count,   res + inputStart.result_size, sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost);
@@ -2480,11 +2453,11 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
         // cout << endl;
         // current_chunk_num++;
 
-        cudaEventRecord(stopDtoH, 0);
-        cudaEventSynchronize(stopDtoH);
-        float elapsedTime;
-        cudaEventElapsedTime(&elapsedTime, startDtoH, stopDtoH);
-        time_EE.copy_end += elapsedTime;
+        // cudaEventRecord(stopDtoH, 0);
+        // cudaEventSynchronize(stopDtoH);
+        // float elapsedTime;
+        // cudaEventElapsedTime(&elapsedTime, startDtoH, stopDtoH);
+        // time_EE.copy_end += elapsedTime;
             
 
         cudaFree(res);
@@ -2498,7 +2471,7 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
 
     total = 0;
 
-    cudaFreeHost(res_buf);
+    // cudaFreeHost(res_buf);
     cudaFreeHost(buf);
     fclose(handle);
 
@@ -2514,43 +2487,24 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
 
 
 
-    if(n == 6){
-        cout << "Warmup HtoD Time:" << time_EE.copy_start << endl;
-        cout << "Warmup Start Running: " << time_EE.EE_t <<endl;
-        cout << "Warmup DtoH Time:" << time_EE.copy_end << endl;
-    }else{
-        // cout << "ORDER:\n" << "1. H2D\n" << "2. Validation\n" << "3. Tok\n" << "4. Parser\n" << "5. D2H\n";
-        // cout << time_EE.copy_start<<endl;
-        // cout << time_EE.EE_t_val <<endl;
-        // cout << time_EE.EE_t_tok <<endl;
-        // cout << time_EE.EE_t_pars <<endl;
-        // cout << time_EE.copy_end<<endl;
+    // if(n == 6){
+    //     cout << "Warmup HtoD Time:" << time_EE.copy_start << endl;
+    //     cout << "Warmup Start Running: " << time_EE.EE_t <<endl;
+    //     cout << "Warmup DtoH Time:" << time_EE.copy_end << endl;
+    // }else{
+    //     cout << "Attempt "<< (6-n) << "th for copying HtoD:" << time_EE.copy_start<<endl;
+    //     cout << "Attempt "<< (6-n) << "th for running:" << time_EE.EE_t<<endl;
+    //     cout << "Attempt "<< (6-n) << "th for copying DtoH:" << time_EE.copy_end<<endl;
+    //     time_EE.EE_total += time_EE.EE_t;
+    //     time_EE.copy_end_toal += time_EE.copy_end;
+    //     time_EE.copy_start_total += time_EE.copy_start;
+    // }
+    // time_EE.EE_t = 0;
+    // time_EE.copy_end = 0;
+    // time_EE.copy_start = 0;
 
-        cout << "1. H2D: \t\t" << time_EE.copy_start<<endl;
-        cout << "2. Validation:\t\t" << time_EE.EE_t_val <<endl;
-        cout << "3. Tokenization:\t" <<time_EE.EE_t_tok <<endl;
-        cout << "4. Parser: \t\t" << time_EE.EE_t_pars <<endl;
-        cout << "5. D2H: \t\t" << time_EE.copy_end<<endl;
-
-        cout << "\nTOTAL (ms):\t\t" << time_EE.copy_start + time_EE.EE_t_val + time_EE.EE_t_tok + time_EE.EE_t_pars + time_EE.copy_end << endl;
-
-        time_EE.EE_total += time_EE.EE_t;
-        time_EE.copy_end_toal += time_EE.copy_end;
-        time_EE.copy_start_total += time_EE.copy_start;
-
-    }
-    time_EE.EE_t = 0;
-    time_EE.copy_end = 0;
-    time_EE.copy_start = 0;
-
-    // print32(res,inputStart.result_size,ROW3);
     resultStruct->totalResultSize = total_result_size + 2;
-    // cout << "ls: " << latest_index_realJSON<<endl; 
-    // cout << "fs: " << fileSize <<endl; 
     resultStruct->fileSize = latest_index_realJSON + 2;
-    cout << "\nParser's Output Size:\t" <<  ( resultStruct->totalResultSize * 8 ) / 1024 / 1024 << "MB" << endl << endl;
-    // exit(0);
-    // resultStruct->results = res;
     return res;
 }
 
@@ -2572,90 +2526,38 @@ int main(int argc, char **argv){
             parsed_tree.structural = NULL;
             parsed_tree.pair_pos = NULL;
 
-
-            // printMemoryUsage();
-            // printGPUMemoryUsage();
+            // char* nsplPath = "./Test-Files/Pison Large Datasets/nspl_small_records_remove.json ";
+            // char* twitterPath = "./Test-Files/Pison Large Datasets/twitter_small_records_remove.json ";
+            // char* walmartPath = "./Test-Files/Pison Large Datasets/walmart_small_records_remove.json ";
+            // char* wikiPath = "./Test-Files/Pison Large Datasets/wiki_small_records_remove.json ";
+            // char* googlePath = "./Test-Files/Pison Large Datasets/google_small_records_remove.json ";
+            // char* bestbuyPath = "./Test-Files/Pison Large Datasets/bestbuy_small_records_remove.json ";
 
             result = readFileLine(argv[2], 1 , &parsed_tree);
 
+            int index0;
+            high_resolution_clock::time_point start, stop;
 
-            // // sample 
-            // structural_iterator query = structural_iterator(&parsed_tree, argv[2]);
-            // int index0 = query.gotoArrayIndex(0);
-            // // cout << "1- index - goto: " << index0 <<endl;
-            // cout << "VALUE: " << query.getValue() <<endl; 
-            // int index1 = query.findKey("phoneNumbers");
-            // // cout << "2- index - phone nubmers: " << index1 <<endl;
-            // int err = query.increamentIndex(index1);
-            // // cout << "3- increamentIndex - 1:" << err<<endl;
-            // string key = query.getKey();
-            // string value = query.getValue();
+            structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
 
-            // cout << "{" << key << " : " << value << "}" <<endl;
-            // int index3 = query.gotoArrayIndex(1);
-            // // cout << "4- index - goto : " << index3 <<endl;
-            // int index4 = query.findKey("number");
-            // // cout << "5- index - number: " << index4 <<endl;
-            // int err2 = query.increamentIndex(index4);
-            // // cout << "6- increamentIndex - 2:" << err2 <<endl;
+            start = high_resolution_clock::now();
+            //TT1
+            index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoKey("user");
+            index0 = itr.gotoKey("lang");
+            itr.reset();
+            index0 = itr.gotoKey("lang");
 
-            // key = query.getKey();
-            // value = query.getValue();
-
-            // cout << "{" << key << " : " << value << "}" << endl;
+            stop = high_resolution_clock::now();
+            auto elapsed = duration_cast<nanoseconds>(stop - start);
+            cout << "\nValue: " << itr.getValue() <<endl;
+            cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
+            itr.freeJson();
 
             
+            cudaFreeHost(parsed_tree.structural);
 
-            // structural_iterator query2 = structural_iterator(&parsed_tree, argv[2]);
-            // int index10 = query2.gotoArrayIndex(2);
-            // // cout << "1- index - goto: " << index10 <<endl;
-            // int index11 = query2.findKey("children");
-            // // cout << "2- index - childrens: " << index11 <<endl;
-            // int err20 = query2.increamentIndex(index11);
-            // // cout << "3- increamentIndex - 1:" << err20 <<endl;
-            // key = query2.getKey();
-            // value = query2.getValue();
-
-            // cout << "{" << key << " : " << value << "}" << endl;            
-
-
-            // nspl
-            // structural_iterator query = structural_iterator(&parsed_tree, argv[2]);
-            // int index = query.gotoArrayIndex(1749845);
-            // cout << "VALUE-1: " << query.getValue() << endl;
-            // int index2 = query.gotoArrayIndex(0);
-            // cout << "VALUE-2: " << query.getValue() << endl;
-
-            // int index = query.gotoArrayIndex(218625);
-            // int index2 = query.gotoArrayIndex(0);
-            // cout << "VALUE: " << query.getValue();
-
-            
-
-            // cudaFreeHost(parsed_tree.structural);
-            // cudaFreeHost(parsed_tree.pair_pos);
-
-            // // printMemoryUsage();
-            // // printGPUMemoryUsage();
-            // cout << parsed_tree.chunkCount << endl;
-            // cout << parsed_tree.resultSizes[0] << endl;
-            // cout << parsed_tree.resultSizes[1] << endl;
-            // cout << parsed_tree.resultSizes[2] << endl;
-            // cout << parsed_tree.resultSizes[3] << endl;
-            // cout << parsed_tree.resultSizes[4] << endl;
-            // while(n){
-            //     result = readFileLine(argv[2], n , &parsed_tree);
-            //     cudaFreeHost(parsed_tree.structural);
-        
-            //     n--;
-            // }
-            // cout << "Average Time (HtoD) : " << (time_EE.copy_start_total) / 5 <<endl;
-            // cout << "Average Time (vali) : " << (time_EE.EE_t_val) / 6 << endl;
-            // cout << "Average Time (toke) : " << (time_EE.EE_t_tok) / 6 << endl;
-            // cout << "Average Time (pars) : " << (time_EE.EE_t_pars) / 6 << endl;
-            // cout << "Average Time (Algo) : " << (time_EE.EE_total) / 5 << endl;
-            // cout << "Average Time (DtoH) : " << (time_EE.copy_end_toal) / 5 <<endl;
-            // cout << "Average Time (total): " << (time_EE.EE_total + time_EE.copy_end_toal + time_EE.copy_start_total) / 5 <<endl;
+           
         }
         else std::cout << "Command should be like '-b[file path]'" << std::endl;
     }

@@ -39,7 +39,7 @@ Parser's Output Size:   [output memory allocation in MB]
 Two sample datasets are included in `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1KQ1DjvIWpHikOg1JgmjlSWM3aAlvq-h7?usp=sharing and placed into the `dataset` folder. 
 
 ## Example and Query
-We provide 2 different examples in `./test` directory. For all of the examples, you have to clone whole project. Also, make sure to have the required prerequisites that mentioned earlier.
+We provide 1 example for query in `./test` directory. You have to clone whole project. Also, make sure to have the required prerequisites that mentioned earlier.
 
 
 ### Example 1 (JSON Lines, Twitter):
@@ -54,12 +54,14 @@ Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU 
 ```
 ./example1.out -b ./datasets/twitter_small_records.json
 ```
+3. Expected output will be: 
+```
+Batch mode running...
 
-### Example 2 (Standard JSON, Twitter):
+Value: [query value]
+Total Query time: [time for returning that query].
 
-For running Example 2 (Standard JSON, Twitter), you have to change the `./test/example1.cu` to `./test/example2.cu` and also `./datasets/twitter_small_records.json` to `./datasets/twitter_large_record.json`.
-
-
+```
 ## License
 
 MIT
