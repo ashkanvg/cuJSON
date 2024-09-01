@@ -36,7 +36,7 @@ Parser's Output Size:   [output memory allocation in MB]
 ```
 
 ## datasets
-Two sample datasets are included in `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1KQ1DjvIWpHikOg1JgmjlSWM3aAlvq-h7?usp=sharing and placed into the `dataset` folder. 
+One sample dataset are included in `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1KQ1DjvIWpHikOg1JgmjlSWM3aAlvq-h7?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that ended in `_small_records.json`. 
 
 ## Example and Query
 We provide 1 example for query in `./test` directory. You have to clone whole project. Also, make sure to have the required prerequisites that mentioned earlier.
