@@ -45,7 +45,7 @@ We provide 2 different examples in `./test` directory. For all of the examples, 
 ### Example 1 (JSON Lines, Twitter):
 1. compile the `./test/example1.cu`:
 ```
-nvcc -O3 -o ./example1.out ./test/example1.cu -w [-gencode=arch=compute_61,code=sm_61]
+nvcc -O3 -o ./example1.out ./test/example1.cu -w -gencode=arch=compute_61,code=sm_61
 ```
 
 Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
@@ -55,7 +55,9 @@ Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU 
 ./example1.out -b ./datasets/twitter_small_records.json
 ```
 
-Note: for running Example 2 (Standard JSON, Twitter), you have tow change the `./test/example1.cu` to `./test/example2.cu` and also `./datasets/twitter_small_records.json` to `./datasets/twitter_large_record.json`.
+### Example 2 (JSON Lines, Twitter):
+
+For running Example 2 (Standard JSON, Twitter), you have to change the `./test/example1.cu` to `./test/example2.cu` and also `./datasets/twitter_small_records.json` to `./datasets/twitter_large_record.json`.
 
 
 ## License
