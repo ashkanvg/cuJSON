@@ -2145,7 +2145,7 @@ inline void *start(void* inputStart){
     uint64_t lastStructuralIndex = ((inputStartStruct *)inputStart)->lastStructuralIndex;
     uint64_t lastChunkIndex = ((inputStartStruct *)inputStart)->lastChunkIndex;
 
-    cout << "here start! \n";
+    // cout << "here start! \n";
 
 
     uint8_t* block_GPU;        // BLOCKS in GPU
@@ -2341,7 +2341,7 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
     cudaMallocHost(&buf, sizeof(uint8_t)*BUFSIZE);                          // input (each chunk)
     cudaMallocHost(&res_buf, sizeof(uint32_t)*BUFSIZE*chunks_count*ROW2);   // output(all chunks together)
 
-    cout << "test \n";
+    // cout << "test \n";
     resultStruct->chunkCount = chunks_count;
     resultStruct->structural = res_buf;
     resultStruct->pair_pos = res_buf + BUFSIZE*chunks_count;
@@ -2519,12 +2519,21 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
         cout << "Warmup Start Running: " << time_EE.EE_t <<endl;
         cout << "Warmup DtoH Time:" << time_EE.copy_end << endl;
     }else{
-        cout << "ORDER:\n" << "1. H2D\n" << "2. Validation\n" << "3. Tok\n" << "4. Parser\n" << "5. D2H\n";
-        cout << time_EE.copy_start<<endl;
-        cout << time_EE.EE_t_val <<endl;
-        cout << time_EE.EE_t_tok <<endl;
-        cout << time_EE.EE_t_pars <<endl;
-        cout << time_EE.copy_end<<endl;
+        // cout << "ORDER:\n" << "1. H2D\n" << "2. Validation\n" << "3. Tok\n" << "4. Parser\n" << "5. D2H\n";
+        // cout << time_EE.copy_start<<endl;
+        // cout << time_EE.EE_t_val <<endl;
+        // cout << time_EE.EE_t_tok <<endl;
+        // cout << time_EE.EE_t_pars <<endl;
+        // cout << time_EE.copy_end<<endl;
+
+        cout << "1. H2D: \t\t" << time_EE.copy_start<<endl;
+        cout << "2. Validation:\t\t" << time_EE.EE_t_val <<endl;
+        cout << "3. Tokenization:\t" <<time_EE.EE_t_tok <<endl;
+        cout << "4. Parser: \t\t" << time_EE.EE_t_pars <<endl;
+        cout << "5. D2H: \t\t" << time_EE.copy_end<<endl;
+
+        cout << "\nTOTAL (ms):\t\t" << time_EE.copy_start + time_EE.EE_t_val + time_EE.EE_t_tok + time_EE.EE_t_pars + time_EE.copy_end << endl;
+
         time_EE.EE_total += time_EE.EE_t;
         time_EE.copy_end_toal += time_EE.copy_end;
         time_EE.copy_start_total += time_EE.copy_start;
