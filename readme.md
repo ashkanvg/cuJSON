@@ -39,7 +39,7 @@ Parser's Output Size:   [output memory allocation in MB]
 One sample dataset are included in `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1KQ1DjvIWpHikOg1JgmjlSWM3aAlvq-h7?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that ended in `_small_records.json`. 
 
 ## Example and Query
-We provide 1 example for query in `./test` directory. You have to clone whole project. Also, make sure to have the required prerequisites that mentioned earlier.
+We provide 2 examples for query in `./test` directory. You have to clone whole project. Also, make sure to have the required prerequisites that mentioned earlier.
 
 
 ### Example 1 (JSON Lines, Twitter):
@@ -52,7 +52,29 @@ Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU 
 
 2. run the `./example1.out`:
 ```
-./example1.out -b ./datasets/twitter_small_records.json
+./example1.out -b ./datasets/twitter_sample_small_records.json
+```
+3. Expected output will be: 
+```
+Batch mode running...
+
+Value: [query value]
+Total Query time: [time for returning that query].
+
+```
+
+
+### Example 2 (Standard JSON, Twitter):
+1. compile the `./test/example2.cu`:
+```
+nvcc -O3 -o ./example2.out ./test/example2.cu -w -gencode=arch=compute_61,code=sm_61
+```
+
+Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
+
+2. run the `./example2.out`:
+```
+./example1.out -b ./datasets/twitter_sample_large_record.json
 ```
 3. Expected output will be: 
 ```
