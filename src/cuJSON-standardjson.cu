@@ -20,7 +20,7 @@
 #include <thrust/partition.h>
 #include <thrust/execution_policy.h>
 #include <inttypes.h>
-#include "../src/query/query_iterator_standard_json.cpp"
+#include "./query/query_iterator_standard_json.cpp"
 #include <thrust/host_vector.h>
 #include <device_launch_parameters.h>
 #include <vector>
@@ -2167,20 +2167,20 @@ inline void *start(void* inputStart){
         exit(0);
     }
 
-    // cudaEventRecord(stopValEE, 0);
-    // cudaEventSynchronize(stopValEE);
+    cudaEventRecord(stopValEE, 0);
+    cudaEventSynchronize(stopValEE);
     float elapsedTimeVal;
-    // cudaEventElapsedTime(&elapsedTimeVal, startValEE, stopValEE);
+    cudaEventElapsedTime(&elapsedTimeVal, startValEE, stopValEE);
 
     time_EE.EE_t_val += elapsedTimeVal;
     time_EE.EE_t += elapsedTimeVal;
 
 
     // __________________Tokenizer___________________
-    // cudaEvent_t startTokEE, stopTokEE;
-    // cudaEventCreate(&startTokEE);
-    // cudaEventCreate(&stopTokEE);
-    // cudaEventRecord(startTokEE, 0);
+    cudaEvent_t startTokEE, stopTokEE;
+    cudaEventCreate(&startTokEE);
+    cudaEventCreate(&stopTokEE);
+    cudaEventRecord(startTokEE, 0);
     
 
     uint32_t last_index_tokens;
@@ -2192,13 +2192,13 @@ inline void *start(void* inputStart){
     open_close_GPU = Tokenize(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
     // cudaStreamSynchronize(0);
 
-    // cudaEventRecord(stopTokEE, 0);
-    // cudaEventSynchronize(stopTokEE);
-    // float elapsedTimeTok;
-    // cudaEventElapsedTime(&elapsedTimeTok, startTokEE, stopTokEE);
+    cudaEventRecord(stopTokEE, 0);
+    cudaEventSynchronize(stopTokEE);
+    float elapsedTimeTok;
+    cudaEventElapsedTime(&elapsedTimeTok, startTokEE, stopTokEE);
 
-    // time_EE.EE_t_tok += elapsedTimeTok;
-    // time_EE.EE_t += elapsedTimeTok;
+    time_EE.EE_t_tok += elapsedTimeTok;
+    time_EE.EE_t += elapsedTimeTok;
 
 
 
@@ -2214,10 +2214,10 @@ inline void *start(void* inputStart){
 
     // cudaStreamSynchronize(0);
     // __________________Parsing_____________________
-    // cudaEvent_t startParseEE, stopParseEE;
-    // cudaEventCreate(&startParseEE);
-    // cudaEventCreate(&stopParseEE);
-    // cudaEventRecord(startParseEE, 0);
+    cudaEvent_t startParseEE, stopParseEE;
+    cudaEventCreate(&startParseEE);
+    cudaEventCreate(&stopParseEE);
+    cudaEventRecord(startParseEE, 0);
 
     // result_GPU = Parser((char *)tokens_GPU, (int32_t **)(&tokens_index_GPU),  last_index_tokens, result_size);
     // result_GPU = Parser(open_close_GPU, 
@@ -2244,13 +2244,13 @@ inline void *start(void* inputStart){
     // cout << total_tokens << endl;
     uint32_t total_result_size = (uint32_t) result_size*ROW2;
 
-    // cudaEventRecord(stopParseEE, 0);
-    // cudaEventSynchronize(stopParseEE);
-    // float elapsedTimeParse;
-    // cudaEventElapsedTime(&elapsedTimeParse, startParseEE, stopParseEE);
+    cudaEventRecord(stopParseEE, 0);
+    cudaEventSynchronize(stopParseEE);
+    float elapsedTimeParse;
+    cudaEventElapsedTime(&elapsedTimeParse, startParseEE, stopParseEE);
 
-    // time_EE.EE_t_pars += elapsedTimeParse;
-    // time_EE.EE_t += elapsedTimeParse;
+    time_EE.EE_t_pars += elapsedTimeParse;
+    time_EE.EE_t += elapsedTimeParse;
 
 
     cudaFreeAsync(block_GPU,0); 
@@ -2442,6 +2442,11 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
 
             
         // device to host time:
+        cudaEvent_t startDtoH, stopDtoH;
+        cudaEventCreate(&startDtoH);
+        cudaEventCreate(&stopDtoH);
+        cudaEventRecord(startDtoH, 0);
+
         // cudaMallocHost((void**)&res_buf_arrays[current_chunk_num], sizeof(int32_t)*inputStart.result_size*ROW2);   
         // res_buf_arrays[0] = (int32_t*) malloc(sizeof(int32_t) * inputStart.result_size * ROW2);
         cudaMallocHost(&res_buf_arrays[0], sizeof(int32_t)*(inputStart.result_size+2)* ROW2);   // output(all chunks together)
@@ -2452,6 +2457,11 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
         // cudaMemcpy(res_buf + 1 + total_result_size,                            res,                          sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost);
         // cudaMemcpy(res_buf + 1 + total_result_size + BUFSIZE * chunks_count,   res + inputStart.result_size, sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost);
 
+        cudaEventRecord(stopDtoH, 0);
+        cudaEventSynchronize(stopDtoH);
+        float elapsedTime;
+        cudaEventElapsedTime(&elapsedTime, startDtoH, stopDtoH);
+        time_EE.copy_end += elapsedTime;
 
 
 
@@ -2514,6 +2524,33 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
     
     resultStruct->structural = res;
     resultStruct->pair_pos = res + total_result_size + 1;
+
+
+    if(n == 6){
+        cout << "Warmup HtoD Time:" << time_EE.copy_start << endl;
+        cout << "Warmup Start Running: " << time_EE.EE_t <<endl;
+        cout << "Warmup DtoH Time:" << time_EE.copy_end << endl;
+    }else{
+        cout << "1. H2D: \t\t" << time_EE.copy_start<<endl;
+        cout << "2. Validation:\t\t" << time_EE.EE_t_val <<endl;
+        cout << "3. Tokenization:\t" <<time_EE.EE_t_tok <<endl;
+        cout << "4. Parser: \t\t" << time_EE.EE_t_pars <<endl;
+        cout << "5. D2H: \t\t" << time_EE.copy_end<<endl;
+
+        cout << "\nTOTAL (ms):\t\t" << time_EE.copy_start + time_EE.EE_t_val + time_EE.EE_t_tok + time_EE.EE_t_pars + time_EE.copy_end << endl;
+
+        time_EE.EE_total += time_EE.EE_t;
+        time_EE.copy_end_toal += time_EE.copy_end;
+        time_EE.copy_start_total += time_EE.copy_start;
+
+    }
+    time_EE.EE_t = 0;
+    time_EE.copy_end = 0;
+    time_EE.copy_start = 0;
+
+    cout << "\nParser's Output Size:\t" <<  ( resultStruct->totalResultSize * 8 ) / 1024 / 1024 << "MB" << endl << endl;
+
+
 
     return res;
 }

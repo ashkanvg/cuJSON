@@ -74,7 +74,7 @@ Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU 
 
 2. run the `./example2.out`:
 ```
-./example1.out -b ./datasets/twitter_sample_large_record.json
+./example2.out -b ./datasets/twitter_sample_large_record.json
 ```
 3. Expected output will be: 
 ```
