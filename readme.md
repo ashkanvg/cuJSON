@@ -11,11 +11,23 @@ Inspired by recent advances in SIMD-based JSON processing, our work concentrates
 The cuJSON library is easily consumable. 
 0. Prerequisites: `g++` (version 7 or better), `Cuda` compilation tools (release 12.1), and a 64-bit system with a command-line shell (e.g., Linux, macOS, freeBSD). 
 1. clone the `src` in your directoy. 
-2. follow the following command to compile your the code:
+2. follow the following command to compile your the code: 
+
+- if you are looking for JSON Lines (JSON Records that seperated by newline)
 
 ```
-nvcc -O3 -o [output.exe] [./src/cuJSON.cu] -w [-gencode=arch=compute_61,code=sm_61]
+nvcc -O3 -o [output.exe] [./src/cuJSON-jsonlines.cu] -w [-gencode=arch=compute_61,code=sm_61]
 ```
+
+NOTE: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
+
+- if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
+
+```
+nvcc -O3 -o [output.exe] [./src/cuJSON-standardjson.cu] -w [-gencode=arch=compute_61,code=sm_61]
+```
+NOTE: in this file for the buffersize, we set it to filesize.
+
 
 3. download your JSON files and use this command line to parse it (default-version)
 ```
