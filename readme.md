@@ -48,6 +48,8 @@ output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
 output_large.exe -b ./dataset/[dataset name]_small_records_remove.json
 ```
 
+NOTE: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
+
 4. Your results is ready. It will print out the following results:
 ```
 Batch mode running...
