@@ -422,13 +422,6 @@ void vectorizedClassification(uint32_t block_compressed, uint32_t prev1, uint32_
     
 
 
-
-    // [2_high,  ] [1_high ,1_low] <--
-    // [a,b,c,d,e,f,g,h] --shr-->   [0,0,0,0,a,b,c,d]
-    //                              [0,0,0,0,1,0,0,0] {08}
-    //--> kochak tr bashe -->       [1,1,1,1,1,1,1,1]
-    //                              [0,0,0,0,0,0,1,0] {too long}
-
     uint32_t prev1_current = prev1;
     uint32_t byte_1 = 
         (__vcmpltu4(prev1_current, 0x80808080) & TOO_LONG_32) |
@@ -439,17 +432,13 @@ void vectorizedClassification(uint32_t block_compressed, uint32_t prev1, uint32_
         (__vcmpeq4(prev1_current, 0xF0F0F0F0) & (OVERLONG_4_32)) | 
         (__vcmpgtu4(prev1_current, 0xF4F4F4F4) & TOO_LARGE_1000_32) | 
         (__vcmpgtu4(prev1_current, 0xF3F3F3F3) & TOO_LARGE_32);
-    byte_1 = 
-        (__vcmpeq4(byte_1, 0x00000000) & TWO_CONTS_32);
-        // (__vcmpgeu4(prev1_current, 0x80808080) & __vcmpltu4(prev1_current, 0xC0C0C0C0) & TWO_CONTS_32);
-        // (__vcmpeq4(0x80808080 & prev1_current, 0x80808080) & TWO_CONTS_32);
 
-
+    byte_1 = (__vcmpeq4(byte_1, 0x00000000) & TWO_CONTS_32);
+    
 
     uint32_t block_compressed_high = (block_compressed >> 4) & 0x0F0F0F0F; 
     // 4 khune bala ro brdshti 
     // baraye moqaysee adadi bordim daste rast k rahat tr bashe
-
 
     // to make it more easier than before, save it and use it multiple time
     uint32_t less_than_12 = __vcmpltu4(block_compressed_high, 0x0C0C0C0C);
@@ -461,9 +450,7 @@ void vectorizedClassification(uint32_t block_compressed, uint32_t prev1, uint32_
         (__vcmpgtu4(block_compressed_high, 0x09090909) & less_than_12 & SURROGATE_32); 
 
 
-    // result =   (byte_1_high & byte_1_low & byte_2_high); 
-    result =   (byte_1 & byte_2_high); 
-    
+    result =   (byte_1 & byte_2_high);  
     // 0 --> okay and return secussfuly
 }
 
@@ -722,15 +709,6 @@ void bitMapCreator(uint8_t* block_GPU, uint32_t* outputSlash, uint32_t* outputQu
                     block == ':' ||
                     block == ','
                     ) ? 1 : 0) << (j-start_position)) ;
-            
-            // res_newline |= ((( // new line
-            //         //block == ' ' ||
-            //         //block == '\t' ||
-            //         //block == '\r'
-            //         block == '\n'
-            //         ) ? 1 : 0) << (j-start_position)) ;
-
-    
         }
 
         // creating bit-map for this 4 results-->
@@ -776,9 +754,6 @@ void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outpu
         
         int start = i*2;
         
-        // if (start < total_padded_8) {
-        //     printf("GPU index-%d --> %d\n", start, block_GPU[start]);
-        // }
         uint8_t res_slash = 0;     //  " / "
         uint8_t res_quote = 0;     //  " " "
         uint8_t res_op = 0;        //  " { } [ ] : ,"
@@ -792,7 +767,6 @@ void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outpu
 
 
         uint32_t block = block_GPU[start];
-        // printf("index-%d --> %d\n", i, block_GPU[i]);
 
         temp_res_slash = (__vcmpeq4(block, 0x5C5C5C5C) & 0x01010101); // 00000000 00000001 00000001 00000001
         temp_res_quote = (__vcmpeq4(block, 0x22222222) & 0x01010101);
@@ -2495,30 +2469,8 @@ int main(int argc, char **argv){
 
 
             result = readFileLine(argv[2], 1 , &parsed_tree);
-
-            // int index0;
-            // high_resolution_clock::time_point start, stop;
-
-            // structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
-
-            // start = high_resolution_clock::now();
-            //TT1
-            // index0 = itr.gotoArrayIndex(0);
-            // index0 = itr.gotoKey("user");
-            // index0 = itr.gotoKey("lang");
-            // itr.reset();
-            // index0 = itr.gotoKey("lang");
-
-            // stop = high_resolution_clock::now();
-            // auto elapsed = duration_cast<nanoseconds>(stop - start);
-            // cout << "\nValue: " << itr.getValue() <<endl;
-            // cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
-            // itr.freeJson();
-
             
             cudaFreeHost(parsed_tree.structural);
-
-           
         }
         else std::cout << "Command should be like '-b[file path]'" << std::endl;
     }
