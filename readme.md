@@ -21,44 +21,28 @@ Two sample datasets are included in `dataset` folder. Large datasets (used in pe
 ## Quick Start [phase times, total time, output size] - makefile
 The cuJSON library is easily consumable. 
 1. clone the repo in your directoy. 
-2. Download Dataset:download the all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed it into the `dataset` folder.
-
-**NOTE**: if you want to run some datasets (not all of them), you can change `DATASET` variable from `Makefile.read` or send the `DATASET` variable in runtime. 
-
+2. Download Dataset:download the all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed them into the `dataset` folder.
 3. Compile the project for both Standard JSON and JSON Lines datasets:
 ```
 make -f Makefile.compile
 ```
 
 **NOTE**: 
-- if your `nvcc` path is different, you can open `Makefile.compile`.
-- also, you have to set the `gencode` in `Makefile.compile` based on your NVIDA GPU. Our default `gencode` is based on our desktop: `-gencode=arch=compute_61,code=sm_61`
-- Moreover, if you want change the directon of output of compile results, you can modify the `Makefile.compile` based on your demand.
+You can change the `Makefile.compile` based on your system. These are the possible modifications:
+- Change the `nvcc` path based on your system.
+- You have to set the `gencode` based on your NVIDA GPU. Our default `gencode` is based on our desktop: `-gencode=arch=compute_61,code=sm_61`
 
 4. Run: 
 - if you are looking for JSON Lines (JSON Records that seperated by newline)
 ```
-make -f Makefile.run run_small
+make -f Makefile.run run_small SMALL_DATASETS="custom_dataset1_small_records.json custom_dataset2_small_records.json"
 ```
 **NOTE**: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
 
-
 - if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
 ```
-make -f Makefile.run run_large
+make -f Makefile.run run_large LARGE_DATASETS="custom_dataset1_large_record.json custom_dataset2_large_record.json"
 ```
-
-**NOTE**: if you want to run specific datasets you can change the command into the following command:
-- if you are looking for JSON Lines (JSON Records that seperated by newline)
-```
-make -f Makefile.run run_small SMALL_DATASETS="custom_dataset1_small.json custom_dataset2_small.json"
-```
-
-- if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
-```
-make -f Makefile.run run_large LARGE_DATASETS="custom_dataset1_large.json custom_dataset2_large.json"
-```
-
 
 5. Your results is ready. It will print out the following results (for each dataset):
 ```
