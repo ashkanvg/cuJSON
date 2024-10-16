@@ -21,7 +21,7 @@ The cuJSON library is easily consumable.
 - if you are looking for JSON Lines (JSON Records that seperated by newline)
 
 ```
-nvcc -O3 -o [output.exe] [./src/cuJSON-jsonlines.cu] -w [-gencode=arch=compute_61,code=sm_61]
+nvcc -O3 -o output_small.exe ./src/cuJSON-jsonlines.cu -w [-gencode=arch=compute_61,code=sm_61]
 ```
 
 NOTE: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
@@ -29,15 +29,25 @@ NOTE: in this file for the buffersizem we set it to `256MB` and you can change i
 - if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
 
 ```
-nvcc -O3 -o [output.exe] [./src/cuJSON-standardjson.cu] -w [-gencode=arch=compute_61,code=sm_61]
+nvcc -O3 -o output_large.exe ./src/cuJSON-standardjson.cu -w [-gencode=arch=compute_61,code=sm_61]
 ```
 NOTE: in this file for the buffersize, we set it to filesize.
 
 
-3. download your JSON files and use this command line to parse it (default-version)
+3. Download the corresponding JSON files from provided dataset url and copy the downloaded file to `dataset` folder. Then use this command line to parse it (default-version).
+
+- if you are looking for JSON Lines (JSON Records that seperated by newline)
+
 ```
-[output.exe] -b [JSON file] 
+output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
 ```
+
+- if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
+
+```
+output_large.exe -b ./dataset/[dataset name]_small_records_remove.json
+```
+
 4. Your results is ready. It will print out the following results:
 ```
 Batch mode running...
