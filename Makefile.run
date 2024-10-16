@@ -1,0 +1,20 @@
+# Makefile for running
+
+TARGET_SMALL = ./output_small.exe
+TARGET_LARGE = ./output_large.exe
+
+# Datasets
+# DATASETS = nspl wiki walmart google_map bestbuy twitter
+DATASETS = twitter
+
+# Run all datasets for small JSONLines
+run_small:
+	@for dataset in $(DATASETS); do \
+		./$(TARGET_SMALL) -b ./dataset/$${dataset}_small_records.json; \
+	done
+
+# Run all datasets for large JSON
+run_large:
+	@for dataset in $(DATASETS); do \
+		./$(TARGET_LARGE) -b ./dataset/$${dataset}_large_record.json; \
+	done

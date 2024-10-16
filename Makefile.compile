@@ -1,0 +1,25 @@
+# Compiler and flags
+NVCC = /usr/local/cuda/bin/nvcc
+CFLAGS = -O3 -w -gencode=arch=compute_61,code=sm_61
+TARGET_SMALL = ./output_small.exe
+TARGET_LARGE = ./output_large.exe
+
+# Source files
+SRC_SMALL = ./src/cuJSON-jsonlines.cu
+SRC_LARGE = ./src/cuJSON-standardjson.cu
+
+# Default rule: compile all
+all: $(TARGET_SMALL) $(TARGET_LARGE)
+
+# Compile small JSONLines
+$(TARGET_SMALL): $(SRC_SMALL)
+	$(NVCC) $(CFLAGS) -o $@ $<
+
+# Compile large JSON
+$(TARGET_LARGE): $(SRC_LARGE)
+	$(NVCC) $(CFLAGS) -o $@ $<
+
+# Clean the compiled binaries
+clean:
+	rm -f $(TARGET_SMALL) $(TARGET_LARGE)
+
