@@ -12,7 +12,7 @@ One sample dataset are included in `dataset` folder. Large datasets (used in per
 - For JSON Lines, use those datasets that ended in `_small_records.json`. 
 - For Standard JSON, use those datasets that ended in `_large_record.json`.
 
-## Quick Start 
+## Quick Start [phase times, total time, output size]
 The cuJSON library is easily consumable. 
 0. Prerequisites: `g++` (version 7 or better), `Cuda` compilation tools (release 12.1), and a 64-bit system with a command-line shell (e.g., Linux, macOS, freeBSD). 
 1. clone the `src` in your directoy. 
