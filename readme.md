@@ -6,8 +6,11 @@ JSON (JavaScript Object Notation) has become a ubiquitous data format in modern 
 
 Inspired by recent advances in SIMD-based JSON processing, our work concentrates on exploiting bitwise parallelism, leveraging GPU intrinsic functions and high-performance CUDA libraries optimally. We introduce a novel output data structure that balances parsing and querying costs, and implement innovative techniques to break key dependencies in the parsing process. Through extensive experimentation, our evaluations demonstrate that cuJSON not only surpasses traditional CPU-based JSON parsers (like simdjson and Pison) but also outperforms existing GPU-based JSON parsers (such as cuDF and GPJSON), achieving unparalleled parsing speeds.
 
-## datasets
+## Datasets
 One sample dataset are included in `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that ended in `_small_records.json`. 
+
+- For JSON Lines, use those datasets that ended in `_small_records.json`. 
+- For Standard JSON, use those datasets that ended in `_large_record.json`.
 
 ## Quick Start 
 The cuJSON library is easily consumable. 
