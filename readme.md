@@ -7,15 +7,82 @@ JSON (JavaScript Object Notation) has become a ubiquitous data format in modern 
 Inspired by recent advances in SIMD-based JSON processing, our work concentrates on exploiting bitwise parallelism, leveraging GPU intrinsic functions and high-performance CUDA libraries optimally. We introduce a novel output data structure that balances parsing and querying costs, and implement innovative techniques to break key dependencies in the parsing process. Through extensive experimentation, our evaluations demonstrate that cuJSON not only surpasses traditional CPU-based JSON parsers (like simdjson and Pison) but also outperforms existing GPU-based JSON parsers (such as cuDF and GPJSON), achieving unparalleled parsing speeds.
 
 ## Datasets
-One sample dataset are included in `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that ended in `_small_records.json`. 
+Two sample datasets are included in `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that ended in `_small_records.json`. 
 
 - For JSON Lines, use those datasets that ended in `_small_records.json`. 
 - For Standard JSON, use those datasets that ended in `_large_record.json`.
 
-## Quick Start [phase times, total time, output size]
+## Prerequisites: 
+- `g++` (version 7 or better), 
+- `Cuda` compilation tools (release 12.1), 
+- and a 64-bit system with a command-line shell (e.g., Linux, macOS, freeBSD). 
+
+
+## Quick Start [phase times, total time, output size] - makefile
 The cuJSON library is easily consumable. 
-0. Prerequisites: `g++` (version 7 or better), `Cuda` compilation tools (release 12.1), and a 64-bit system with a command-line shell (e.g., Linux, macOS, freeBSD). 
-1. clone the `src` in your directoy. 
+1. clone the repo in your directoy. 
+2. Download Dataset:download the all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed it into the `dataset` folder.
+
+NOTE: if you want to run some datasets (not all of them), you can change `DATASET` variable from `Makefile.read` or send the `DATASET` variable in runtime. 
+
+3. Compile the project for both Standard JSON and JSON Lines datasets:
+```
+make -f Makefile.compile
+```
+
+NOTE: 
+- if your `nvcc` path is different, you can open `Makefile.compile`.
+- also, you have to set the `gencode` in `Makefile.compile` based on your NVIDA GPU. Our default `gencode` is based on our desktop: `-gencode=arch=compute_61,code=sm_61`
+- Moreover, if you want change the directon of output of compile results, you can modify the `Makefile.compile` based on your demand.
+
+4. Run: 
+- if you are looking for JSON Lines (JSON Records that seperated by newline)
+```
+make -f Makefile.run run_small
+```
+NOTE: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
+
+
+- if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
+```
+make -f Makefile.run run_large
+```
+
+NOTE: if you want to run specific datasets you can change the command into the following command:
+- if you are looking for JSON Lines (JSON Records that seperated by newline)
+```
+make -f Makefile.run run_small SMALL_DATASETS="custom_dataset1_small.json custom_dataset2_small.json"
+```
+
+- if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
+```
+make -f Makefile.run run_large LARGE_DATASETS="custom_dataset1_large.json custom_dataset2_large.json"
+```
+
+
+5. Your results is ready. It will print out the following results (for each dataset):
+```
+Batch mode running...
+1. H2D:                 [host to device time in ms]
+2. Validation:          [validation time in ms]
+3. Tokenization:        [tokenization time in ms]
+4. Parser:              [parser time in ms]
+5. D2H:                 [device to host time in ms]
+
+TOTAL (ms):             [total time in ms]
+
+Parser's Output Size:   [output memory allocation in MB]
+```
+
+6. Cleaning Compiled Binaries: If you want to clean the compiled binaries, use:
+```
+make -f Makefile.compile clean
+```
+
+
+## Quick Start [phase times, total time, output size] - direct compile and run
+The cuJSON library is easily consumable. 
+1. clone the repo in your directoy. 
 2. follow the following command to compile your the code: 
 
 - if you are looking for JSON Lines (JSON Records that seperated by newline)

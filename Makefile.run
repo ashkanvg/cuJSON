@@ -4,17 +4,21 @@ TARGET_SMALL = ./output_small.exe
 TARGET_LARGE = ./output_large.exe
 
 # Datasets
-# DATASETS = nspl wiki walmart google_map bestbuy twitter
-DATASETS = twitter
+# Default dataset names with full paths for both small and large datasets
+DEFAULT_SMALL_DATASETS = nspl_small_records_remove.json wiki_small_records_remove.json walmart_small_records_remove.json google_map_small_records_remove.json twitter_small_records_remove.json bestbuy_small_records_remove.json
+DEFAULT_LARGE_DATASETS = nspl_large_record.json wiki_large_record.json walmart_large_record.json google_map_large_record.json twitter_large_record.json bestbuy_large_record.json
 
-# Run all datasets for small JSONLines
+
+# Run all small datasets (JSON Lines)
 run_small:
-	@for dataset in $(DATASETS); do \
-		./$(TARGET_SMALL) -b ./dataset/$${dataset}_small_records.json; \
+	@for dataset in $(or $(SMALL_DATASETS), $(DEFAULT_SMALL_DATASETS)); do \
+		echo "Processing small dataset: $${dataset}"; \
+		$(TARGET_SMALL) -b ./dataset/$${dataset}; \
 	done
 
-# Run all datasets for large JSON
+# Run all large datasets (Standard JSON)
 run_large:
-	@for dataset in $(DATASETS); do \
-		./$(TARGET_LARGE) -b ./dataset/$${dataset}_large_record.json; \
+	@for dataset in $(or $(LARGE_DATASETS), $(DEFAULT_LARGE_DATASETS)); do \
+		echo "Processing large dataset: $${dataset}"; \
+		$(TARGET_LARGE) -b ./dataset/$${dataset}; \
 	done
