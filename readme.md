@@ -64,13 +64,13 @@ Parser's Output Size:   [output memory allocation in MB]
 
 
 ## Example and Query
-We provide 2 examples for query in `./test` directory. You have to clone whole project. Also, make sure to have the required prerequisites that mentioned earlier.
+We provide 2 examples for query in `./example` directory. You have to clone whole project. Also, make sure to have the required prerequisites that mentioned earlier.
 
 
 ### Example 1 (JSON Lines, Twitter):
-1. compile the `./test/example1.cu`:
+1. compile the `./example/example1.cu`:
 ```
-nvcc -O3 -o ./example1.out ./test/example1.cu -w -gencode=arch=compute_61,code=sm_61
+nvcc -O3 -o ./example1.out ./example/example1.cu -w -gencode=arch=compute_61,code=sm_61
 ```
 
 Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
