@@ -23,14 +23,14 @@ The cuJSON library is easily consumable.
 1. clone the repo in your directoy. 
 2. Download Dataset:download the all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed it into the `dataset` folder.
 
-NOTE: if you want to run some datasets (not all of them), you can change `DATASET` variable from `Makefile.read` or send the `DATASET` variable in runtime. 
+**NOTE**: if you want to run some datasets (not all of them), you can change `DATASET` variable from `Makefile.read` or send the `DATASET` variable in runtime. 
 
 3. Compile the project for both Standard JSON and JSON Lines datasets:
 ```
 make -f Makefile.compile
 ```
 
-NOTE: 
+**NOTE**: 
 - if your `nvcc` path is different, you can open `Makefile.compile`.
 - also, you have to set the `gencode` in `Makefile.compile` based on your NVIDA GPU. Our default `gencode` is based on our desktop: `-gencode=arch=compute_61,code=sm_61`
 - Moreover, if you want change the directon of output of compile results, you can modify the `Makefile.compile` based on your demand.
@@ -40,7 +40,7 @@ NOTE:
 ```
 make -f Makefile.run run_small
 ```
-NOTE: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
+**NOTE**: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
 
 
 - if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
@@ -48,7 +48,7 @@ NOTE: in this file for the buffersizem we set it to `256MB` and you can change i
 make -f Makefile.run run_large
 ```
 
-NOTE: if you want to run specific datasets you can change the command into the following command:
+**NOTE**: if you want to run specific datasets you can change the command into the following command:
 - if you are looking for JSON Lines (JSON Records that seperated by newline)
 ```
 make -f Makefile.run run_small SMALL_DATASETS="custom_dataset1_small.json custom_dataset2_small.json"
@@ -91,14 +91,14 @@ The cuJSON library is easily consumable.
 nvcc -O3 -o output_small.exe ./src/cuJSON-jsonlines.cu -w [-gencode=arch=compute_61,code=sm_61]
 ```
 
-NOTE: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
+**NOTE**: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
 
 - if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
 
 ```
 nvcc -O3 -o output_large.exe ./src/cuJSON-standardjson.cu -w [-gencode=arch=compute_61,code=sm_61]
 ```
-NOTE: in this file for the buffersize, we set it to filesize.
+**NOTE**: in this file for the buffersize, we set it to filesize.
 
 
 3. Download the corresponding JSON files from provided dataset url and copy the downloaded file to `dataset` folder. Then use this command line to parse it (default-version).
@@ -115,7 +115,7 @@ output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
 output_large.exe -b ./dataset/[dataset name]_small_records_remove.json
 ```
 
-NOTE: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
+**NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
 
 4. Your results is ready. It will print out the following results:
 ```
@@ -142,7 +142,7 @@ We provide 2 examples for query in `./example` directory. You have to clone whol
 nvcc -O3 -o ./example1.out ./example/example1.cu -w -gencode=arch=compute_61,code=sm_61
 ```
 
-Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
+**Note**: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
 
 2. run the `./example1.out`:
 ```
@@ -164,7 +164,7 @@ Total Query time: [time for returning that query].
 nvcc -O3 -o ./example2.out ./test/example2.cu -w -gencode=arch=compute_61,code=sm_61
 ```
 
-Note: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
+**Note**: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
 
 2. run the `./example2.out`:
 ```
