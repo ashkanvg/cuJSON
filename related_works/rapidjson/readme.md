@@ -9,7 +9,7 @@ Here are instructions on running rapidJSON for Standandard JSON.
 ## Quick Start
 We put two different possible codes. 
 1. Only report the parsing time
-2. The performance of each query mentioned in the paper.  
+<!-- 2. The performance of each query mentioned in the paper.   -->
 
 ### 1. Parsing (MAKEFILE)
 1. Make sure to clone our GitHub repository (all of the mentioned passes are from the leading directory of the repository)
