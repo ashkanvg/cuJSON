@@ -1,5 +1,5 @@
 # rapidJSON
-Here are instructions on running rapidJSON for Standandard JSON.
+Here are instructions on running pison for Standandard JSON and JSON Lines.
 
 ## Prerequisites: 
 - `g++` (version 7 or better), 
@@ -33,3 +33,11 @@ make run
 ```
 make clean
 ```
+
+
+## More Details and References
+More information is available at https://github.com/AutomataLab/Pison/tree/master
+
+- Lin Jiang, Junqiao Qiu, Zhijia Zhao. Scalable Structural Index Construction for JSON Analytics. PVLDB, 14(4):694-707, 2021.
+- Yinan Li, Nikos R. Katsipoulakis, Badrish Chandramouli, Jonathan Goldstein, D. Kossmann. Mison: A Fast JSON Parser for Data Analytics. PVLDB, 10(10): 2017.
+- Langdale, Geoff, and Daniel Lemire. "Parsing gigabytes of JSON per second." The VLDB Journal 28, no. 6 (2019): 941-960.
