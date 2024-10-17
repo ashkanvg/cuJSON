@@ -7,21 +7,20 @@ JSON (JavaScript Object Notation) has become a ubiquitous data format in modern 
 Inspired by recent advances in SIMD-based JSON processing, our work concentrates on exploiting bitwise parallelism, leveraging GPU intrinsic functions and high-performance CUDA libraries optimally. We introduce a novel output data structure that balances parsing and querying costs, and implement innovative techniques to break key dependencies in the parsing process. Through extensive experimentation, our evaluations demonstrate that cuJSON not only surpasses traditional CPU-based JSON parsers (like simdjson and Pison) but also outperforms existing GPU-based JSON parsers (such as cuDF and GPJSON), achieving unparalleled parsing speeds.
 
 ## Datasets
-Two sample datasets are included in `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that ended in `_small_records.json`. 
+Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that end in `_small_records.json`. 
 
-- For JSON Lines, use those datasets that ended in `_small_records.json`. 
-- For Standard JSON, use those datasets that ended in `_large_record.json`.
+- For JSON Lines, use those datasets that end in `_small_records.json`. 
+- For Standard JSON, use those datasets that end in `_large_record.json`.
 
 ## Prerequisites: 
 - `g++` (version 7 or better), 
 - `Cuda` compilation tools (release 12.1), 
-- and a 64-bit system with a command-line shell (e.g., Linux, macOS, freeBSD). 
+- and a 64-bit system with a command-line shell (e.g., Linux, macOS, FreeBSD). 
 
-
-## Quick Start [phase times, total time, output size] - makefile
+## Quick Start [phase times, total time, output size] - Makefile
 The cuJSON library is easily consumable. 
-1. clone the repo in your directoy. 
-2. Download Dataset:download the all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed them into the `dataset` folder.
+1. clone the repo in your directory. 
+2. Download Dataset: Download all the datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and place them in the `dataset` folder.
 3. Compile the project for both Standard JSON and JSON Lines datasets:
 ```
 make -f Makefile.compile
@@ -30,21 +29,21 @@ make -f Makefile.compile
 **NOTE**: 
 You can change the `Makefile.compile` based on your system. These are the possible modifications:
 - Change the `nvcc` path based on your system.
-- You have to set the `gencode` based on your NVIDA GPU. Our default `gencode` is based on our desktop: `-gencode=arch=compute_61,code=sm_61`
+- You must set the `gencode` based on your NVIDIA GPU. Our default `gencode` is based on our desktop: `-gencode=arch=compute_61,code=sm_61`
 
 4. Run: 
-- if you are looking for JSON Lines (JSON Records that seperated by newline)
+- if you are looking for JSON Lines (JSON Records that are separated by newline)
 ```
 make -f Makefile.run run_small SMALL_DATASETS="custom_dataset1_small_records.json custom_dataset2_small_records.json"
 ```
-**NOTE**: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
+**NOTE**: In this file, we set the buffer size to 256MB, but you can change it in the code by changing `#define BUFSIZE  268435456`.
 
-- if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
+If you are looking for Standard JSON (One Large JSON Record), the buffer size in this file is equal to the file size.
 ```
 make -f Makefile.run run_large LARGE_DATASETS="custom_dataset1_large_record.json custom_dataset2_large_record.json"
 ```
 
-5. Your results is ready. It will print out the following results (for each dataset):
+5. Your results are ready. It will print out the following results (for each dataset):
 ```
 Batch mode running...
 1. H2D:                 [host to device time in ms]
@@ -66,34 +65,34 @@ make -f Makefile.compile clean
 
 ## Quick Start [phase times, total time, output size] - direct compile and run
 The cuJSON library is easily consumable. 
-1. clone the repo in your directoy. 
-2. follow the following command to compile your the code: 
+1. clone the repo in your directory. 
+2. follow the following command to compile your code: 
 
-- if you are looking for JSON Lines (JSON Records that seperated by newline)
+- if you are looking for JSON Lines (JSON Records that are separated by newline)
 
 ```
 nvcc -O3 -o output_small.exe ./src/cuJSON-jsonlines.cu -w [-gencode=arch=compute_61,code=sm_61]
 ```
 
-**NOTE**: in this file for the buffersizem we set it to `256MB` and you can change it in the code by changing `#define  BUFSIZE  268435456`.
+**NOTE**: In this file, the buffer size is set to 256MB, but you can change it in the code by changing `#define BUFSIZE  268435456`.
 
-- if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
+If you are looking for Standard JSON (One Large JSON Record), the buffer size in this file is equal to the file size.
 
 ```
 nvcc -O3 -o output_large.exe ./src/cuJSON-standardjson.cu -w [-gencode=arch=compute_61,code=sm_61]
 ```
-**NOTE**: in this file for the buffersize, we set it to filesize.
+**NOTE**: We set the buffer size to filesize in this file.
 
 
-3. Download the corresponding JSON files from provided dataset url and copy the downloaded file to `dataset` folder. Then use this command line to parse it (default-version).
+3. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder. Then, use this command line to parse it (default version).
 
-- if you are looking for JSON Lines (JSON Records that seperated by newline)
+- if you are looking for JSON Lines (JSON Records that are separated by newline)
 
 ```
 output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
 ```
 
-- if you are looking for Standard JSON (One Large JSON Record), in this file buffersize is equal to filesize.
+If you are looking for Standard JSON (One Large JSON Record), the buffer size in this file is equal to the file size.
 
 ```
 output_large.exe -b ./dataset/[dataset name]_small_records_remove.json
@@ -101,7 +100,7 @@ output_large.exe -b ./dataset/[dataset name]_small_records_remove.json
 
 **NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
 
-4. Your results is ready. It will print out the following results:
+4. Your results are ready. It will print out the following results:
 ```
 Batch mode running...
 1. H2D:                 [host to device time in ms]
@@ -117,7 +116,7 @@ Parser's Output Size:   [output memory allocation in MB]
 
 
 ## Example and Query
-We provide 2 examples for query in `./example` directory. You have to clone whole project. Also, make sure to have the required prerequisites that mentioned earlier.
+We provide 2 examples for queries in the `./example` directory. You have to clone the whole project. Also, make sure to have the required prerequisites mentioned earlier.
 
 
 ### Example 1 (JSON Lines, Twitter):
@@ -126,7 +125,7 @@ We provide 2 examples for query in `./example` directory. You have to clone whol
 nvcc -O3 -o ./example1.out ./example/example1.cu -w -gencode=arch=compute_61,code=sm_61
 ```
 
-**Note**: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
+**Note**: `-gencode=arch=compute_61,code=sm_61` will differ for different GPU architecture. 
 
 2. run the `./example1.out`:
 ```
@@ -148,7 +147,7 @@ Total Query time: [time for returning that query].
 nvcc -O3 -o ./example2.out ./test/example2.cu -w -gencode=arch=compute_61,code=sm_61
 ```
 
-**Note**: `-gencode=arch=compute_61,code=sm_61` will be different for different GPU architecture. 
+**Note**: `-gencode=arch=compute_61,code=sm_61` will differ for different GPU architecture. 
 
 2. run the `./example2.out`:
 ```
