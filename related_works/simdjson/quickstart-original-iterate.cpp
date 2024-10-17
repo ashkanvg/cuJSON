@@ -93,13 +93,13 @@ double calcTime(string fileName, int which){
     padded_string json = padded_string::load(fileName);
     end_load = clock();
 
-
     start = clock();
     ondemand::document tweets = parser.iterate(json);
     end = clock();
 
     simdjson::simdjson_result<simdjson::dom::element> query_res;
     
+    printMemoryUsage("2"); 
 
     std::cout << "load: " << ((double)(end_load-start_load)/CLOCKS_PER_SEC) << std::endl;
     std::cout << "total: " << ((double)(end-start)/CLOCKS_PER_SEC) << std::endl;
