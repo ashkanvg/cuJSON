@@ -60,7 +60,7 @@ Note: If you want to run only one or two datasets instead of all of them, modify
 
 6. Run all executables: To run all executables with a message before each one, use:
 ```
-cd bin; ./example1; ./example2; ./example3; ./example4; ./example5; ./example6; 
+cd bin; ./bestbuy; ./google; ./nspl; ./twitter; ./walmart; ./wiki; 
 ```
 
 7. Clean all executables: To remove all compiled .exe files, run:
