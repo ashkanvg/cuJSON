@@ -20,7 +20,7 @@ We put two different possible codes.
 cd ./related_works/pison/standard_JSON
 ```
 
-3. Compile all files: Run the following command to compile all six datasets files (for 8 thread):
+4. Compile all files: Run the following command to compile all six datasets files (for 8 thread):
 
 ```
 Make all
@@ -29,12 +29,12 @@ Make all
 Note: If you want to run only one or two datasets instead of all of them, modify the `./related_works/pison/Makefile`. You need to comment on the function call for non-wanted datasets.
 
 
-4. Run all executables: To run all executables with a message before each one, use:
+5. Run all executables: To run all executables with a message before each one, use:
 ```
 cd bin; ./bestbuy; ./google; ./nspl; ./twitter; ./walmart; ./wiki; 
 ```
 
-5. Clean all executables: To remove all compiled .exe files, run:
+6. Clean all executables: To remove all compiled .exe files, run:
 ```
 cd ..
 make clean
@@ -44,12 +44,12 @@ make clean
 ### 1. Parsing (JSON Lines)
 1. Make sure to clone our GitHub repository (all of the mentioned passes are from the leading directory of the repository)
 2. Download All Dataset: download all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and place them into the `dataset` folder.
-3. Move to pison directory
+4. Move to pison directory
 ```
 cd ./related_works/pison/JSON_lines
 ```
 
-3. Compile all files: Run the following command to compile all six datasets files (for 8 thread):
+5. Compile all files: Run the following command to compile all six datasets files (for 8 thread):
 
 ```
 Make all
@@ -58,12 +58,12 @@ Make all
 Note: If you want to run only one or two datasets instead of all of them, modify the `./related_works/pison/Makefile`. You need to comment on the function call for non-wanted datasets.
 
 
-4. Run all executables: To run all executables with a message before each one, use:
+6. Run all executables: To run all executables with a message before each one, use:
 ```
 cd bin; ./example1; ./example2; ./example3; ./example4; ./example5; ./example6; 
 ```
 
-5. Clean all executables: To remove all compiled .exe files, run:
+7. Clean all executables: To remove all compiled .exe files, run:
 ```
 cd ..
 make clean

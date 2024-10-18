@@ -15,6 +15,11 @@ We put two different possible codes.
 1. Make sure to clone our GitHub repository (all of the mentioned passes are from the leading directory of the repository)
 2. Download All Dataset: download all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and place them into the `dataset` folder.
 
+3. 3. Move to rapidJSON directory
+```
+cd ./related_works/rapidJSON
+```
+
 3. Compile all files: Run the following command to compile all six datasets files:
 
 ```
