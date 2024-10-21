@@ -1,13 +1,11 @@
-# cuJSON
-cuJSON: Parsing Large JSON Data on a GPU
-
-## Abstract
+# cuJSON: Parsing Large JSON Data on a GPU
 JSON (JavaScript Object Notation) has become a ubiquitous data format in modern computing, but its parsing can be a significant performance bottleneck. Contrary to the conventional wisdom that GPUs are not suitable for parsing due to the branching-rich nature of parsing algorithms, this work presents a novel GPU-based JSON parser, cuJSON, that redesigns the parsing algorithm to minimize branches and optimizes it for GPU architectures.
 
 Inspired by recent advances in SIMD-based JSON processing, our work concentrates on exploiting bitwise parallelism, leveraging GPU intrinsic functions and high-performance CUDA libraries optimally. We introduce a novel output data structure that balances parsing and querying costs, and implement innovative techniques to break key dependencies in the parsing process. Through extensive experimentation, our evaluations demonstrate that cuJSON not only surpasses traditional CPU-based JSON parsers (like simdjson and Pison) but also outperforms existing GPU-based JSON parsers (such as cuDF and GPJSON), achieving unparalleled parsing speeds.
 
+
 ## Datasets
-Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that end in `_small_records.json`. 
+Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that end in `_small_records.json`. Each dataset comes with two formats:
 
 - For JSON Lines, use those datasets that end in `_small_records.json`. 
 - For Standard JSON, use those datasets that end in `_large_record.json`.
@@ -17,7 +15,16 @@ Two sample datasets are included in the `dataset` folder. Large datasets (used i
 - `Cuda` compilation tools (release 12.1), 
 - and a 64-bit system with a command-line shell (e.g., Linux, macOS, FreeBSD). 
 
-## Quick Start [phase times, total time, output size] - Makefile
+<hr>
+
+## Reproduce the Results
+Here, we provided two different ways to compile and run our code based on the Prerequisites: 
+1. with Makefile
+2. direct compile and run
+
+We provided produced results and figures (all of the results that this script can reproduce) at the end of this section. 
+
+### 1. Quick Start [phase times, total time, output size] - Makefile
 The cuJSON library is easily consumable. 
 1. clone the repo in your directory. 
 2. Download Dataset: Download all the datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and place them in the `dataset` folder.
@@ -63,7 +70,7 @@ make -f Makefile.compile clean
 ```
 
 
-## Quick Start [phase times, total time, output size] - direct compile and run
+### 2. Quick Start [phase times, total time, output size] - direct compile and run
 The cuJSON library is easily consumable. 
 1. clone the repo in your directory. 
 2. follow the following command to compile your code: 
@@ -117,6 +124,18 @@ Parser's Output Size:   [output memory allocation in MB]
 
 
 
+## Performance Results
+- We compared cuJSON with cuDF, GJSON, Pison, RapidJSON, and simdjson for processing (i) a single JSON object/array (standard JSON) and (ii) a sequence of small JSON records (JSON Lines). 
+- These datasets include National Statistics Postcode Lookup (NSPL) data for the UK, Tweets (TT), Walmart (WM) products, Wikipedia (WP) entities, Google Map Directions(GMD), and Best Buy (BB) products. Each dataset is a single large JSON record of approximately 1GB.
+- All experiments were conducted on two machines: (i) Desktop [Intel Xeon E3-1225 V6][Nvidia Quadro P4000] (ii) Server [AMD EPYC 7713][Nvidia A100]
+
+- These are the results that can be produced by the previous instructions: 
+
+#### Standard JSON: 
+The following two figures report the exectution time for standard JSON on (i) Desktop and (ii) Server.
+
+![Standard JSON - Desktop](./fig/1-large-jupiter.pdf "Parsing Time of Standard JSON on Desktop")
+![Standard JSON - Desktop](./fig/1-large-HPCC.pdf "Parsing Time of Standard JSON on Server")
 
 
 
