@@ -122,6 +122,18 @@ Parser's Output Size:   [output memory allocation in MB]
 ```
 
 
+## Related Works
+We also provided instructions on running the related works and the methods we used to compare the cuJSON with them. 
+Here is a list of the directories to their corresponding instruction:
+
+1. cuDF [JSON Lines]: `./related_wroks/cuDF`
+2. GPJSON [JSON Lines]: `./related_wroks/gpjson`
+3. pison [JSON Lines, standarad JSON]: `./related_wroks/pison`
+4. rapidJSON [standard JSON]: `./related_wroks/rapidjson`
+5. simdjson [JSON Lines, standarad JSON]: `./related_wroks/simdjson`
+
+
+<hr>
 
 
 ## Performance Results
@@ -167,7 +179,6 @@ The following two figures report the breakdown time on (i) Desktop and (ii) Serv
 <figcaption style="text-align:center"><b>Fig.4 - Costs of Five Stages on Server.</b></figcaption>
 <br/>
 <img src="fig/2-breakdown-hpcc-1.png" width="70%"></img>
-
 
 
 <br>
@@ -223,16 +234,8 @@ Total Query time: [time for returning that query].
 ```
 
 
+**Note:** Download all datasets from [this link](https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing) and place them in the `dataset` folder. After that, use `twitter_small_records.json` instead of `twitter_sample_small_records.json` and `twitter_large_record.json` instead of `twitter_sample_large_record.json`.
 
-## Related Works
-We also provided instructions on running the related works and the methods we used to compare the cuJSON with them. 
-Here is a list of the directories to their corresponding instruction:
-
-1. cuDF [JSON Lines]: `./related_wroks/cuDF`
-2. GPJSON [JSON Lines]: `./related_wroks/gpjson`
-3. pison [JSON Lines, standarad JSON]: `./related_wroks/pison`
-4. rapidJSON [standard JSON]: `./related_wroks/rapidjson`
-5. simdjson [JSON Lines, standarad JSON]: `./related_wroks/simdjson`
 
 
 ## License
