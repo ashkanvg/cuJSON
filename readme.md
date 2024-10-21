@@ -115,6 +115,16 @@ Parser's Output Size:   [output memory allocation in MB]
 ```
 
 
+
+
+
+
+
+
+<br>
+<br>
+
+
 ## Example and Query
 We provide 2 examples for queries in the `./example` directory. You have to clone the whole project. Also, make sure to have the required prerequisites mentioned earlier.
 
