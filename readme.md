@@ -143,7 +143,7 @@ The following two figures report the exectution time for standard JSON on (i) De
 
 <figcaption style="text-align:center"><b>Fig.2 - Parsing Time of Standard JSON on Server.</b></figcaption>
 <br/>
-<img src="fig/1-large-HPCC-1.png" width="70%"></img>
+<img src="fig/1-Large-HPCC-1.png" width="70%"></img>
 
 
 <br>
