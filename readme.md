@@ -134,8 +134,8 @@ Parser's Output Size:   [output memory allocation in MB]
 #### Standard JSON: 
 The following two figures report the exectution time for standard JSON on (i) Desktop and (ii) Server.
 
-![Standard JSON - Desktop](./fig/1-large-jupiter.png "Parsing Time of Standard JSON on Desktop")
-![Standard JSON - Desktop](./fig/1-large-HPCC.png "Parsing Time of Standard JSON on Server")
+![Standard JSON - Desktop](fig/1-large-jupiter.png "Parsing Time of Standard JSON on Desktop")
+![Standard JSON - Desktop](fig/1-large-HPCC.png "Parsing Time of Standard JSON on Server")
 
 
 
