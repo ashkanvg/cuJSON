@@ -131,7 +131,7 @@ Parser's Output Size:   [output memory allocation in MB]
 
 - These are the results that can be produced by the previous instructions: 
 
-#### Standard JSON: 
+### 1. Standard JSON: 
 The following two figures report the exectution time for standard JSON on (i) Desktop and (ii) Server.
 
 <!-- ![Standard JSON - Desktop](fig/1-large-jupiter-1.png "Parsing Time of Standard JSON on Desktop")
@@ -144,6 +144,30 @@ The following two figures report the exectution time for standard JSON on (i) De
 <figcaption style="text-align:center"><b>Fig.2 - Parsing Time of Standard JSON on Server.</b></figcaption>
 <br/>
 <img src="fig/1-Large-HPCC-1.png" width="70%"></img>
+
+
+### 2. JSON Lines: 
+The following two figures report the exectution time for JSON Lines on (i) Desktop and (ii) Server.
+
+<figcaption style="text-align:center"><b>Fig.3 - Parsing Time of JSON Lines on Desktop.</b></figcaption>
+<br/>
+<img src="fig/1-Small-Jupiter-1.png" width="70%"></img>
+
+<figcaption style="text-align:center"><b>Fig.4 - Parsing Time of JSON Lines on Server.</b></figcaption>
+<br/>
+<img src="fig/1-Small-HPCC-1.png" width="70%"></img>
+
+
+### 3. Breakdown
+The following two figures report the breakdown time on (i) Desktop and (ii) Server.
+<figcaption style="text-align:center"><b>Fig.3 - Costs of Five Stages on Desktop.</b></figcaption>
+<br/>
+<img src="fig/2-breakdown-jupiter-1.png" width="70%"></img>
+
+<figcaption style="text-align:center"><b>Fig.4 - Costs of Five Stages on Server.</b></figcaption>
+<br/>
+<img src="fig/2-breakdown-hpcc-1.png" width="70%"></img>
+
 
 
 <br>
