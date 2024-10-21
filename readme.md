@@ -123,7 +123,7 @@ Parser's Output Size:   [output memory allocation in MB]
 
 <br>
 <br>
----
+<hr>
 
 
 ## Example and Query
