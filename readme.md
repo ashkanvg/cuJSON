@@ -161,6 +161,20 @@ Value: [query value]
 Total Query time: [time for returning that query].
 
 ```
+
+
+
+## Related Works
+We also provided instructions on running the related works and the methods we used to compare the cuJSON with them. 
+Here is a list of the directories to their corresponding instruction:
+
+1. cuDF [JSON Lines]: `./related_wroks/cuDF`
+2. GPJSON [JSON Lines]: `./related_wroks/gpjson`
+3. pison [JSON Lines, standarad JSON]: `./related_wroks/pison`
+4. rapidJSON [standard JSON]: `./related_wroks/rapidjson`
+5. simdjson [JSON Lines, standarad JSON]: `./related_wroks/simdjson`
+
+
 ## License
 
 MIT
