@@ -10,11 +10,17 @@ Here are instructions on running GPJSON for JSON Lines.
 
 ## Parser
 1. Make sure to clone our GitHub repository (all of the mentioned passes are from the leading directory of the repository)
-2. Download All Dataset: download all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and place them into the `dataset` folder.
-3. Move to gpjson directory
+2. Download All Dataset: download all datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and place them into the `dataset` folder. [their code only works for JSON Lines]
+3. pre-processing is required for this dataset. Based on the GPJSON preprocessing guidelines from their GitHub, you need to remove the last 30k lines (excluding Google Map data). Repeat the following code for all of the datasets (except google map)
+```
+head -n -30000 your_file.json > output_file.json
+```
+
+3. Move to gpjson directory and change the address of each file.
 ```
 cd ./related_works/gpjson
 ```
+
 
 4. build and run:
 All of the information of how to install the prerequisites are mentioned in their github: https://github.com/koesie10/gpjson
