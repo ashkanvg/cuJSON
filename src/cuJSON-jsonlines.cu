@@ -52,69 +52,98 @@ using namespace std;
 using namespace std::chrono;
 
 
-struct inputStartStruct{
-    uint32_t  size;
-    int       result_size;
-    uint8_t*  block;
-    int32_t*  res;
-    int lastChunkIndex;
-    int lastStructuralIndex;
+// This structure is used to encapsulate input (output information) data and metadata for processing through functions.
+struct inputStartStruct {
+    uint32_t size;               // The total size of the input data (in bytes).
+    int result_size;             // The size of the result array or buffer to store processing output.
+    uint8_t* block;              // Pointer to the input data block to be processed.
+    int32_t* res;                // Pointer to the result array where processed output will be stored.
+    int lastChunkIndex;          // Index of the last processed character in the chunk of block.
+    int lastStructuralIndex;     // Index of the last processed structural element in the json data.
 };
 
-struct time_cost_EE{
-    float EE_t;
-    float EE_t_val;
-    float EE_t_tok;
-    float EE_t_pars;
-    float copy_start;
-    float copy_start_total;
-    float copy_end;
-    float copy_end_toal;
-    float EE_total; 
-};
-struct time_cost_EE time_EE = {0,0,0,0,0,0,0,0,0};
-
-
-struct is_one{
-    __host__ __device__
-    bool operator()(const int x){return (x == 1);}
-};
-struct is_opening{
-  __host__ __device__ 
-  bool operator()(char x){return (x==OPENBRACE) || (x==OPENBRACKET);}
-};
-struct is_closing{
-  __host__ __device__
-  bool operator()(char x){return (x==CLOSEBRACE) || (x==CLOSEBRACKET);}
-};
-struct decrease{
-  __host__ __device__ 
-  int operator()(int x){return x-1;}
-};
-struct increase{
-  __host__ __device__ 
-  int operator()(int x){return x++;}
+// This structure is used to record timing data for various stages of processing.
+struct time_cost_EE {
+    float EE_t;                // End-to-end timing for processing each chunk.
+    float EE_t_val;            // End-to-end timing for the validation phase.
+    float EE_t_tok;            // End-to-end timing for the tokenization phase.
+    float EE_t_pars;           // End-to-end timing for the parsing phase.
+    float copy_start;          // Time taken to copy a chunk of data from host to device.
+    float copy_start_total;    // Total time taken to copy all data from host to device.
+    float copy_end;            // Time taken to copy a chunk of data from device to host.
+    float copy_end_total;      // Total time taken to copy all data from device to host.
+    float EE_total;            // Total end-to-end processing time, including all phases.
 };
 
+// Initialize the timing structure with zero values.
+struct time_cost_EE time_EE = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+
+// Struct to check if a given integer is equal to 1.
+struct is_one {
+    __host__ __device__ // Can be called from both host (CPU) and device (GPU) code.
+    bool operator()(const int x) { 
+        return (x == 1); // Returns true if x is 1.
+    }
+};
+
+// Struct to check if a character is an opening brace or bracket.
+struct is_opening {
+    __host__ __device__ // Can be called from both host (CPU) and device (GPU) code.
+    bool operator()(char x) {
+        return (x == OPENBRACE) || (x == OPENBRACKET); // Returns true for '{' or '['.
+    }
+};
+
+// Struct to check if a character is a closing brace or bracket.
+struct is_closing {
+    __host__ __device__ // Can be called from both host (CPU) and device (GPU) code.
+    bool operator()(char x) {
+        return (x == CLOSEBRACE) || (x == CLOSEBRACKET); // Returns true for '}' or ']'.
+    }
+};
+
+// Struct to decrease an integer by 1.
+struct decrease {
+    __host__ __device__ // Can be called from both host (CPU) and device (GPU) code.
+    int operator()(int x) {
+        return x - 1; // Decreases the input integer by 1.
+    }
+};
+
+// Struct to increase an integer by 1.
+struct increase {
+    __host__ __device__ // Can be called from both host (CPU) and device (GPU) code.
+    int operator()(int x) {
+        return x + 1; // Increases the input integer by 1.
+    }
+};
+
+// Inline device function to compute the prefix XOR for a 32-bit integer.
+// This function performs XOR-based prefix computations for efficiency.
 __device__ __forceinline__
 uint32_t prefix_xor(uint32_t x) {
-    x ^= (x << 1);
-    x ^= (x << 2);
-    x ^= (x << 4);
-    x ^= (x << 8);
-    x ^= (x << 16);
-    return x;
+    x ^= (x << 1);   // XOR with left-shifted version by 1 bit.
+    x ^= (x << 2);   // XOR with left-shifted version by 2 bits.
+    x ^= (x << 4);   // XOR with left-shifted version by 4 bits.
+    x ^= (x << 8);   // XOR with left-shifted version by 8 bits.
+    x ^= (x << 16);  // XOR with left-shifted version by 16 bits.
+    return x;        // Returns the resulting XOR value.
 }
+
+// Inline device function to compute the prefix XOR for a 64-bit integer.
+// This function performs XOR-based prefix computations for efficiency.
 __device__ __forceinline__
 uint64_t prefix_xor64(uint64_t x) {
-    x ^= (x << 1);
-    x ^= (x << 2);
-    x ^= (x << 4);
-    x ^= (x << 8);
-    x ^= (x << 16);
-    x ^= (x << 32);
-    return x;
+    x ^= (x << 1);   // XOR with left-shifted version by 1 bit.
+    x ^= (x << 2);   // XOR with left-shifted version by 2 bits.
+    x ^= (x << 4);   // XOR with left-shifted version by 4 bits.
+    x ^= (x << 8);   // XOR with left-shifted version by 8 bits.
+    x ^= (x << 16);  // XOR with left-shifted version by 16 bits.
+    x ^= (x << 32);  // XOR with left-shifted version by 32 bits.
+    return x;        // Returns the resulting XOR value.
 }
+
 
 __device__
 const char* byteToBinary(uint8_t byte) {
