@@ -2217,7 +2217,7 @@ int32_t *mergeChunks(int32_t* res_buf_arrays[], resultStructGJSON* resultStruct,
     return res_buf;
 }
 
-inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
+inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     // _________________INIT_________________________
     unsigned long  bytesread;
     static uint8_t*  buf;    // gpu
@@ -2427,9 +2427,9 @@ int main(int argc, char **argv){
     if (argv[1] != NULL){
         if( strcmp(argv[1], "-b") == 0 && argv[2] != NULL){
             std::cout << "Batch mode running..." << std::endl;
-            int n = 6;
-            float total_time = 0;
 
+
+            // output structure:
             resultStructGJSON parsed_tree; 
             parsed_tree.bufferSize = BUFSIZE;
             parsed_tree.chunkCount = 0;
@@ -2439,9 +2439,10 @@ int main(int argc, char **argv){
             parsed_tree.structural = NULL;
             parsed_tree.pair_pos = NULL;
 
+            // start functions
+            result = cuJSON(argv[2], 1 , &parsed_tree);
 
-            result = readFileLine(argv[2], 1 , &parsed_tree);
-            
+            // free host 
             cudaFreeHost(parsed_tree.structural);
         }
         else std::cout << "Command should be like '-b[file path]'" << std::endl;
