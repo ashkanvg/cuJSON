@@ -262,14 +262,24 @@ int print8_d(uint8_t* input_GPU, int length, int rows) {
 
 
 
+// ______________________check_CUDA_______________________
 
+// Function to check the status of a CUDA API call and handle errors if any.
+// If the CUDA call fails, the function prints the error message and terminates the program.
 void checkCuda(cudaError_t result) {
-    if (result != cudaSuccess) {
+    if (result != cudaSuccess) { // Check if the CUDA call did not succeed.
+        // Print the error message associated with the CUDA error.
         fprintf(stderr, "CUDA Runtime Error: %s\n", cudaGetErrorString(result));
+        
+        // Exit the program with a non-zero status to indicate an error.
         exit(1);
     }
 }
 
+// __________________________Start___________________________
+
+
+// _______________________Device_Codes_______________________
 
 
 
