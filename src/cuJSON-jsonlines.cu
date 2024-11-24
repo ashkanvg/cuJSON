@@ -79,6 +79,9 @@ struct time_cost_EE {
 struct time_cost_EE time_EE = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 
+
+// _______________________Helpful__Functions_______________________
+
 // Struct to check if a given integer is equal to 1.
 struct is_one {
     __host__ __device__ // Can be called from both host (CPU) and device (GPU) code.
@@ -145,187 +148,119 @@ uint64_t prefix_xor64(uint64_t x) {
 }
 
 
+// _______________________Debug__Functions_______________________
+
+// _______________________Device_Functions_______________________
+// Converts a single byte (8 bits) into its binary string representation.
+// Returns a pointer to a shared memory string containing the binary representation.
 __device__
 const char* byteToBinary(uint8_t byte) {
-    __shared__ char binary[9]; // Shared among threads in the same block, make sure this does not cause race conditions!
-    binary[8] = '\0'; // Null terminator for the string
+    __shared__ char binary[9]; // Shared memory buffer for binary string (ensure no race conditions).
+    binary[8] = '\0'; // Null terminator for the binary string.
 
     for (int i = 7; i >= 0; --i) {
-        binary[i] = (byte & 0x01) ? '1' : '0';
-        byte >>= 1; // Shift right by one bit to process the next bit in the next iteration
+        binary[i] = (byte & 0x01) ? '1' : '0'; // Extract the least significant bit.
+        byte >>= 1; // Shift right to process the next bit.
     }
 
     return binary;
 }
+
+// Converts a 32-bit unsigned integer into its binary string representation.
+// The output buffer `out` must have at least 33 characters (32 bits + null terminator).
 __device__
 void u32ToBinary(uint32_t num, char* out) {
-    out[32] = '\0'; // Null-terminator for the string
+    out[32] = '\0'; // Null terminator for the binary string.
     for (int i = 31; i >= 0; --i) {
-        out[i] = (num & 0x01) ? '1' : '0';
-        num >>= 1; // Shift right to get the next bit
+        out[i] = (num & 0x01) ? '1' : '0'; // Extract the least significant bit.
+        num >>= 1; // Shift right to process the next bit.
     }
 }
 
+
+// _______________________Host_Functions_for_Debugging_GPU_Data_______________________
+
+// Prints a 2D array of 32-bit unsigned integers stored on the GPU.
+// Converts each value to its binary representation and outputs row by row.
 void print_d32(uint32_t* d_data, int total_padded_32, int rows) {
-    uint32_t* h_data = (uint32_t*)malloc(total_padded_32 * rows * sizeof(uint32_t));
+    uint32_t* h_data = (uint32_t*)malloc(total_padded_32 * rows * sizeof(uint32_t)); // Host buffer.
     if (!h_data) {
         std::cerr << "Failed to allocate host memory!" << std::endl;
         return;
     }
 
-    cudaMemcpy(h_data, d_data, total_padded_32 * rows * sizeof(uint32_t), cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_data, d_data, total_padded_32 * rows * sizeof(uint32_t), cudaMemcpyDeviceToHost); // Copy from device to host.
 
     for (int i = 0; i < total_padded_32 * rows; ++i) {
         uint32_t value = h_data[i];
-        for (int j = 0; j < 32; ++j) {
+        for (int j = 0; j < 32; ++j) { // Print each bit of the value.
             std::cout << ((value >> j) & 1);
         }
         std::cout << std::endl;
     }
 
-    free(h_data);
+    free(h_data); // Free host memory.
 }
 
-int print_d(uint32_t* input_GPU, int length, int rows){
-    uint32_t * input;
-    input = (uint32_t*) malloc(sizeof(uint32_t)*length*rows);
-    cudaMemcpyAsync(input, input_GPU, sizeof(uint32_t)*length*rows, cudaMemcpyDeviceToHost);
-    
-    for(long i =0; i<rows; i++){
-      for(long j=401; j<470 && j<length; j++){
-        std::bitset<32> y(*(input+j+(i*length)));
-        if(j == 129) printf("----129----");
-        std::cout << y << ' ';
-      }
-      cout << "\n";
+// Prints selected portions of a 2D array of 32-bit unsigned integers stored on the GPU.
+int print_d(uint32_t* input_GPU, int length, int rows) {
+    uint32_t* input = (uint32_t*)malloc(sizeof(uint32_t) * length * rows); // Host buffer.
+    cudaMemcpyAsync(input, input_GPU, sizeof(uint32_t) * length * rows, cudaMemcpyDeviceToHost); // Async copy to host.
+
+    for (long i = 0; i < rows; i++) {
+        for (long j = 401; j < 470 && j < length; j++) { // Print a specific range of columns.
+            std::bitset<32> y(*(input + j + (i * length))); // Convert to binary using std::bitset.
+            if (j == 129) printf("----129----");
+            std::cout << y << ' ';
+        }
+        std::cout << "\n";
     }
-    free(input);
+
+    free(input); // Free host memory.
     return 1;
 }
-int print8(uint8_t* input, int length, int rows){
-    for(long i =0; i<rows; i++){
-        for(long j=0; j<length && j<200; j++){
-            std::cout << *(input+j+(i*length)) << ' ';
+
+// Prints a 2D array of 8-bit unsigned integers stored on the host.
+int print8(uint8_t* input, int length, int rows) {
+    for (long i = 0; i < rows; i++) {
+        for (long j = 0; j < length && j < 200; j++) { // Print up to 200 values per row.
+            std::cout << *(input + j + (i * length)) << ' ';
         }
         std::cout << std::endl;
     }
     return 1;
 }
-int print32(int32_t* input, int length, int rows){
-    for(long i =0; i<rows; i++){
-        for(long j=0; j<length && j<200; j++){
-            std::cout << *(input+j+(i*length)) << ' ';
+
+// Prints a 2D array of 32-bit integers stored on the host.
+int print32(int32_t* input, int length, int rows) {
+    for (long i = 0; i < rows; i++) {
+        for (long j = 0; j < length && j < 200; j++) { // Print up to 200 values per row.
+            std::cout << *(input + j + (i * length)) << ' ';
         }
         std::cout << std::endl;
     }
     return 1;
 }
+
+// Template function to print a 2D array of 8-bit integers from the GPU.
+// The array is transferred to the host before printing.
 template<typename T>
-int print8_d(uint8_t* input_GPU, int length, int rows){
+int print8_d(uint8_t* input_GPU, int length, int rows) {
+    uint8_t* input = (uint8_t*)malloc(sizeof(uint8_t) * length); // Host buffer.
+    cudaMemcpyAsync(input, input_GPU, sizeof(uint8_t) * length, cudaMemcpyDeviceToHost); // Async copy to host.
 
-    uint8_t * input;
-    input = (uint8_t*) malloc(sizeof(uint8_t)*length);
-    cudaMemcpyAsync(input, input_GPU, sizeof(uint8_t)*length, cudaMemcpyDeviceToHost);
-
-    for(long i =0; i<rows; i++){
-        for(long j=0; j<300 && j<length; j++){
-            std::cout << (T )*(input+j+(i*length)) << ' ';
+    for (long i = 0; i < rows; i++) {
+        for (long j = 0; j < 300 && j < length; j++) { // Print up to 300 values per row.
+            std::cout << (T)*(input + j + (i * length)) << ' ';
         }
         std::cout << std::endl;
     }
-    free(input);
+
+    free(input); // Free host memory.
     return 1;
 }
-// Function to print a char array from the GPU
-void printCharArrayFromGPU(const char* input_GPU, size_t size) {
-    // Allocate memory on the host
-    char* input_CPU = (char*)malloc(size + 1);  // +1 for null-terminator
 
-    // Copy data from the device to the host
-    cudaMemcpy(input_CPU, input_GPU, size, cudaMemcpyDeviceToHost);
 
-    // Add null-terminator to make it a valid C-string
-    input_CPU[size] = '\0';
-
-    // Print the string
-    std::cout << input_CPU << std::endl;
-
-    // Free the host memory
-    free(input_CPU);
-}
-// Function to print int32_t array from the GPU
-void printInt8ArrayFromGPU(int8_t* input_GPU, int size) {
-    // Allocate memory on the host
-    int8_t* input_CPU = (int8_t*) malloc(size * sizeof(int8_t));
-
-    // Copy data from the device to the host
-    cudaMemcpy(input_CPU, input_GPU, size * sizeof(int8_t), cudaMemcpyDeviceToHost);
-
-    // Print the array
-    for (int i = 0; i < size; ++i) {
-        // std::cout << input_CPU[i] << " ";
-        printf("%d ",input_CPU[i]);
-    }
-    std::cout << std::endl;
-
-    // Free the host memory
-    free(input_CPU);
-}
-
-// Function to print int32_t array from the GPU
-void printUInt8ArrayFromGPU(uint8_t* input_GPU, int size) {
-    // Allocate memory on the host
-    uint8_t* input_CPU = (uint8_t*) malloc(size * sizeof(uint8_t));
-
-    // Copy data from the device to the host
-    cudaMemcpy(input_CPU, input_GPU, size * sizeof(uint8_t), cudaMemcpyDeviceToHost);
-
-    // Print the array
-    for (int i = 0; i < size; ++i) {
-        // std::cout << input_CPU[i] << " ";
-        printf("%d ",input_CPU[i]);
-    }
-    std::cout << std::endl;
-
-    // Free the host memory
-    free(input_CPU);
-}
-
-// Function to print int32_t array from the GPU
-void printInt32ArrayFromGPU(const int32_t* input_GPU, size_t size) {
-    // Allocate memory on the host
-    int32_t* input_CPU = (int32_t*)malloc(size * sizeof(int32_t));
-
-    // Copy data from the device to the host
-    cudaMemcpy(input_CPU, input_GPU, size * sizeof(int32_t), cudaMemcpyDeviceToHost);
-
-    // Print the array
-    for (size_t i = 0; i < size; ++i) {
-        std::cout << input_CPU[i] << " ";
-    }
-    std::cout << std::endl;
-
-    // Free the host memory
-    free(input_CPU);
-}
-
-// Function to print int32_t array from the GPU
-void printUInt32ArrayFromGPU(const uint32_t* input_GPU, size_t size) {
-    // Allocate memory on the host
-    uint32_t* input_CPU = (uint32_t*)malloc(size * sizeof(uint32_t));
-
-    // Copy data from the device to the host
-    cudaMemcpy(input_CPU, input_GPU, size * sizeof(uint32_t), cudaMemcpyDeviceToHost);
-
-    // Print the array
-    for (size_t i = 0; i < size; ++i) {
-        std::cout << input_CPU[i] << " ";
-    }
-    std::cout << std::endl;
-
-    // Free the host memory
-    free(input_CPU);
-}
 
 
 void checkCuda(cudaError_t result) {
@@ -334,6 +269,8 @@ void checkCuda(cudaError_t result) {
         exit(1);
     }
 }
+
+
 
 
 // prev1            --> 4 character
@@ -2464,7 +2401,7 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
         cout << "\nTOTAL (ms):\t\t" << time_EE.copy_start + time_EE.EE_t_val + time_EE.EE_t_tok + time_EE.EE_t_pars + time_EE.copy_end << endl;
 
         time_EE.EE_total += time_EE.EE_t;
-        time_EE.copy_end_toal += time_EE.copy_end;
+        time_EE.copy_end_total += time_EE.copy_end;
         time_EE.copy_start_total += time_EE.copy_start;
 
     }
