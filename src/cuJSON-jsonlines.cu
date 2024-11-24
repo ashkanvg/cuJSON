@@ -718,9 +718,6 @@ void bitMapCreator(uint8_t* block_GPU, uint32_t* outputSlash, uint32_t* outputQu
     */
 }
 
-
-//     bitMapCreatorSimd<<<numBlock_8, BLOCKSIZE>>>( (uint32_t*) block_GPU, (uint8_t*) backslashes_GPU, (uint8_t*) quote_GPU, (uint8_t*) op_GPU, (uint8_t*) open_close_GPU, size, total_padded_8);
-
 __global__
 void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outputQuote, uint8_t* op_GPU, uint8_t* open_close_GPU, uint64_t size, int total_padded_8){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
@@ -835,7 +832,6 @@ void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outpu
         open_close_GPU[i] = res_open_close;    // \n
     }
 }
-
 
 // must change based on bitMapCreatorSimd
 __global__
@@ -2425,7 +2421,7 @@ inline int32_t *readFileLine(char *file,int n, resultStructGJSON* resultStruct){
     return res;
 }
 
-// user side: LOL
+// user side
 int main(int argc, char **argv){
     int32_t* result;
     if (argv[1] != NULL){
