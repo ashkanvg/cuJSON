@@ -2421,35 +2421,47 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     return res;
 }
 
-// user side
-int main(int argc, char **argv){
-    int32_t* result;
-    if (argv[1] != NULL){
-        if( strcmp(argv[1], "-b") == 0 && argv[2] != NULL){
+// User side main function
+int main(int argc, char **argv) {
+    int32_t* result; // Pointer to store the result of the cuJSON function.
+
+    // Check if there are any command-line arguments provided.
+    if (argv[1] != NULL) {
+        // Check if the user wants to run in batch mode and has provided a file path.
+        if (strcmp(argv[1], "-b") == 0 && argv[2] != NULL) {
             std::cout << "Batch mode running..." << std::endl;
 
+            // Initialize the output structure to store the parsed JSON tree data.
+            resultStructGJSON parsed_tree;
+            parsed_tree.bufferSize = BUFSIZE;       // Set the buffer size for the JSON data.
+            parsed_tree.chunkCount = 0;            // Initialize the chunk count.
+            parsed_tree.totalResultSize = 0;       // Initialize the total size of results.
+            // parsed_tree.resultSizes = nullptr;     // Initialize result sizes pointer to null.
+            // parsed_tree.resultSizesPrefix = nullptr; // Initialize prefix sum of result sizes to null.
+            parsed_tree.structural = NULL;         // Initialize structural data pointer to null.               // output 
+            parsed_tree.pair_pos = NULL;           // Initialize position of key-value pairs to null.           // output
 
-            // output structure:
-            resultStructGJSON parsed_tree; 
-            parsed_tree.bufferSize = BUFSIZE;
-            parsed_tree.chunkCount = 0;
-            parsed_tree.totalResultSize = 0;
-            parsed_tree.resultSizes;
-            parsed_tree.resultSizesPrefix;
-            parsed_tree.structural = NULL;
-            parsed_tree.pair_pos = NULL;
+            // Call the primary parsing function.
+            // Inputs:
+            // 1. File path (argv[2]): The path of the JSON file to parse.
+            // 2. Number of repeats (1): Specifies how many times to repeat the parsing.
+            // 3. Output structure (parsed_tree): A predefined structure to store the output of parsing.
+            result = cuJSON(argv[2], 1, &parsed_tree);
 
-            // start functions
-            result = cuJSON(argv[2], 1 , &parsed_tree);
-
-            // free host 
+            // Free pinned memory allocated for the `structural` field in the host.
             cudaFreeHost(parsed_tree.structural);
+        } 
+        else {
+            // Inform the user about the correct command format if the input is invalid.
+            std::cout << "Command should be like '-b [file path]'" << std::endl;
         }
-        else std::cout << "Command should be like '-b[file path]'" << std::endl;
-    }
-    else{
+    } else {
+        // Inform the user about the required input if no arguments are provided.
         std::cout << "Please select (batch: -b): " << std::endl;
-    } 
+    }
+
+    // Reset the CUDA device to ensure proper cleanup and prevent memory leaks.
     cudaDeviceReset();
-    return 0;
+
+    return 0; // Exit the program successfully.
 }
