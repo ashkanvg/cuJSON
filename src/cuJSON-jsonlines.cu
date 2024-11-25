@@ -2222,7 +2222,6 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     static uint8_t*  inputBuffer;    // input json buffer 
 
     // _________________OPEN_FILE____________________
-    int32_t *res;           // output gpu
     FILE * handle;
     if (!(handle = fopen(file,"rb"))){
         printf("file not found!\n");
@@ -2257,8 +2256,9 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     int latest_index_realJSON = 0;      // latest index realJSON
 
 
-    static int32_t* resultBuffer;           // output json buffer in total
+    // static int32_t* resultBuffer;           
     int32_t* res_buf_arrays[chunks_count];  // output json buffer for each chunk
+    int32_t *resultBuffer;           // output json buffer in total
 
 
 
@@ -2278,7 +2278,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
             inputStart.lastStructuralIndex = total_result_size;     // Accumulated result size so far (last structural index from real input from previous chunk).
 
             // Call the function to process the current chunk.
-            res = (int32_t*) steps_implementation((void*)&inputStart);
+            resultBuffer= (int32_t*) steps_implementation((void*)&inputStart);
 
             
             // Allocate pinned memory on the host for storing results of the current chunk.
@@ -2294,13 +2294,13 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
 
             // 'structural' array of current chunk
             cudaMemcpy(res_buf_arrays[current_chunk_num], 
-                    res, 
+                    resultBuffer, 
                     sizeof(int32_t) * (inputStart.result_size), 
                     cudaMemcpyDeviceToHost);
 
             // 'pair_pos' array of current chunk
             cudaMemcpy(res_buf_arrays[current_chunk_num] + inputStart.result_size, 
-                    res + inputStart.result_size, 
+                    resultBuffer+ inputStart.result_size, 
                     sizeof(int32_t) * (inputStart.result_size), 
                     cudaMemcpyDeviceToHost);
 
@@ -2318,7 +2318,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
             time_EE.copy_end += elapsedTime; // Add the elapsed time to the total copy time.
 
             // Free device memory and synchronize the device to ensure completion for current chunk.
-            cudaFree(res);
+            cudaFree(resultBuffer);
             cudaDeviceSynchronize();
 
             // Update the index for the next chunk and reset the buffer state.
@@ -2348,7 +2348,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
         inputStart.lastChunkIndex = latest_index_realJSON;
         inputStart.lastStructuralIndex = total_result_size;
 
-        res = (int32_t*) steps_implementation( (void*) &inputStart);
+        resultBuffer= (int32_t*) steps_implementation( (void*) &inputStart);
 
             
         cudaMallocHost(&res_buf_arrays[current_chunk_num], sizeof(int32_t)*inputStart.result_size * ROW2);   // output(all chunks together)
@@ -2359,8 +2359,8 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
         cudaEventRecord(startDtoH, 0);
 
 
-        cudaMemcpy(res_buf_arrays[current_chunk_num],                            res,                          sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
-        cudaMemcpy(res_buf_arrays[current_chunk_num] + inputStart.result_size,   res + inputStart.result_size, sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
+        cudaMemcpy(res_buf_arrays[current_chunk_num],                            resultBuffer,                          sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
+        cudaMemcpy(res_buf_arrays[current_chunk_num] + inputStart.result_size,   resultBuffer+ inputStart.result_size, sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
         total_result_size += inputStart.result_size;
         (resultStruct->resultSizesPrefix).push_back(total_result_size);
         (resultStruct->resultSizes).push_back(inputStart.result_size);
@@ -2371,7 +2371,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
         cudaEventElapsedTime(&elapsedTime, startDtoH, stopDtoH);
         time_EE.copy_end += elapsedTime;
 
-        cudaFree(res);
+        cudaFree(resultBuffer);
         latest_index_realJSON += accumulatedSize;
         cudaDeviceSynchronize();
         
@@ -2379,19 +2379,18 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     accumulatedSize = 0;
 
 
-    // cudaFreeHost(resultBuffer);
     cudaFreeHost(inputBuffer);
     fclose(handle);
 
 
-
-    res = mergeChunks(res_buf_arrays, resultStruct, current_chunk_num);
+    // merge all chunks together as a single output
+    resultBuffer= mergeChunks(res_buf_arrays, resultStruct, current_chunk_num);
 
 
     resultStruct->totalResultSize = total_result_size + 2;
     resultStruct->fileSize = latest_index_realJSON + 2;
-    resultStruct->structural = res;
-    resultStruct->pair_pos = res + total_result_size + 1;
+    resultStruct->structural = resultBuffer;
+    resultStruct->pair_pos = resultBuffer+ total_result_size + 1;
 
 
     if(n == 6){
@@ -2419,7 +2418,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     cout << "\nParser's Output Size:\t" <<  ( resultStruct->totalResultSize * 8 ) / 1024 / 1024 << "MB" << endl << endl;
 
 
-    return res;
+    return resultBuffer;
 }
 
 // User side main function
