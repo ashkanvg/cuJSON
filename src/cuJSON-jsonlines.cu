@@ -2199,8 +2199,8 @@ inline void *start(void* inputStart){
 
 int32_t *mergeChunks(int32_t* res_buf_arrays[], resultStructGJSON* resultStruct, int chunkCounts){
     // cout << "here1\n";
-    int32_t* res_buf; // cpu
-    cudaMallocHost(&res_buf, sizeof(uint32_t)*(resultStruct->resultSizesPrefix[chunkCounts])*ROW2 + 3);   
+    int32_t* resultBuffer; // cpu
+    cudaMallocHost(&resultBuffer, sizeof(uint32_t)*(resultStruct->resultSizesPrefix[chunkCounts])*ROW2 + 3);   
     // cout << "here2\n";
     for(int i = 0; i <= chunkCounts; i++){
         // cout << "here-i-1:" << i << endl;
@@ -2209,19 +2209,17 @@ int32_t *mergeChunks(int32_t* res_buf_arrays[], resultStructGJSON* resultStruct,
             start_pos = resultStruct->resultSizesPrefix[i-1];
         }
         // cout << "here-i-2:" << i << endl;
-        memcpy(res_buf + 1 + start_pos ,                                                 res_buf_arrays[i], sizeof(int32_t)*resultStruct->resultSizes[i]);
+        memcpy(resultBuffer + 1 + start_pos ,                                                 res_buf_arrays[i], sizeof(int32_t)*resultStruct->resultSizes[i]);
         // cout << "here-i-3:" << i << endl;
-        memcpy(res_buf + 1 + start_pos + resultStruct->resultSizesPrefix[chunkCounts] + 1,  res_buf_arrays[i] + resultStruct->resultSizes[i], sizeof(int32_t)*resultStruct->resultSizes[i]);
+        memcpy(resultBuffer + 1 + start_pos + resultStruct->resultSizesPrefix[chunkCounts] + 1,  res_buf_arrays[i] + resultStruct->resultSizes[i], sizeof(int32_t)*resultStruct->resultSizes[i]);
     }
     // cout << "here-3:" << endl;
-    return res_buf;
+    return resultBuffer;
 }
 
 inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
-    // _________________INIT_________________________
-    unsigned long  bytesread;
-    static uint8_t*  buf;    // gpu
-    static int32_t* res_buf; // cpu
+    // _________________Input_________________________
+    static uint8_t*  inputBuffer;    // input json buffer 
 
     // _________________OPEN_FILE____________________
     int32_t *res;           // output gpu
@@ -2231,26 +2229,20 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
         return 0;
     }
 
-    // Get file size
+    // _________________FILE_SIZE____________________
     fseek(handle, 0, SEEK_END);   // Move to the end of the file
     long fileSize = ftell(handle); // Get the current byte offset in the file
     fseek(handle, 0, SEEK_SET);   // Move back to the beginning of the file
 
-    // printf("File size: %ld bytes\n", fileSize);
+    // _________________CHUNK_COUNT____________________
+    // compute chunk count for json lines according to BUFSIZE
     // int chunks_count = (fileSize + BUFSIZE -1) / BUFSIZE;            // best case
     int chunks_count = (fileSize / ((BUFSIZE/2) + 1));                  // worst case
-
-
-    // printf("chunks_count: %d Chunks \n", chunks_count);
-
-    cudaMallocHost(&buf, sizeof(uint8_t)*BUFSIZE);                          // input (each chunk)
-    // cudaMallocHost(&res_buf, sizeof(uint32_t)*BUFSIZE*chunks_count*ROW2);   // output(all chunks together)
-
-
+    cudaMallocHost(&inputBuffer, sizeof(uint8_t)*BUFSIZE);                      // input (each chunk)
     resultStruct->chunkCount = chunks_count;
 
-    // _________________READ_FILE____________________
-    // Start  definition:
+
+    // _________________READ_FILE_init____________________
     ssize_t  read;
     uint8_t  *line = NULL;
     size_t   len = 0;
@@ -2258,24 +2250,26 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     uint32_t lines = 0;
     uint32_t lineLengths[1<<20]; //the maximum size of the array // we can convert it to 1 instead of array or remove it
 
-    // //read start of file
+    // read start of file
     int i = 0;
     int current_chunk_num = 0;
     int total_result_size = 0;          // latest index structural
     int latest_index_realJSON = 0;      // latest index realJSON
 
 
+    static int32_t* resultBuffer;           // output json buffer in total
+    int32_t* res_buf_arrays[chunks_count];  // output json buffer for each chunk
 
-    // cout << "chunks_count: " << chunks_count << endl;
-    int32_t* res_buf_arrays[chunks_count]; 
 
 
+    // read line by line from the JSON file and add it into a inputBuffer until its less than BUFSIZE
+    // anytime it get greater than BUFSIZE, we have a chunk to run and call our cuJSON algorithm for it. 
     while((read = getline((char **)&line, &len, handle)) != -1){        
         int readLimit = total + read;
         if(readLimit > BUFSIZE){
-            cout << "current chunk num: " << current_chunk_num << endl;
+
             inputStartStruct inputStart;
-            inputStart.block = buf;
+            inputStart.block = inputBuffer;
             inputStart.size  = lineLengths[i-1];
             inputStart.lastChunkIndex = latest_index_realJSON;
             inputStart.lastStructuralIndex = total_result_size;
@@ -2284,7 +2278,6 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
 
 
             // device to host time:
-            // res_buf_arrays[current_chunk_num] = (int32_t*) malloc(sizeof(int32_t) * inputStart.result_size * ROW2);
             cudaMallocHost(&res_buf_arrays[current_chunk_num], sizeof(int32_t)*inputStart.result_size * ROW2);   // output(all chunks together)
 
             cudaEvent_t startDtoH, stopDtoH;
@@ -2316,16 +2309,14 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
             total = 0;
             i = 0;
 
-            memcpy(buf+total, line, sizeof(uint8_t)*read);
+            memcpy(inputBuffer+total, line, sizeof(uint8_t)*read);
             total = read; //Reset
 
             lineLengths[i] = total;
             current_chunk_num++;
         }else{
-            memcpy(buf+total, line, sizeof(uint8_t)*read);
+            memcpy(inputBuffer+total, line, sizeof(uint8_t)*read);
             total += read;
-            // totalChar += read;
-            //printf("size before star: %d \n",total);
             lineLengths[i] = total;
         }
         i++;
@@ -2335,15 +2326,15 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     // remaining parts that aree very small
     if(total > 0){
         // cout << "current chunk num - remaining: " << current_chunk_num << endl;
-        //print8(buf, total, ROW1);
+        //print8(inputBuffer, total, ROW1);
         inputStartStruct inputStart;
-        inputStart.block = buf;
+        inputStart.block = inputBuffer;
         inputStart.size = lineLengths[i-1];
         inputStart.lastChunkIndex = latest_index_realJSON;
         inputStart.lastStructuralIndex = total_result_size;
 
         // printf("remaining injast\n");
-        //printf("%s \n",buf);
+        //printf("%s \n",inputBuffer);
         res = (int32_t*) start( (void*) &inputStart);
         //printf("remaining injast 2\n");
 
@@ -2378,8 +2369,8 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     total = 0;
 
 
-    // cudaFreeHost(res_buf);
-    cudaFreeHost(buf);
+    // cudaFreeHost(resultBuffer);
+    cudaFreeHost(inputBuffer);
     fclose(handle);
 
 
