@@ -844,210 +844,18 @@ void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outpu
     }
 }
 
-// must change based on bitMapCreatorSimd
+
+// fusedStep2_3(): checkOverflow() + buildQuoteBitmap() + countQuotePerWord();
 __global__
-void bitMapCreatorSimd32(uint32_t* block_GPU, uint32_t* outputSlash, uint32_t* outputQuote, uint32_t* op_GPU, uint32_t* newLine_GPU, uint64_t size, int total_padded_32){
-    int index = blockIdx.x * blockDim.x + threadIdx.x;
-    int stride = blockDim.x * gridDim.x;
-    
-    for (int i = index; i < total_padded_32 && i < size; i += stride) {
-        int start = i*8;
-        // if (start < total_padded_32) {
-        //     printf("GPU index-%d --> %d\n", start, block_GPU[start]);
-        // }
-        uint32_t res_slash = 0;     //  " / "
-        uint32_t res_quote = 0;     //  " " "
-        uint32_t res_op = 0;        //  " { } [ ] : ,"
-        uint32_t res_newline = 0;   //  " \n "
-
-        uint32_t temp_res_slash = 0;
-        uint32_t temp_res_quote = 0;
-        uint32_t temp_res_op = 0;
-        uint32_t temp_res_newline = 0;
-
-        uint32_t block = block_GPU[start];
-        // printf("index-%d --> %d\n", i, block_GPU[i]);
-
-        temp_res_slash = (__vcmpeq4(block, 0x5C5C5C5C) & 0x01010101); // 00000000 00000001 00000001 00000001
-        temp_res_quote = (__vcmpeq4(block, 0x22222222) & 0x01010101);
-        temp_res_op = ((__vcmpeq4(block, 0x5B5B5B5B) |
-                    __vcmpeq4(block, 0x5D5D5D5D) |
-                    __vcmpeq4(block, 0x7B7B7B7B) |
-                    __vcmpeq4(block, 0x7D7D7D7D) |
-                    __vcmpeq4(block, 0x3A3A3A3A) |
-                    __vcmpeq4(block, 0x2C2C2C2C)) & 0x01010101);
-        temp_res_newline = (__vcmpeq4(block, 0x32323232) & 0x01010101);
-
-        uint32_t temp2_res_slash = 0;
-        uint32_t temp2_res_quote = 0;
-        uint32_t temp2_res_op = 0;
-        uint32_t temp2_res_newline= 0;
-
-        uint32_t block_2 = block_GPU[start+1];
-        // printf("index-%d -2-> %d\n", i, block_2);
-        temp2_res_slash = (__vcmpeq4(block_2, 0x5C5C5C5C) & 0x01010101); // 00000001 00000001 00000001 00000001
-        temp2_res_quote = (__vcmpeq4(block_2, 0x22222222) & 0x01010101);
-        temp2_res_op = ((__vcmpeq4(block_2, 0x5B5B5B5B) |
-                    __vcmpeq4(block_2, 0x5D5D5D5D) |
-                    __vcmpeq4(block_2, 0x7B7B7B7B) |
-                    __vcmpeq4(block_2, 0x7D7D7D7D) |
-                    __vcmpeq4(block_2, 0x3A3A3A3A) |
-                    __vcmpeq4(block_2, 0x2C2C2C2C)) & 0x01010101);
-        temp2_res_newline = (__vcmpeq4(block_2, 0x32323232) & 0x01010101);
-
-        uint32_t temp3_res_slash = 0;
-        uint32_t temp3_res_quote = 0;
-        uint32_t temp3_res_op = 0;
-        uint32_t temp3_res_newline = 0;
-
-        uint32_t block_3 = block_GPU[start+2];
-        // printf("index-%d --> %d\n", i, block_GPU[i]);
-
-        temp3_res_slash = (__vcmpeq4(block_3, 0x5C5C5C5C) & 0x01010101); // 00000000 00000001 00000001 00000001
-        temp3_res_quote = (__vcmpeq4(block_3, 0x22222222) & 0x01010101);
-        temp3_res_op = ((__vcmpeq4(block_3, 0x5B5B5B5B) |
-                    __vcmpeq4(block_3, 0x5D5D5D5D) |
-                    __vcmpeq4(block_3, 0x7B7B7B7B) |
-                    __vcmpeq4(block_3, 0x7D7D7D7D) |
-                    __vcmpeq4(block_3, 0x3A3A3A3A) |
-                    __vcmpeq4(block_3, 0x2C2C2C2C)) & 0x01010101);
-        temp3_res_newline = (__vcmpeq4(block_3, 0x32323232) & 0x01010101);
-
-        uint32_t temp4_res_slash = 0;
-        uint32_t temp4_res_quote = 0;
-        uint32_t temp4_res_op = 0;
-        uint32_t temp4_res_newline = 0;
-
-        uint32_t block_4 = block_GPU[start+3];
-        // printf("index-%d --> %d\n", i, block_GPU[i]);
-
-        temp4_res_slash = (__vcmpeq4(block_4, 0x5C5C5C5C) & 0x01010101); // 00000000 00000001 00000001 00000001
-        temp4_res_quote = (__vcmpeq4(block_4, 0x22222222) & 0x01010101);
-        temp4_res_op = ((__vcmpeq4(block_4, 0x5B5B5B5B) |
-                    __vcmpeq4(block_4, 0x5D5D5D5D) |
-                    __vcmpeq4(block_4, 0x7B7B7B7B) |
-                    __vcmpeq4(block_4, 0x7D7D7D7D) |
-                    __vcmpeq4(block_4, 0x3A3A3A3A) |
-                    __vcmpeq4(block_4, 0x2C2C2C2C)) & 0x01010101);
-        temp4_res_newline = (__vcmpeq4(block_4, 0x32323232) & 0x01010101);
-
-        uint32_t temp5_res_slash = 0;
-        uint32_t temp5_res_quote = 0;
-        uint32_t temp5_res_op = 0;
-        uint32_t temp5_res_newline= 0;
-
-        uint32_t block_5 = block_GPU[start+4];
-        // printf("index-%d -2-> %d\n", i, block_2);
-        temp5_res_slash = (__vcmpeq4(block_5, 0x5C5C5C5C) & 0x01010101); // 00000001 00000001 00000001 00000001
-        temp5_res_quote = (__vcmpeq4(block_5, 0x22222222) & 0x01010101);
-        temp5_res_op = ((__vcmpeq4(block_5, 0x5B5B5B5B) |
-                    __vcmpeq4(block_5, 0x5D5D5D5D) |
-                    __vcmpeq4(block_5, 0x7B7B7B7B) |
-                    __vcmpeq4(block_5, 0x7D7D7D7D) |
-                    __vcmpeq4(block_5, 0x3A3A3A3A) |
-                    __vcmpeq4(block_5, 0x2C2C2C2C)) & 0x01010101);
-        temp5_res_newline = (__vcmpeq4(block_5, 0x32323232) & 0x01010101);
-
-        uint32_t temp6_res_slash = 0;
-        uint32_t temp6_res_quote = 0;
-        uint32_t temp6_res_op = 0;
-        uint32_t temp6_res_newline = 0;
-
-        uint32_t block_6 = block_GPU[start+5];
-        // printf("index-%d --> %d\n", i, block_GPU[i]);
-
-        temp6_res_slash = (__vcmpeq4(block_6, 0x5C5C5C5C) & 0x01010101); // 00000000 00000001 00000001 00000001
-        temp6_res_quote = (__vcmpeq4(block_6, 0x22222222) & 0x01010101);
-        temp6_res_op = ((__vcmpeq4(block_6, 0x5B5B5B5B) |
-                    __vcmpeq4(block_6, 0x5D5D5D5D) |
-                    __vcmpeq4(block_6, 0x7B7B7B7B) |
-                    __vcmpeq4(block_6, 0x7D7D7D7D) |
-                    __vcmpeq4(block_6, 0x3A3A3A3A) |
-                    __vcmpeq4(block_6, 0x2C2C2C2C)) & 0x01010101);
-        temp6_res_newline = (__vcmpeq4(block_6, 0x32323232) & 0x01010101);
-
-        uint32_t temp7_res_slash = 0;
-        uint32_t temp7_res_quote = 0;
-        uint32_t temp7_res_op = 0;
-        uint32_t temp7_res_newline= 0;
-
-        uint32_t block_7 = block_GPU[start+6];
-        // printf("index-%d -2-> %d\n", i, block_2);
-        temp7_res_slash = (__vcmpeq4(block_7, 0x5C5C5C5C) & 0x01010101); // 00000001 00000001 00000001 00000001
-        temp7_res_quote = (__vcmpeq4(block_7, 0x22222222) & 0x01010101);
-        temp7_res_op = ((__vcmpeq4(block_7, 0x5B5B5B5B) |
-                    __vcmpeq4(block_7, 0x5D5D5D5D) |
-                    __vcmpeq4(block_7, 0x7B7B7B7B) |
-                    __vcmpeq4(block_7, 0x7D7D7D7D) |
-                    __vcmpeq4(block_7, 0x3A3A3A3A) |
-                    __vcmpeq4(block_7, 0x2C2C2C2C)) & 0x01010101);
-        temp7_res_newline = (__vcmpeq4(block_7, 0x32323232) & 0x01010101);
-
-
-        uint32_t temp8_res_slash = 0;
-        uint32_t temp8_res_quote = 0;
-        uint32_t temp8_res_op = 0;
-        uint32_t temp8_res_newline= 0;
-
-        uint32_t block_8 = block_GPU[start+7];
-        // printf("index-%d -2-> %d\n", i, block_2);
-        temp8_res_slash = (__vcmpeq4(block_8, 0x5C5C5C5C) & 0x01010101); // 00000001 00000001 00000001 00000001
-        temp8_res_quote = (__vcmpeq4(block_8, 0x22222222) & 0x01010101);
-        temp8_res_op = ((__vcmpeq4(block_8, 0x5B5B5B5B) |
-                    __vcmpeq4(block_8, 0x5D5D5D5D) |
-                    __vcmpeq4(block_8, 0x7B7B7B7B) |
-                    __vcmpeq4(block_8, 0x7D7D7D7D) |
-                    __vcmpeq4(block_8, 0x3A3A3A3A) |
-                    __vcmpeq4(block_8, 0x2C2C2C2C)) & 0x01010101);
-        temp8_res_newline = (__vcmpeq4(block_8, 0x32323232) & 0x01010101);
-
-        for(int j = 0; j < 4; j++){
-            //   j=0     00000001               | 00000001 << 3 = 00010000
-            //   j=1     00000010               | 00000010 << 3
-            //   j=2     00000100               | 00000100 << 3
-            //   j=3     ...
-            res_slash   |= ((temp_res_slash >> j*7)          | ((temp2_res_slash >> j*7) << 4) | 
-                            ((temp3_res_slash >> j*7) << 8)  | ((temp4_res_slash >> j*7) << 12) |
-                            ((temp5_res_slash >> j*7) << 16)  | ((temp6_res_slash >> j*7) << 20) |
-                            ((temp7_res_slash >> j*7) << 24) | ((temp8_res_slash >> j*7) << 28) 
-                            );
-            res_quote   |= ((temp_res_quote >> j*7)          | ((temp2_res_quote >> j*7) << 4) | 
-                            ((temp3_res_quote >> j*7) << 8)  | ((temp4_res_quote >> j*7) << 12) |
-                            ((temp5_res_quote >> j*7) << 16)  | ((temp6_res_quote >> j*7) << 20) |
-                            ((temp7_res_quote >> j*7) << 24) | ((temp8_res_quote >> j*7) << 28) 
-                            );
-            res_op      |= ((temp_res_op >> j*7)          | ((temp2_res_op >> j*7) << 4) | 
-                            ((temp3_res_op >> j*7) << 8)  | ((temp4_res_op >> j*7) << 12) |
-                            ((temp5_res_op >> j*7) << 16) | ((temp6_res_op >> j*7) << 20) |
-                            ((temp7_res_op >> j*7) << 24) | ((temp8_res_op >> j*7) << 28) 
-                            );
-            res_newline |= ((temp_res_newline >> j*7)          | ((temp2_res_newline >> j*7) << 4) | 
-                            ((temp3_res_newline >> j*7) << 8)  | ((temp4_res_newline >> j*7) << 12) |
-                            ((temp5_res_newline >> j*7) << 16) | ((temp6_res_newline >> j*7) << 20) |
-                            ((temp7_res_newline >> j*7) << 24) | ((temp8_res_newline >> j*7) << 28) 
-                            );
-        }
-
-
-        outputSlash[i] = res_slash;      // " \ "
-        outputQuote[i] = res_quote;      // " " "
-        op_GPU[i] = res_op;              // operands
-        newLine_GPU[i] = res_newline;    // \n
-    }
-}
-
-__global__
-void findEscapedQuoteMerge_NEW(uint32_t* backslashes_GPU, uint32_t* quote_GPU, uint32_t* real_quote_GPU, int size, int total_padded_32, int WORDS){
+void fusedStep2_3(uint32_t* backslashes_GPU, uint32_t* quote_GPU, uint32_t* structural_quote_GPU, int size, int total_padded_32, int WORDS){
     /*
         The findEscapedQuote function analyzes the input data block and identifies the escaped characters. 
         It processes the data in parallel, utilizing bitwise operations to detect escape sequences 
         and mark the positions of non-escaped characters. 
-        The resulting information is stored in the real_quote_GPU array for further processing or analysis.
+        The resulting information is stored in the structural_quote_GPU array for further processing or analysis.
     */
 
-
     // odd-length sequences of backslashes means we have escape character
-
 
     // OVERFLOW IS CAME FROM HIGH OF PREVIOUS WORD TO LOW BIT OF CURRENT WORD
     int index = blockIdx.x * blockDim.x + threadIdx.x;
@@ -1059,6 +867,7 @@ void findEscapedQuoteMerge_NEW(uint32_t* backslashes_GPU, uint32_t* quote_GPU, u
         // Parallel-For in GPU: 
         #pragma unroll
         for(int k=start; k<size && k<start+WORDS; k++){
+            // _______________buildQuoteBitmap()_______________ : start
             uint32_t overflow = 2;
             // It is used in combination with bitwise operations to detect --> 2 mean maybe overflow maybe not
 
@@ -1070,40 +879,48 @@ void findEscapedQuoteMerge_NEW(uint32_t* backslashes_GPU, uint32_t* quote_GPU, u
             long j=k-1;
             if(k == 0) overflow = 0;
             uint32_t current_word_quote = quote_GPU[k];
-            uint32_t backslashes = backslashes_GPU[k];                          //[0,1,1,1,0,0,0,1]
+            uint32_t backslashes = backslashes_GPU[k];                          
 
             uint32_t possible_escaped_quote =  current_word_quote & (backslashes << 1 | 1);  
             // this one is for finding possible escape double qutoes that we have to check
             if(possible_escaped_quote == 0){
-                real_quote_GPU[k] = current_word_quote;
-                quote_GPU[k] = (uint32_t) __popc(real_quote_GPU[k]);  // quote is total_one, we will rename it
+                structural_quote_GPU[k] = current_word_quote;
+                quote_GPU[k] = (uint32_t) __popc(structural_quote_GPU[k]);  // quote is total_one, we will rename it
                 continue;
             }
 
+            // _______________checkOverflow()_______________ : start
             while(overflow == 2){
-                uint32_t backslash_j = backslashes_GPU[j];                              //[1,1,1,0,0,0,0,0]
+                uint32_t backslash_j = backslashes_GPU[j];                             
                 // This is a uint32_t variable that stores the value of backslashes_GPU[j]. It represents the backslashes at position j in the input data.
                 uint8_t following_backslash_counts = __clz(~backslash_j); // Convert to 0-based index
                 overflow = (following_backslash_counts == 32) ? 2 : following_backslash_counts & 1; 
                 j--; // previous chunk qable 
             }
+            // _______________checkOverflow()_______________ : end
 
             // has overflow at this step: 0 or 1
             // as same as SIMDJSON
-            backslashes = backslashes & (~overflow);                            //[0,1,1,1,0,0,0,0] 
-            uint32_t applyEscapedChar = (backslashes << 1) | overflow;            //[1,1,1,0,0,0,0,1] --> chn amaln yek backslash moaser bode k khonsa mikrde miomde to 
+            backslashes = backslashes & (~overflow);                            
+            uint32_t applyEscapedChar = (backslashes << 1) | overflow;            
 
             // All BACKSLASHES that are at ODD LOCATION and not ESCAPED
             uint32_t oddSequence = backslashes & oddBits & ~applyEscapedChar;      
-            uint32_t sequenceStartatEven = oddSequence + backslashes;           //[0,1,1,1,0,0,0,0]
-            uint32_t invert_mask = sequenceStartatEven << 1;            //[1,1,1,0,0,0,0,0]
+            uint32_t sequenceStartatEven = oddSequence + backslashes;           
+            uint32_t invert_mask = sequenceStartatEven << 1;            
             uint32_t escaped = (evenBits ^ invert_mask) & applyEscapedChar;
             
             
-            real_quote_GPU[k] = (~escaped) & current_word_quote;    // quote hae vaghie   
-            quote_GPU[k] = (uint32_t) __popc(real_quote_GPU[k]);  // quote is total_one, we will rename it
+            structural_quote_GPU[k] = (~escaped) & current_word_quote;    // structural quote
+            // _______________buildQuoteBitmap()_______________ : end
+
+            // _______________countQuotePerWord()_______________: start
+            quote_GPU[k] = (uint32_t) __popc(structural_quote_GPU[k]);    // quote is total_one, we will rename it,
+            // _______________countQuotePerWord()_______________: end
+
         }
     }
+
 }
 
 // 1 WORD - Step 3:
@@ -1313,11 +1130,11 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
                             uint32_t  &last_index_tokens, 
                             uint32_t  &last_index_tokens_open_close, 
                             uint32_t* &in_string_out_index_d,
-                            // uint8_t*  &open_close_d,
                             uint32_t* &open_close_index_d,
                             uint64_t lastStructuralIndex,               // last structural index from previous chunk
                             uint64_t lastChunkIndex                     // last real json index from previous chunk
                             ){
+
     int total_padded_32 = (size+31)/32 ; // size be byte eshe totall padded be bit eshe
     uint8_t*  open_close_d;
     // +31 vase ine k 0 be ma nade o min 1 bde bema
@@ -1325,23 +1142,6 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
     //int numBlockBySize = (size + BLOCKSIZE - 1) / BLOCKSIZE;
 
     // ____________________Initialize________________________
-    // uint32_t* general_ptr;
-    // cudaMallocAsync(&general_ptr, total_padded_32*sizeof(uint32_t)*ROW5, 0);
-    // uint32_t* quote_GPU = general_ptr;
-    // uint32_t* backslashes_GPU = general_ptr+total_padded_32;
-    // uint32_t* newLine_GPU = general_ptr+total_padded_32*ROW2;
-    // uint32_t* op_GPU = general_ptr+total_padded_32*ROW3;
-
-    // int WORDS = 2;
-    // int total_padded_32B = (size+7)/8;
-    // int total_padded_8B = (total_padded_32+1)/2;
-    // int total_padded_32_div_32 = (total_padded_32+31)/32;
-    // int smallNumBlock = (total_padded_32_div_32 + BLOCKSIZE - 1) / BLOCKSIZE;
-    // int numBlock_8B = (total_padded_8B+BLOCKSIZE-1) / BLOCKSIZE;
-    // int numBlock_32B    = (total_padded_32B+BLOCKSIZE-1) / BLOCKSIZE;
-
-    // 32 * 8 --> 32
-
     uint32_t* general_ptr;
     cudaMallocAsync(&general_ptr, total_padded_32 * sizeof(uint32_t) * ROW5, 0);
     for (int i = 0; i < ROW5; ++i) {
@@ -1364,7 +1164,6 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
 
     int total_padded_8 = (size + 7) / 8;
     int total_padded_32B = (size + 7) / 8;
-    // int total_padded_32 = (size + 31) / 32; // most used
     int total_padded_64 = (size + 63) / 64;
 
     int smallNumBlock   = (total_padded_32_div_32 + BLOCKSIZE - 1) / BLOCKSIZE;
@@ -1378,191 +1177,51 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
     int numBlock_64     = (total_padded_64 + BLOCKSIZE - 1) / BLOCKSIZE;
 
 
-    // Prepare
-    //t cudaEvent_t start, stop;
-    //t cudaEventCreate(&start);
-    //t cudaEventCreate(&stop);
-    // Start record
-    //t cudaEventRecord(start, 0);
 
-    // auto start = chrono::high_resolution_clock::now();
-    // // __________________Create_Bit-Map_Character___________________
-    // cudaEvent_t start, stop;
-    // cudaEventCreate(&start);
-    // cudaEventCreate(&stop);
-
-    // Step 1
+    // Step 1: Build Character Bitmaps
     bitMapCreatorSimd<<<numBlock_8, BLOCKSIZE>>>( (uint32_t*) block_GPU, (uint8_t*) backslashes_GPU, (uint8_t*) quote_GPU, (uint8_t*) op_GPU, (uint8_t*) open_close_GPU, size, total_padded_8);
     cudaStreamSynchronize(0);
 
 
-
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // float milliseconds = 0;
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 1 Time: " << milliseconds << " ms" << std::endl;
-
-    // cout << "back_slash: \n";
-    // print_d32(backslashes_GPU,total_padded_32,ROW1); 
-    // cout << "dquote: \n";
-    // print_d32(quote_GPU,total_padded_32,ROW1); 
-    // cout << "op: \n";
-    // print_d32(op_GPU,total_padded_32,ROW1); 
-    // cout << "op: \n";
-    // print_d32(open_close_GPU,total_padded_32,ROW1); 
-
-    // __________________Find_Escaped_Character_____________________
-    // Step 2
+    // Step 2: Build Structural Quote Bitmap
     uint32_t* real_quote_GPU = general_ptr + total_padded_32 * ROW4;
-    // cudaEventRecord(start, 0);
-    
-    
-    // findEscapedQuote<<<numBlock_8B, BLOCKSIZE>>>(backslashes_GPU, quote_GPU, real_quote_GPU, total_padded_32, total_padded_8B, WORDS);
-    findEscapedQuoteMerge_NEW<<<numBlock_8B, BLOCKSIZE>>>(backslashes_GPU, quote_GPU, real_quote_GPU, total_padded_32, total_padded_8B, WORDS);
+
+    // fusedStep2_3(): checkOverflow() + buildQuoteBitmap() + countQuotePerWord();
+    fusedStep2_3<<<numBlock_8B, BLOCKSIZE>>>(backslashes_GPU, quote_GPU, real_quote_GPU, total_padded_32, total_padded_8B, WORDS);
     cudaStreamSynchronize(0);
 
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 2 Time: " << milliseconds << " ms" << std::endl;
- 
-    // cout << "Time taken by program is Token Escaped Quote [step-2] : " << fixed << time_taken2 << setprecision(9);
-    // cout << " sec" << endl;
-    // print_d32(real_quote_GPU,total_padded_32,ROW1);
-    // printf("findEscapedQuote Works Well!\n");
-
-
-    // cout << "real quote: \n";
-    // print_d32(real_quote_GPU,total_padded_32,ROW1); 
-    // cout << "popc quote: \n";
-    // print_d32(quote_GPU,total_padded_32,ROW1); 
-
     // Step 3a
-    // __________________________REDUCE______________________________
-     // Step 3a
     uint32_t* total_one_GPU = general_ptr;
-    // uint32_t* total_one_32_GPU;
-    // cudaMallocAsync(&total_one_32_GPU, (total_padded_32_div_32) * sizeof(uint32_t), 0);
-    // cudaMallocAsync(&total_one_32_GPU, (total_padded_32_div_8) * sizeof(uint32_t), 0);
-    // cudaEventRecord(start, 0);
-    // reduceChunkBaseline<<<numBlock, BLOCKSIZE>>>(real_quote_GPU, total_one_GPU, total_padded_32);
-    // reduceChunkBaseline64<<<numBlock_64, BLOCKSIZE>>>((uint64_t*) real_quote_GPU, (uint64_t*) total_one_GPU, total_padded_64);
-    // reduceChunkBaseline4Words<<<numBlock_16B, BLOCKSIZE>>>(real_quote_GPU, total_one_GPU, total_padded_16B, size);
-    // cudaStreamSynchronize(0);
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 3a Time: " << milliseconds << " ms" << std::endl;
-    // cout << "popc quote: \n";
-    // print_d32(total_one_GPU,total_padded_32,ROW1); 
-    
+
     // Step 3b
-    // cudaEventRecord(start, 0);
-    // thrust::exclusive_scan(thrust::cuda::par, (uint64_t*) total_one_GPU, ( (uint64_t*) total_one_GPU ) + (total_padded_64), (uint64_t*) total_one_GPU);
     thrust::exclusive_scan(thrust::cuda::par, total_one_GPU, total_one_GPU + (total_padded_32), total_one_GPU);
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 3b Time: " << milliseconds << " ms" << std::endl;
-
-
-    // cout << "scan popc quote: \n";
-    // print_d32(total_one_GPU,total_padded_32,ROW1); 
 
     // Step 3d
     uint32_t* inString_GPU = general_ptr;
 
-    // cudaEventRecord(start, 0);
     inStringFinderBaseline<<<numBlock, BLOCKSIZE>>>(real_quote_GPU, total_one_GPU, inString_GPU, total_padded_32);
-    // inStringFinderBaseline64<<<numBlock_64, BLOCKSIZE>>>((uint64_t*) real_quote_GPU, (uint64_t*) total_one_GPU, (uint64_t*) inString_GPU, total_padded_64);
     cudaStreamSynchronize(0);
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 3d Time: " << milliseconds << " ms" << std::endl;
-
-    // cout << "open close: \n";
-    // print_d32(open_close_GPU,total_padded_32,ROW1); 
-
-
-    // cout << "in string popc quote: \n";
-    // print_d32(inString_GPU,total_padded_32,ROW1); 
-    // exit(0);
-    // Step 4
-    // cudaEventRecord(start, 0);
-    // findOutUsefulString<<<numBlock_8B, BLOCKSIZE>>>(op_GPU, newLine_GPU, inString_GPU, total_padded_32, total_padded_8B, WORDS);
-    // cudaStreamSynchronize(0);
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 4 Time: " << milliseconds << " ms" << std::endl;
-
+  
     // Step 4 merge with 5a
     uint32_t* set_bit_count = general_ptr + total_padded_32;
-    // cudaEventRecord(start, 0);
     findOutUsefulStringMerge<<<numBlock_8B, BLOCKSIZE>>>(op_GPU, open_close_GPU, inString_GPU, total_padded_32, total_padded_8B, WORDS, set_bit_count);
     cudaStreamSynchronize(0);
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 4 Time: " << milliseconds << " ms" << std::endl;
 
     uint32_t* set_bit_count_open_close = op_GPU; // lets rename it for easy understanding
     uint32_t* structural_bitmap = inString_GPU;
 
-    // cout << "out string quote: \n";
-    // print_d32(inString_GPU,total_padded_32,ROW1); 
-    // cout << "out string oc: \n";
-    // print_d32(open_close_GPU,total_padded_32,ROW1); 
-    // cout << "set bit counts quote: \n";
-    // print_d32(set_bit_count,total_padded_32,ROW1); 
-    // cout << "set bit counts open close: \n";
-    // print_d32(set_bit_count_open_close,total_padded_32,ROW1); 
-    // exit(0);
-
  
-
- 
-    // cout << "Time taken by program is Token [step-4] : " << fixed << time_taken7 << setprecision(9);
-    // cout << " sec" << endl;
-    // print_d(inString_GPU,total_padded_32,ROW1); 
-    // printf("findOutUsefulString Works Well!\n");
-    
     // ______________Final_Step_Write_____________________
-    // step 5a:
-    // uint32_t* set_bit_count = general_ptr + total_padded_32;
-    // cudaEventRecord(start, 0);
-    // count_set_bits<<<numBlock_8B, BLOCKSIZE>>>(structural_bitmap, set_bit_count, total_padded_32, total_padded_8B, WORDS);
-    // cudaStreamSynchronize(0);
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 5a Time: " << milliseconds << " ms" << std::endl;
-
     // Step 5b
-    // cudaEventRecord(start, 0);
     thrust::inclusive_scan(thrust::cuda::par, set_bit_count, set_bit_count + total_padded_32, set_bit_count);
     cudaMemcpyAsync(&last_index_tokens, set_bit_count + total_padded_32 - 1, sizeof(uint32_t), cudaMemcpyDeviceToHost);
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 5b Time: " << milliseconds << " ms" << std::endl;
 
     // Step 5c
-    // cudaEventRecord(start, 0);
     thrust::inclusive_scan(thrust::cuda::par, set_bit_count_open_close, set_bit_count_open_close + total_padded_32, set_bit_count_open_close);
     cudaMemcpyAsync(&last_index_tokens_open_close, set_bit_count_open_close + total_padded_32 - 1, sizeof(uint32_t), cudaMemcpyDeviceToHost);
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 5c Time: " << milliseconds << " ms" << std::endl;
 
 
     // Step 5d
-    // last_index_tokens += 3;
-    // last_index_tokens_open_close += 2;
-
     int reminder = last_index_tokens % 4;    
     int padding = (4-reminder) & 3; 
     // It will always return a number between 0 and 3, 
@@ -1571,12 +1230,8 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
 
 
 
-    // uint8_t* out_string_8_GPU;
     uint32_t* out_string_8_index_GPU; // it's going to store real index.
-    // cudaMallocAsync(&out_string_8_GPU, (last_index_tokens + padding) * sizeof(uint8_t),0);
-
     cudaMallocAsync(&out_string_8_index_GPU, last_index_tokens * sizeof(uint32_t) * ROW2,0); // Row 1 for structural index, Row 2 for ending pos which will calculated in parsr
-
     int reminder2 = last_index_tokens_open_close % 4;    
     int padding2 = (4-reminder2) & 3; 
     // It will always return a number between 0 and 3, 
@@ -1590,9 +1245,7 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
     cudaMallocAsync(&out_string_open_close_8_GPU, (last_index_tokens_open_close + padding2)  * sizeof(uint8_t),0);
     cudaMallocAsync(&out_string_open_close_8_index_GPU, last_index_tokens_open_close * sizeof(uint32_t),0);
 
-    // cout << "res size before remove copy: " << last_index_tokens_open_close << "\n";
 
-    // cudaEventRecord(start, 0);
     removeCopy<<<numBlock, BLOCKSIZE>>>(set_bit_count,                      // prefix sum set bits until each word of structural
                                         set_bit_count_open_close,           // prefix sum set bits until each word of open close
                                         structural_bitmap,                  // structural bitmap out string
