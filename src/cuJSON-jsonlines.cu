@@ -557,7 +557,7 @@ void checkUTF8(uint32_t* blockCompressed_GPU, uint32_t* error_GPU, uint64_t size
     if(threadId==0 && shared_error) *error_GPU = shared_error;
 }
 
-inline bool step1_UTF8Validator(uint32_t * block_GPU, uint64_t size){
+inline bool stage1_UTF8Validator(uint32_t * block_GPU, uint64_t size){
     // _________________INIT_________________________
     int total_padded_32 = size;
 
@@ -1307,7 +1307,7 @@ void removeCopy( uint32_t* set_bit_count,
     }
 }
 
-inline uint8_t * step2_tokenizer(  uint8_t* block_GPU, 
+inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU, 
                             uint64_t size, 
                             int &ret_size, 
                             uint32_t  &last_index_tokens, 
@@ -1610,49 +1610,20 @@ inline uint8_t * step2_tokenizer(  uint8_t* block_GPU,
                                         lastChunkIndex);                    // last real json index from previous chunk
     cudaStreamSynchronize(0);
     
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // std::cout << "Step 5d Time: " << milliseconds << " ms" << std::endl;
-
-    // cudaMemcpyAsync(&last_index_tokens, set_bit_count+total_padded_32-1, sizeof(uint32_t), cudaMemcpyDeviceToHost);
-    // last_index_tokens += 3;
     cudaFreeAsync(general_ptr,0);
 
 
     in_string_out_index_d = out_string_8_index_GPU;
-    // uint8_t* in_string_out_d;
-    // in_string_out_d = out_string_8_GPU;
     ret_size = last_index_tokens; // latest index toye vagheait data
 
     open_close_d = out_string_open_close_8_GPU;
     open_close_index_d = out_string_open_close_8_index_GPU;
 
-    // cout << "res size after remove copy: " << last_index_tokens_open_close << "\n";
-    // print8_d<uint8_t>(in_string_out_d,ret_size,ROW1); 
-    // exit(0);
-
-    // cout << "res size: " << last_index_tokens_open_close << "\n";
-    // print8_d<uint8_t>(open_close_d,last_index_tokens_open_close,ROW1); 
-    // exit(0);
-
-    // cudaEventRecord(start, 0);
-    // cout << "index-after sort by key" << endl;
-    // printUInt32ArrayFromGPU( open_close_index_d, last_index_tokens_open_close);
-
-    // printf("removeCopy Works Well!\n");
-    // cout << length << endl;
-    // printInt32ArrayFromGPU(Row3Start, length);
-
-    // exit(0);
-    // cudaEventDestroy(start);
-    // cudaEventDestroy(stop);
-
     return open_close_d;
 }
 
 __global__
-void depth_init_MathAPI(uint32_t* open_close_GPU, uint32_t* oc_1, int oc_cnt_32, int oc_cnt){
+void map_open_close(uint32_t* open_close_GPU, uint32_t* oc_1, int oc_cnt_32, int oc_cnt){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
 
@@ -1718,7 +1689,7 @@ void validate_expand(char* pair_oc, uint32_t* index_arr, uint32_t* endIdx, int o
 
 }
 
-int32_t* step3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size, uint64_t lastStructuralIndex) {
+int32_t* stage3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size, uint64_t lastStructuralIndex) {
     uint32_t* oc_idx = reinterpret_cast<uint32_t*>(*open_close_index_d);        // open_close index from structural array
     uint32_t* parsed_oc = reinterpret_cast<uint32_t*>(*real_input_index_d);     // contains two rows--> 1. structural     2. pair_pos 
 
@@ -1734,12 +1705,11 @@ int32_t* step3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  in
 
 
     // _______________STEP_1__(a)_________________    
-
     int32_t* res; // temporary result that will use in following
     uint32_t* oc_1; // output 
     cudaMallocAsync(&oc_1, oc_cnt_32*sizeof(uint32_t), 0); 
     
-    depth_init_MathAPI<<<numBlock_open_close_32, BLOCKSIZE>>>( (uint32_t*) open_close_GPU, oc_1, oc_cnt_32, oc_cnt);
+    map_open_close<<<numBlock_open_close_32, BLOCKSIZE>>>( (uint32_t*) open_close_GPU, oc_1, oc_cnt_32, oc_cnt);
     cudaStreamSynchronize(0);
 
 
@@ -1787,7 +1757,7 @@ int32_t* step3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  in
 
 // This function implements the main steps for processing a chunk of JSON data.
 // It includes memory allocation, validation, tokenization, and parsing.
-inline void *steps_implementation(void* inputStart) {
+inline void *stages_implementation(void* inputStart) {
     // _________________INIT_________________________
     // Extract input data and metadata from the inputStartStruct.
     uint8_t* currentChunk = ((inputStartStruct *)inputStart)->block;          // Pointer to the input buffer.
@@ -1832,7 +1802,7 @@ inline void *steps_implementation(void* inputStart) {
     cudaEventRecord(startValEE, 0); // Start timing validation.
 
     // Validate the input buffer to ensure it contains valid UTF-8 encoded data.
-    bool isValidUTF8 = step1_UTF8Validator(reinterpret_cast<uint32_t *>(block_GPU), size_32);
+    bool isValidUTF8 = stage1_UTF8Validator(reinterpret_cast<uint32_t *>(block_GPU), size_32);
     cudaStreamSynchronize(0); // Ensure validation is complete before proceeding.
 
     if (!isValidUTF8) {
@@ -1862,7 +1832,7 @@ inline void *steps_implementation(void* inputStart) {
     uint32_t* tokens_index_GPU;
     uint32_t* open_close_index_GPU;
 
-    open_close_GPU = step2_tokenizer(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
+    open_close_GPU = stage2_tokenizer(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
 
     cudaEventRecord(stopTokEE, 0); // Stop timing tokenization.
     cudaEventSynchronize(stopTokEE);
@@ -1883,7 +1853,7 @@ inline void *steps_implementation(void* inputStart) {
     int32_t* result_GPU;
     int result_size;
 
-    result_GPU = step3_parser(open_close_GPU, 
+    result_GPU = stage3_parser(open_close_GPU, 
                         (int32_t **)(&open_close_index_GPU), 
                         (int32_t **)(&tokens_index_GPU), 
                         last_index_tokens_open_close, 
@@ -1988,7 +1958,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
             inputStart.lastStructuralIndex = total_result_size;     // Accumulated result size so far (last structural index from real input from previous chunk).
 
             // Call the function to process the current chunk.
-            resultBuffer= (int32_t*) steps_implementation((void*)&inputStart);
+            resultBuffer= (int32_t*) stages_implementation((void*)&inputStart);
 
             
             // Allocate pinned memory on the host for storing results of the current chunk.
@@ -2058,7 +2028,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
         inputStart.lastChunkIndex = latest_index_realJSON;
         inputStart.lastStructuralIndex = total_result_size;
 
-        resultBuffer= (int32_t*) steps_implementation( (void*) &inputStart);
+        resultBuffer= (int32_t*) stages_implementation( (void*) &inputStart);
 
             
         cudaMallocHost(&res_buf_arrays[current_chunk_num], sizeof(int32_t)*inputStart.result_size * ROW2);   // output(all chunks together)
