@@ -261,6 +261,17 @@ int print8_d(uint8_t* input_GPU, int length, int rows) {
 }
 
 
+void printByteByByte(int32_t* data, int length) {
+    for (int i = 0; i < length; ++i) {
+        unsigned char* bytePointer = (unsigned char*)&data[i];
+        for (int j = 0; j < sizeof(int32_t); ++j) {
+            printf("%02x ", bytePointer[j]);
+        }
+        printf("\n");
+    }
+}
+
+
 
 // ______________________check_CUDA_______________________
 
@@ -1809,18 +1820,6 @@ void validate_expand_MathAPI_new2(char* pair_oc, uint32_t* index_arr, uint32_t* 
 
 }
 
-
-void printByteByByte(int32_t* data, int length) {
-    for (int i = 0; i < length; ++i) {
-        unsigned char* bytePointer = (unsigned char*)&data[i];
-        for (int j = 0; j < sizeof(int32_t); ++j) {
-            printf("%02x ", bytePointer[j]);
-        }
-        printf("\n");
-    }
-}
-
-// int32_t* step3_parser(uint8_t* open_close_GPU, char* structural_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size) {
 int32_t* step3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size, uint64_t lastStructuralIndex) {
     uint32_t* oc_idx = reinterpret_cast<uint32_t*>(*open_close_index_d);        // open_close index from structural array
     uint32_t* parsed_oc = reinterpret_cast<uint32_t*>(*real_input_index_d);     // contains two rows--> 1. structural     2. pair_pos 
@@ -1851,7 +1850,6 @@ int32_t* step3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  in
     thrust::inclusive_scan(thrust::cuda::par,  (uint8_t*) depth,  ((uint8_t*) depth) + oc_cnt,  (uint8_t*) depth); // on depth
 
     // // _______________STEP_2__(a)_________________
-    // cudaMemcpyAsync(Row3Start, arr, sizeof(uint32_t)*structural_cnt_32, cudaMemcpyDeviceToDevice, 0); 
     thrust::transform_if(thrust::cuda::par, (uint8_t*) depth, ((uint8_t*) depth) + oc_cnt, open_close_GPU, (uint8_t*) depth, decrease(), is_opening());
 
     // // _______________STEP_3__(b)_________________
