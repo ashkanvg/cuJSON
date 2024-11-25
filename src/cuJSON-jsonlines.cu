@@ -2041,7 +2041,7 @@ int32_t* Parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  int32_t*
 }
 
 // block_GPU is block_GPU
-inline void *start(void* inputStart){
+inline void *steps_implementation(void* inputStart){
     // _________________INIT_________________________
     uint8_t* block = ((inputStartStruct *)inputStart)->block;
     uint64_t size = ((inputStartStruct *)inputStart)->size;
@@ -2243,7 +2243,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
 
 
     // _________________READ_FILE_init____________________
-    ssize_t  read;
+    ssize_t  currentLine;
     uint8_t  *line = NULL;
     size_t   len = 0;
     uint32_t total = 0;
@@ -2262,85 +2262,95 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
 
 
 
-    // read line by line from the JSON file and add it into a inputBuffer until its less than BUFSIZE
-    // anytime it get greater than BUFSIZE, we have a chunk to run and call our cuJSON algorithm for it. 
-    while((read = getline((char **)&line, &len, handle)) != -1){        
-        int readLimit = total + read;
-        if(readLimit > BUFSIZE){
+    // Read the JSON file line by line and add each line to the input buffer.
+    // If the size of the input buffer exceeds `BUFSIZE`, process the accumulated chunk 
+    // using the cuJSON algorithm and prepare for the next chunk.
+    while ((currentLine = getline((char **)&line, &len, handle)) != -1) {        
+        int potentialTotalSize = total + currentLine; // Calculate the potential total size if the current line is added.
 
+        if (potentialTotalSize > BUFSIZE) { // Check if adding the current line exceeds the buffer size.
+
+            // Prepare the input structure for processing the current chunk.
             inputStartStruct inputStart;
-            inputStart.block = inputBuffer;
-            inputStart.size  = lineLengths[i-1];
-            inputStart.lastChunkIndex = latest_index_realJSON;
-            inputStart.lastStructuralIndex = total_result_size;
+            inputStart.block = inputBuffer;                         // Assign the input buffer to the block field.
+            inputStart.size = lineLengths[i-1];                     // Size of the last line added to the buffer.
+            inputStart.lastChunkIndex = latest_index_realJSON;      // Last processed chunk index.    (last chunk index from previous chunk)
+            inputStart.lastStructuralIndex = total_result_size;     // Accumulated result size so far (last structural index from real input from previous chunk).
 
-            res = (int32_t*) start( (void*) &inputStart);
+            // Call the function to process the current chunk.
+            res = (int32_t*) steps_implementation((void*)&inputStart);
 
+            
+            // Allocate pinned memory on the host for storing results of the current chunk.
+            cudaMallocHost(&res_buf_arrays[current_chunk_num], sizeof(int32_t) * inputStart.result_size * ROW2);
 
-            // device to host time:
-            cudaMallocHost(&res_buf_arrays[current_chunk_num], sizeof(int32_t)*inputStart.result_size * ROW2);   // output(all chunks together)
-
+            // Measure the device-to-host memory transfer time.
             cudaEvent_t startDtoH, stopDtoH;
-            cudaEventCreate(&startDtoH);
-            cudaEventCreate(&stopDtoH);
+            cudaEventCreate(&startDtoH); 
+            cudaEventCreate(&stopDtoH); 
             cudaEventRecord(startDtoH, 0);
-                    
-            cudaMemcpy(res_buf_arrays[current_chunk_num],                            res,                          sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
-            cudaMemcpy(res_buf_arrays[current_chunk_num] + inputStart.result_size,   res + inputStart.result_size, sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
 
+            // Copy the processed results from the device to the host memory.
 
-  
+            // 'structural' array of current chunk
+            cudaMemcpy(res_buf_arrays[current_chunk_num], 
+                    res, 
+                    sizeof(int32_t) * (inputStart.result_size), 
+                    cudaMemcpyDeviceToHost);
+
+            // 'pair_pos' array of current chunk
+            cudaMemcpy(res_buf_arrays[current_chunk_num] + inputStart.result_size, 
+                    res + inputStart.result_size, 
+                    sizeof(int32_t) * (inputStart.result_size), 
+                    cudaMemcpyDeviceToHost);
+
+            // Update the total accumulated result size and store the result sizes.
+            // it will use for next chunk
             total_result_size += inputStart.result_size;
-            (resultStruct->resultSizesPrefix).push_back(total_result_size);
-            (resultStruct->resultSizes).push_back(inputStart.result_size);
+            (resultStruct->resultSizesPrefix).push_back(total_result_size); // Prefix sum of result sizes.
+            (resultStruct->resultSizes).push_back(inputStart.result_size);  // Result size for this chunk.
 
+            // Stop the timing event and calculate elapsed time for the transfer.
             cudaEventRecord(stopDtoH, 0);
             cudaEventSynchronize(stopDtoH);
             float elapsedTime;
             cudaEventElapsedTime(&elapsedTime, startDtoH, stopDtoH);
-            time_EE.copy_end += elapsedTime;
+            time_EE.copy_end += elapsedTime; // Add the elapsed time to the total copy time.
 
+            // Free device memory and synchronize the device to ensure completion for current chunk.
             cudaFree(res);
-
             cudaDeviceSynchronize();
-            
-            
-            latest_index_realJSON += total;
-            total = 0;
-            i = 0;
 
-            memcpy(inputBuffer+total, line, sizeof(uint8_t)*read);
-            total = read; //Reset
-
-            lineLengths[i] = total;
-            current_chunk_num++;
-        }else{
-            memcpy(inputBuffer+total, line, sizeof(uint8_t)*read);
-            total += read;
-            lineLengths[i] = total;
+            // Update the index for the next chunk and reset the buffer state.
+            latest_index_realJSON += total; // Update the last processed index in the JSON.
+            total = 0;                      // Reset the buffer size.
+            i = 0;                          // Reset line index.
+            memcpy(inputBuffer + total, line, sizeof(uint8_t) * currentLine); // Copy the remaining line to the buffer.
+            total = currentLine;                   // Set the current total to the size of the last line.
+            lineLengths[i] = total;         // Record the length of the line.
+            current_chunk_num++;            // Increment the chunk counter.
+        } else {
+            // Add the current line to the input buffer without exceeding BUFSIZE.
+            memcpy(inputBuffer + total, line, sizeof(uint8_t) * currentLine);
+            total += currentLine;                  // Update the total size of the buffer.
+            lineLengths[i] = total;         // Record the length of the line.
         }
-        i++;
-
+        i++; // Increment the line index.
     }
 
-    // remaining parts that aree very small
+
+    // remaining parts that are very small (smaller than our BUFSIZE)
     if(total > 0){
-        // cout << "current chunk num - remaining: " << current_chunk_num << endl;
-        //print8(inputBuffer, total, ROW1);
+
         inputStartStruct inputStart;
         inputStart.block = inputBuffer;
         inputStart.size = lineLengths[i-1];
         inputStart.lastChunkIndex = latest_index_realJSON;
         inputStart.lastStructuralIndex = total_result_size;
 
-        // printf("remaining injast\n");
-        //printf("%s \n",inputBuffer);
-        res = (int32_t*) start( (void*) &inputStart);
-        //printf("remaining injast 2\n");
-
+        res = (int32_t*) steps_implementation( (void*) &inputStart);
 
             
-        // res_buf_arrays[current_chunk_num] = (int32_t*) malloc(sizeof(int32_t) * inputStart.result_size * ROW2);
         cudaMallocHost(&res_buf_arrays[current_chunk_num], sizeof(int32_t)*inputStart.result_size * ROW2);   // output(all chunks together)
 
         cudaEvent_t startDtoH, stopDtoH;
