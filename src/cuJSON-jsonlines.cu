@@ -546,7 +546,7 @@ void checkUTF8(uint32_t* blockCompressed_GPU, uint32_t* error_GPU, uint64_t size
     if(threadId==0 && shared_error) *error_GPU = shared_error;
 }
 
-inline bool UTF8Validation(uint32_t * block_GPU, uint64_t size){
+inline bool step1_UTF8Validator(uint32_t * block_GPU, uint64_t size){
     // _________________INIT_________________________
     int total_padded_32 = size;
 
@@ -1296,7 +1296,7 @@ void removeCopy( uint32_t* set_bit_count,
     }
 }
 
-inline uint8_t * Tokenize(  uint8_t* block_GPU, 
+inline uint8_t * step2_tokenizer(  uint8_t* block_GPU, 
                             uint64_t size, 
                             int &ret_size, 
                             uint32_t  &last_index_tokens, 
@@ -1820,183 +1820,56 @@ void printByteByByte(int32_t* data, int length) {
     }
 }
 
-// int32_t* Parser(uint8_t* open_close_GPU, char* structural_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size) {
-int32_t* Parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size, uint64_t lastStructuralIndex) {
-    //cout << "PARSING START!\n";
-    //char inputTestSample[] = { '{', ':', ',', ':', ',', ':', '[', ',', ',', ',', ']', ',', ':', ',', ':', '}', ','};
-    //char* inputTest = inputTestSample;
-    //int structural_cnt = sizeof(inputTest)/sizeof(inputTest[0]);
-
-    // int reminder = structural_cnt % 4;    
-    // int padding = (4-reminder) & 3; 
-    // // It will always return a number between 0 and 3, 
-    // // which represents the number of padding bytes needed to align the size to the next multiple of 4.
-    // uint64_t structural_cnt_padded = (structural_cnt + padding)/4;
-
-
-
-    // int reminder2 = oc_cnt % 4;    
-    // int padding2 = (4-reminder2) & 3; 
-    // // It will always return a number between 0 and 3, 
-    // // which represents the number of padding bytes needed to align the size to the next multiple of 4.
-    // uint64_t oc_cnt_padded = (oc_cnt + padding2)/4;
-
-
-    uint32_t* oc_idx = reinterpret_cast<uint32_t*>(*open_close_index_d);
-    uint32_t* parsed_oc = reinterpret_cast<uint32_t*>(*real_input_index_d); // contains two rows--> 1. structural     2. pair_pos 
-
-    // cout << "index-after sort by key" << endl;
-    // printUInt32ArrayFromGPU( oc_idx, oc_cnt);
-
-    // stat
-    // cudaEvent_t start, stop;
-    // cudaEventCreate(&start);
-    // cudaEventCreate(&stop);
-
-    // cout << oc_cnt << endl;
-    // printCharArrayFromGPU(open_close_GPU, oc_cnt);
-
-    // print8_d<uint8_t>(open_close_GPU,oc_cnt,ROW1); 
- 
-    
-    // _______________STEP_1__(a)_________________    
-    // int numBlock = (structural_cnt + BLOCKSIZE - 1) / BLOCKSIZE;
-    // int numBlock_open_close = (oc_cnt + BLOCKSIZE - 1) / BLOCKSIZE;
-
-    // int WORDS = 4;
-    // int structural_cnt_32 = (structural_cnt + WORDS - 1) / WORDS;                   // for times that we are working on 4 bytes instead of 1 bytes in a thread
-    // int numBlock_32 = (structural_cnt_32 + BLOCKSIZE - 1) / BLOCKSIZE;
-
-    // int oc_cnt_32 = (oc_cnt + WORDS - 1) / WORDS;
-    // int numBlock_open_close_32 = (oc_cnt_32 + BLOCKSIZE - 1) / BLOCKSIZE;
-
-
+// int32_t* step3_parser(uint8_t* open_close_GPU, char* structural_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size) {
+int32_t* step3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size, uint64_t lastStructuralIndex) {
+    uint32_t* oc_idx = reinterpret_cast<uint32_t*>(*open_close_index_d);        // open_close index from structural array
+    uint32_t* parsed_oc = reinterpret_cast<uint32_t*>(*real_input_index_d);     // contains two rows--> 1. structural     2. pair_pos 
 
     int numBlock = (structural_cnt + BLOCKSIZE - 1) / BLOCKSIZE;
     int numBlock_open_close = (oc_cnt + BLOCKSIZE - 1) / BLOCKSIZE;
 
     int WORDS = 4;
-    int structural_cnt_32 = (structural_cnt + WORDS - 1) / WORDS;                   // for times that we are working on 4 bytes instead of 1 bytes in a thread
+    int structural_cnt_32 = (structural_cnt + WORDS - 1) / WORDS;               // for times that we are working on 4 bytes instead of 1 bytes in a thread
     int numBlock_32 = (structural_cnt_32 + BLOCKSIZE - 1) / BLOCKSIZE;
 
     int oc_cnt_32 = (oc_cnt + WORDS - 1) / WORDS;
     int numBlock_open_close_32 = (oc_cnt_32 + BLOCKSIZE - 1) / BLOCKSIZE;
 
 
-    // int oc_cnt_32 = (oc_cnt + WORDS - 1) / WORDS;
-    // int numBlock_open_close_32 = (oc_cnt_32 + BLOCKSIZE - 1) / BLOCKSIZE;
+    // _______________STEP_1__(a)_________________    
 
     int32_t* res; // temporary result that will use in following
-
-    // cudaEventRecord(start, 0);
-
-
     uint32_t* oc_1; // output 
     cudaMallocAsync(&oc_1, oc_cnt_32*sizeof(uint32_t), 0); 
-
-    // uint32_t* parsed_oc = ; // ROW0 --> idx   ROW1 --> end (output)
-    // cudaMallocAsync(&parsed_oc, structural_cnt*ROW2*sizeof(uint32_t), 0); 
     
     depth_init_MathAPI<<<numBlock_open_close_32, BLOCKSIZE>>>( (uint32_t*) open_close_GPU, oc_1, oc_cnt_32, oc_cnt);
     cudaStreamSynchronize(0);
-
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-
-    // float milliseconds = 0;
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // printf("Parser Time taken by [step-1-a] : %f ms\n", milliseconds);
-
-
-    // cout << "open close" << endl;
-    // printUInt8ArrayFromGPU( (uint8_t*) Row2Start, structural_cnt);
-
-    // cout << "depth" << endl;
-    // printUInt8ArrayFromGPU( (uint8_t*) arr, structural_cnt);
-
-    // cout << "index" << endl;
-    // printUInt32ArrayFromGPU( idx, structural_cnt);
-
-    // print_d(arr,structural_cnt,ROW3);
-    // print8_d<uint8_t>(arr,structural_cnt,ROW3); 
-
-    // exit(0);
-
-    // cudaEventRecord(start, 0);
 
 
     uint32_t* depth = oc_1; // output 
     // // _______________STEP_1__(b)_________________
     thrust::inclusive_scan(thrust::cuda::par,  (uint8_t*) depth,  ((uint8_t*) depth) + oc_cnt,  (uint8_t*) depth); // on depth
 
-    // cout << "count = " << oc_cnt <<endl;
-    // cout << "depth-scan" << endl;
-    // printUInt8ArrayFromGPU( (uint8_t*) depth, oc_cnt);
-
-    // exit(0);
-
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // printf("Parser Time taken by [step-1-b] : %f ms\n", milliseconds);
-
-    // cudaEventRecord(start, 0);
-
     // // _______________STEP_2__(a)_________________
     // cudaMemcpyAsync(Row3Start, arr, sizeof(uint32_t)*structural_cnt_32, cudaMemcpyDeviceToDevice, 0); 
     thrust::transform_if(thrust::cuda::par, (uint8_t*) depth, ((uint8_t*) depth) + oc_cnt, open_close_GPU, (uint8_t*) depth, decrease(), is_opening());
 
-    // cout << "count = " << oc_cnt <<endl;
-    // cout << "depth-scan" << endl;
-    // printUInt8ArrayFromGPU( (uint8_t*) depth, oc_cnt);
-
-
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // printf("Parser Time taken by [step-2-a] : %f ms\n", milliseconds);
-
-
     // // _______________STEP_3__(b)_________________
-    // thrust::stable_sort_by_key(thrust::cuda::par, (uint8_t*) depth,  ((uint8_t*) depth) + oc_cnt, oc_idx);
-
     // Use zip iterator to combine oc_idx and open_close_GPU
     auto zipped_begin = thrust::make_zip_iterator(thrust::make_tuple(oc_idx, open_close_GPU));
-    // auto zipped_end = thrust::make_zip_iterator(thrust::make_tuple(oc_idx + oc_cnt, open_close_GPU + oc_cnt));
-
     // Sorting based on depth using a single stable_sort_by_key
     thrust::stable_sort_by_key(thrust::cuda::par, (uint8_t*)depth, ((uint8_t*)depth) + oc_cnt, zipped_begin);
 
     char* pair_oc = (char *) open_close_GPU;
     uint32_t* pair_idx = oc_idx;
-    // cout << "depth-scan" << endl;
-    // printUInt8ArrayFromGPU( (uint8_t*) depth, oc_cnt);
-    // cout << "index-after sort by key" << endl;
-    // printUInt32ArrayFromGPU( oc_idx, oc_cnt);
-    // cout << "index-after sort by key" << endl;
-    // printUInt32ArrayFromGPU( open_close_GPU, oc_cnt);
-    // print_d(open_close_GPU,oc_cnt,ROW1);
-    // print8_d<uint8_t>(open_close_GPU,oc_cnt,ROW1); 
-
-
-
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // printf("Parser Time taken by [step-3-b] : %f ms\n", milliseconds);
-
-    // cudaEventRecord(start, 0);
 
     // _______________STEP_4__(a)_________________
-    // int error = 0;
-
     bool pairError = false;
     bool* pairError_GPU;
     cudaMallocAsync(&pairError_GPU, sizeof(bool), 0);                  //  Allocates Memory on the Device and Returns a Pointer to the Allocated Memory.
     cudaMemsetAsync(pairError_GPU, 0, sizeof(bool), 0);                //  Initializes a Block of Memory on the Device with a Specified Value
   
     uint32_t* pair_pos = parsed_oc + structural_cnt;
-    // validate_expand_MathAPI_new<<<numBlock_open_close_32, BLOCKSIZE>>>(structural_GPU, pair_idx, end_pos, oc_cnt_32, oc_cnt, pairError_GPU); 
     validate_expand_MathAPI_new2<<<numBlock_open_close_32, BLOCKSIZE>>>(pair_oc, pair_idx, pair_pos, oc_cnt_32, oc_cnt, pairError_GPU, lastStructuralIndex); 
 
     cudaStreamSynchronize(0);
@@ -2007,162 +1880,114 @@ int32_t* Parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  int32_t*
         exit(0);
     }
 
-
-
-
-    // cudaMemcpyAsync(parsed_oc, *real_input_index_d, structural_cnt*sizeof(uint32_t), cudaMemcpyDeviceToDevice,0);
-    // cudaFreeAsync(*real_input_index_d, 0);
     result_size = structural_cnt;
 
-
-    // cout << "index-after real json" << endl;
-    // printUInt32ArrayFromGPU(parsed_oc, structural_cnt);
-    // printUInt32ArrayFromGPU(parsed_oc + structural_cnt, structural_cnt);
-
-
-    // exit(0);
-
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // printf("Parser Time taken by [step-4-a] : %f ms\n", milliseconds);
-
-    // cudaEventDestroy(start);
-    // cudaEventDestroy(stop);
-
-    // cudaFreeAsync(*open_close_index_d, 0);
     cudaFreeAsync(open_close_GPU, 0);
-    // cudaFreeAsync(structural_GPU, 0);
     cudaFreeAsync(depth, 0);
 
     return (int32_t*) parsed_oc;
-    // return NULL;
     //arr(output): ROW 1 depth (not anymore) | ROW1 Real Character Index | ROW2 End Index (for each opening)
 }
 
-// block_GPU is block_GPU
-inline void *steps_implementation(void* inputStart){
+// This function implements the main steps for processing a chunk of JSON data.
+// It includes memory allocation, validation, tokenization, and parsing.
+inline void *steps_implementation(void* inputStart) {
     // _________________INIT_________________________
-    uint8_t* block = ((inputStartStruct *)inputStart)->block;
-    uint64_t size = ((inputStartStruct *)inputStart)->size;
-    uint64_t lastStructuralIndex = ((inputStartStruct *)inputStart)->lastStructuralIndex;
-    uint64_t lastChunkIndex = ((inputStartStruct *)inputStart)->lastChunkIndex;
+    // Extract input data and metadata from the inputStartStruct.
+    uint8_t* currentChunk = ((inputStartStruct *)inputStart)->block;          // Pointer to the input buffer.
+    uint64_t size = ((inputStartStruct *)inputStart)->size;            // Size of the input buffer.
+    uint64_t lastStructuralIndex = ((inputStartStruct *)inputStart)->lastStructuralIndex; // Last processed structural index.
+    uint64_t lastChunkIndex = ((inputStartStruct *)inputStart)->lastChunkIndex;           // Last processed chunk index.
 
-    uint8_t* block_GPU;            // BLOCKS in GPU
-    // uint8_t* tokens_GPU;        // TOKEN RESULT for GPU
-    uint8_t* open_close_GPU;       // bitmaps of open and close characters ([,{,],}), these are will be our official tokens
-    uint64_t * parse_tree;         
+    uint8_t* block_GPU;            // GPU memory to hold the input buffer (our current chunk).
+    uint8_t* open_close_GPU;       // GPU memory for bitmaps of opening and closing characters (e.g., `{`, `}`, `[`, `]`).
+    uint64_t *parse_tree;          // Placeholder for future usage of parse tree representation.
 
-    int reminder = size%4;    
-    int padding = (4-reminder) & 3;      // It will always return a number between 0 and 3, which represents the number of padding bytes needed to align the size to the next multiple of 4.
-    uint64_t size_32 = (size + padding)/4;
+    // Calculate padding to align the buffer size to the nearest multiple of 4 bytes for optimal GPU performance.
+    int reminder = size % 4;    
+    int padding = (4 - reminder) & 3; // Padding bytes needed.
+    uint64_t size_32 = (size + padding) / 4; // Aligned size in 32-bit units.
 
+    // Allocate GPU memory for the input buffer with padding and initialize it to 0.
+    cudaMallocAsync(&block_GPU, (size + padding) * sizeof(uint8_t), 0);
+    cudaMemsetAsync(block_GPU, 0, (size + padding) * sizeof(uint8_t), 0);
 
-
-    
-    cudaMallocAsync(&block_GPU, (size+padding)*sizeof(uint8_t),0);
-    cudaMemsetAsync(block_GPU, 0, (size+padding)*sizeof(uint8_t), 0);
-
-    ////////////////host to device time
+    // ________________Host-to-Device_________________
     cudaEvent_t startHD, stopHD;
     cudaEventCreate(&startHD);
     cudaEventCreate(&stopHD);
-    cudaEventRecord(startHD, 0);
+    cudaEventRecord(startHD, 0); // Start timing.
 
-    cudaMemcpyAsync(block_GPU, block, sizeof(uint8_t)*size, cudaMemcpyHostToDevice, 0);
+    // Copy input buffer from host to GPU.
+    cudaMemcpyAsync(block_GPU, currentChunk, sizeof(uint8_t) * size, cudaMemcpyHostToDevice, 0);
 
-    cudaEventRecord(stopHD, 0);
+    cudaEventRecord(stopHD, 0); // Stop timing.
     cudaEventSynchronize(stopHD);
+
+    // Calculate elapsed time for the transfer and add it to the total.
     float elapsedTimeHD;
     cudaEventElapsedTime(&elapsedTimeHD, startHD, stopHD);
-
     time_EE.copy_start += elapsedTimeHD;
 
-
-
-
-
-    // cudaEvent_t startEE, stopEE;
-    // cudaEventCreate(&startEE);
-    // cudaEventCreate(&stopEE);
-    // cudaEventRecord(startEE, 0);
-
+    // _________________Validation___________________
     cudaEvent_t startValEE, stopValEE;
     cudaEventCreate(&startValEE);
     cudaEventCreate(&stopValEE);
-    cudaEventRecord(startValEE, 0);
+    cudaEventRecord(startValEE, 0); // Start timing validation.
 
-    // _________________Validation___________________
-    bool isValidUTF8 = UTF8Validation(reinterpret_cast<uint32_t *>(block_GPU), size_32);
-    cudaStreamSynchronize(0);
-    //printf("Success before if - isValidUTF8 = %d\n",isValidUTF8);
-    if(!isValidUTF8) {
-        //printf("not a valid UTF input- isValidUTF8 = %d\n",isValidUTF8); 
+    // Validate the input buffer to ensure it contains valid UTF-8 encoded data.
+    bool isValidUTF8 = step1_UTF8Validator(reinterpret_cast<uint32_t *>(block_GPU), size_32);
+    cudaStreamSynchronize(0); // Ensure validation is complete before proceeding.
+
+    if (!isValidUTF8) {
+        // If validation fails, terminate the program.
         exit(0);
     }
 
-    cudaEventRecord(stopValEE, 0);
+    cudaEventRecord(stopValEE, 0); // Stop timing validation.
     cudaEventSynchronize(stopValEE);
+
+    // Calculate elapsed time for validation and add it to the total.
     float elapsedTimeVal;
     cudaEventElapsedTime(&elapsedTimeVal, startValEE, stopValEE);
-
     time_EE.EE_t_val += elapsedTimeVal;
     time_EE.EE_t += elapsedTimeVal;
-
 
     // __________________Tokenizer___________________
     cudaEvent_t startTokEE, stopTokEE;
     cudaEventCreate(&startTokEE);
     cudaEventCreate(&stopTokEE);
-    cudaEventRecord(startTokEE, 0);
-    
+    cudaEventRecord(startTokEE, 0); // Start timing tokenization.
 
+    // Perform tokenization on the input buffer.
     uint32_t last_index_tokens;
     uint32_t last_index_tokens_open_close;
     int ret_size = 0;
     uint32_t* tokens_index_GPU;
     uint32_t* open_close_index_GPU;
-    // tokens_GPU = Tokenize(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_GPU, open_close_index_GPU);
-    open_close_GPU = Tokenize(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
-    // cudaStreamSynchronize(0);
 
-    cudaEventRecord(stopTokEE, 0);
+    open_close_GPU = step2_tokenizer(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
+
+    cudaEventRecord(stopTokEE, 0); // Stop timing tokenization.
     cudaEventSynchronize(stopTokEE);
+
+    // Calculate elapsed time for tokenization and add it to the total.
     float elapsedTimeTok;
     cudaEventElapsedTime(&elapsedTimeTok, startTokEE, stopTokEE);
-
     time_EE.EE_t_tok += elapsedTimeTok;
     time_EE.EE_t += elapsedTimeTok;
 
-
-
-    
-
-    // cudaEventRecord(start, 0);
-    // cout << "index-after sort by key [after tok]" << endl;
-    // printUInt32ArrayFromGPU( open_close_index_GPU, last_index_tokens_open_close);
-
-    int32_t* result_GPU;
-    int32_t* result;
-    int result_size;
-
-    // cudaStreamSynchronize(0);
     // __________________Parsing_____________________
     cudaEvent_t startParseEE, stopParseEE;
     cudaEventCreate(&startParseEE);
     cudaEventCreate(&stopParseEE);
-    cudaEventRecord(startParseEE, 0);
+    cudaEventRecord(startParseEE, 0); // Start timing parsing.
 
-    // result_GPU = Parser((char *)tokens_GPU, (int32_t **)(&tokens_index_GPU),  last_index_tokens, result_size);
-    // result_GPU = Parser(open_close_GPU, 
-    //                     (char *)tokens_GPU, 
-    //                     (int32_t **)(&open_close_index_GPU), 
-    //                     (int32_t **)(&tokens_index_GPU), 
-    //                     last_index_tokens_open_close, 
-    //                     last_index_tokens, 
-    //                     result_size);
-    // ((inputStartStruct *)inputStart)->result_size = result_size;
-    result_GPU = Parser(open_close_GPU, 
+    // Perform parsing using the tokenized data.
+    int32_t* result_GPU;
+    int result_size;
+
+    result_GPU = step3_parser(open_close_GPU, 
                         (int32_t **)(&open_close_index_GPU), 
                         (int32_t **)(&tokens_index_GPU), 
                         last_index_tokens_open_close, 
@@ -2170,28 +1995,25 @@ inline void *steps_implementation(void* inputStart){
                         result_size,
                         lastStructuralIndex);
 
+    // Store the size of the parsed result in the input structure.
     ((inputStartStruct *)inputStart)->result_size = result_size;
 
-
-    // cout << "result size here: " << result_size <<endl; 
-    uint32_t total_tokens = (uint32_t) last_index_tokens;
-    // cout << total_tokens << endl;
-    uint32_t total_result_size = (uint32_t) result_size*ROW2;
-
-    cudaEventRecord(stopParseEE, 0);
+    cudaEventRecord(stopParseEE, 0); // Stop timing parsing.
     cudaEventSynchronize(stopParseEE);
+
+    // Calculate elapsed time for parsing and add it to the total.
     float elapsedTimeParse;
     cudaEventElapsedTime(&elapsedTimeParse, startParseEE, stopParseEE);
-
     time_EE.EE_t_pars += elapsedTimeParse;
     time_EE.EE_t += elapsedTimeParse;
 
+    // Clean up GPU memory allocated for the input buffer.
+    cudaFreeAsync(block_GPU, 0); 
 
-    cudaFreeAsync(block_GPU,0); 
-
+    // Return the parsed result (on GPU) as output.
     return (void *)result_GPU;
-    
 }
+
 
 int32_t *mergeChunks(int32_t* res_buf_arrays[], resultStructGJSON* resultStruct, int chunkCounts){
     int32_t* resultBuffer; // cpu
