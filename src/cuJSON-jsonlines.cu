@@ -2048,26 +2048,22 @@ inline void *steps_implementation(void* inputStart){
     uint64_t lastStructuralIndex = ((inputStartStruct *)inputStart)->lastStructuralIndex;
     uint64_t lastChunkIndex = ((inputStartStruct *)inputStart)->lastChunkIndex;
 
-
-
-
-    uint8_t* block_GPU;        // BLOCKS in GPU
+    uint8_t* block_GPU;            // BLOCKS in GPU
     // uint8_t* tokens_GPU;        // TOKEN RESULT for GPU
-    uint8_t* open_close_GPU;
-    uint64_t * parse_tree; 
+    uint8_t* open_close_GPU;       // bitmaps of open and close characters ([,{,],}), these are will be our official tokens
+    uint64_t * parse_tree;         
 
-    //printf("block in start:\n %s \n", block);
-    //printf("size: %d\n", size);
     int reminder = size%4;    
-    int padding = (4-reminder) & 3; 
-    // It will always return a number between 0 and 3, which represents the number of padding bytes needed to align the size to the next multiple of 4.
+    int padding = (4-reminder) & 3;      // It will always return a number between 0 and 3, which represents the number of padding bytes needed to align the size to the next multiple of 4.
     uint64_t size_32 = (size + padding)/4;
 
 
 
+    
     cudaMallocAsync(&block_GPU, (size+padding)*sizeof(uint8_t),0);
     cudaMemsetAsync(block_GPU, 0, (size+padding)*sizeof(uint8_t), 0);
-    ////////////////Time
+
+    ////////////////host to device time
     cudaEvent_t startHD, stopHD;
     cudaEventCreate(&startHD);
     cudaEventCreate(&stopHD);
@@ -2198,22 +2194,18 @@ inline void *steps_implementation(void* inputStart){
 }
 
 int32_t *mergeChunks(int32_t* res_buf_arrays[], resultStructGJSON* resultStruct, int chunkCounts){
-    // cout << "here1\n";
     int32_t* resultBuffer; // cpu
     cudaMallocHost(&resultBuffer, sizeof(uint32_t)*(resultStruct->resultSizesPrefix[chunkCounts])*ROW2 + 3);   
-    // cout << "here2\n";
     for(int i = 0; i <= chunkCounts; i++){
-        // cout << "here-i-1:" << i << endl;
         int start_pos = 0;
         if(i > 0){
             start_pos = resultStruct->resultSizesPrefix[i-1];
         }
-        // cout << "here-i-2:" << i << endl;
+        // structurual
         memcpy(resultBuffer + 1 + start_pos ,                                                 res_buf_arrays[i], sizeof(int32_t)*resultStruct->resultSizes[i]);
-        // cout << "here-i-3:" << i << endl;
+        // pair_pos
         memcpy(resultBuffer + 1 + start_pos + resultStruct->resultSizesPrefix[chunkCounts] + 1,  res_buf_arrays[i] + resultStruct->resultSizes[i], sizeof(int32_t)*resultStruct->resultSizes[i]);
     }
-    // cout << "here-3:" << endl;
     return resultBuffer;
 }
 
