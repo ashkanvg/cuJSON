@@ -1668,120 +1668,30 @@ void depth_init_MathAPI(uint32_t* open_close_GPU, uint32_t* oc_1, int oc_cnt_32,
 }
 
 __global__
-void validate_expand_MathAPI_new(char* structural_GPU, uint32_t* index_arr, uint32_t* endIdx, int oc_cnt_32, int oc_cnt, bool* error){
+void validate_expand(char* pair_oc, uint32_t* index_arr, uint32_t* endIdx, int oc_cnt_32, int oc_cnt, bool* error, uint64_t lastStructuralIndex){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x; 
-    // [ ] { } [ ] { }
-    // 0 9 1 8 4 5 6 7
+
     __shared__ uint32_t shared_error;
     if(threadIdx.x == 0) shared_error = 0;
     __syncthreads();
 
     for(int32_t i = index; i < oc_cnt_32; i+=stride){
         int k = i*4; 
-        int currentIndex = index_arr[k];
 
         if( i == oc_cnt_32 - 1){
-            // printf("outside error: %c\n", structural_GPU[currentIndex]);
             if(k+1 >= oc_cnt){
-                // printf("here error1: %c\n", structural_GPU[currentIndex]);
-                atomicOr(&shared_error, 1); 
-            }else if(k+2 >= oc_cnt){
-                // printf("here error2: %c\n", structural_GPU[currentIndex]);
-                int nextIndex = index_arr[k+1];
-                uint32_t two_chars = structural_GPU[currentIndex] | structural_GPU[nextIndex] << 8;
-                // [ ]
-                // { }
-                uint32_t error_local = (__vcmpeq2(two_chars, 0x5D5B) | __vcmpeq2(two_chars, 0x7D7B));
-                atomicOr(&shared_error, ~error_local & 0x1); 
-                endIdx[currentIndex] = nextIndex;
-            }else if(k+3 >= oc_cnt){
-                // printf("here error3: %c\n", structural_GPU[currentIndex]);
-                atomicOr(&shared_error, 1); 
-            }else{
-                // printf("here error4: %c\n", structural_GPU[currentIndex]);
-                int nextIndex = index_arr[k+1];
-                int currentIndex_2 = index_arr[k+2];
-                int nextIndex_2 = index_arr[k+3];
-            
-                uint32_t four_chars = structural_GPU[currentIndex] | structural_GPU[nextIndex] << 8 | structural_GPU[currentIndex_2] << 16 | structural_GPU[nextIndex_2] << 24;
-                uint32_t shifted_four_chars = four_chars << 8;
-                uint32_t xor_chars =  (four_chars ^ shifted_four_chars) & 0xFF00FF00;        
-                uint32_t error_local = __vcmpeq4(xor_chars, 0x06000600);
-                atomicOr(&shared_error, ~error_local > 0); 
-
-                endIdx[currentIndex] = nextIndex;
-                endIdx[currentIndex_2] = nextIndex_2;
-            }   
-        }else{    
-            // printf("here error4: %c\n", structural_GPU[currentIndex]);
-            int nextIndex = index_arr[k+1];
-
-            int currentIndex_2 = index_arr[k+2];
-            int nextIndex_2 = index_arr[k+3];
-            
-            // 5b xor 5d = 06
-            // 7b xor 7d = 06
-            uint32_t four_chars = structural_GPU[currentIndex] | structural_GPU[nextIndex] << 8 | structural_GPU[currentIndex_2] << 16 | structural_GPU[nextIndex_2] << 24;
-            uint32_t shifted_four_chars = four_chars << 8;
-            uint32_t xor_chars =  (four_chars ^ shifted_four_chars) & 0xFF00FF00;        
-            uint32_t error_local = __vcmpeq4(xor_chars, 0x06000600) & 0xFFFFFFFF;
-
-            atomicOr(&shared_error, ~error_local > 0); 
-
-            endIdx[currentIndex] = nextIndex;
-            endIdx[currentIndex_2] = nextIndex_2;
-        }
-        __syncthreads();
-        if (threadIdx.x == 0 && shared_error) *error = true;
-    }
-
-}
-
-__global__
-void validate_expand_MathAPI_new2(char* pair_oc, uint32_t* index_arr, uint32_t* endIdx, int oc_cnt_32, int oc_cnt, bool* error, uint64_t lastStructuralIndex){
-    int index = blockIdx.x * blockDim.x + threadIdx.x;
-    int stride = blockDim.x * gridDim.x; 
-    // [ ] { } [ ] { }
-    // 0 9 1 8 4 5 6 7
-    __shared__ uint32_t shared_error;
-    if(threadIdx.x == 0) shared_error = 0;
-    __syncthreads();
-
-    for(int32_t i = index; i < oc_cnt_32; i+=stride){
-        int k = i*4; 
-        // int currentIndex = index_arr[k];
-
-        if( i == oc_cnt_32 - 1){
-            // printf("outside error: %c\n", structural_GPU[currentIndex]);
-            if(k+1 >= oc_cnt){
-                // printf("here error1: %c\n", structural_GPU[currentIndex]);
                 shared_error |= 1; 
             }else if(k+2 >= oc_cnt){
-                // printf("here error1: %c\n", pair_oc[k]);
-                // printf("here error2: %c\n", pair_oc[k+1]);
                 uint32_t two_chars = pair_oc[k] | pair_oc[k+1] << 8;
-                // printf("32: %x\n", two_chars);
                 uint32_t shifted_two_char = two_chars << 8; 
-                // printf("shifted_two_char 32: %x\n", shifted_two_char);
                 uint32_t xor_chars =  (two_chars ^ shifted_two_char) & 0x0000FF00;        
-                // printf("xor: %x\n", xor_chars);
                 uint32_t error_local = __vcmpeq4(xor_chars, 0x00000600);
-                // printf("err: %x\n", error_local);
                 shared_error |= (~error_local) > 0; 
-
                 endIdx[index_arr[k]] = index_arr[k+1] + lastStructuralIndex + 1;
-
-            }else if(k+3 >= oc_cnt){
-                // printf("here error3: %c\n", structural_GPU[currentIndex]);
-                // atomicOr(&shared_error, 1); 
+            }else if(k+3 >= oc_cnt){ 
                 shared_error |= 1; 
             }else{
-                // printf("here error4: %c\n", structural_GPU[currentIndex]);
-                // int nextIndex = index_arr[k+1];
-                // int currentIndex_2 = index_arr[k+2];
-                // int nextIndex_2 = index_arr[k+3];
-            
                 uint32_t four_chars = pair_oc[k] | pair_oc[k+1] << 8 | pair_oc[k+2] << 16 | pair_oc[k+3] << 24;
                 uint32_t shifted_four_chars = four_chars << 8;
                 uint32_t xor_chars =  (four_chars ^ shifted_four_chars) & 0xFF00FF00;        
@@ -1792,15 +1702,6 @@ void validate_expand_MathAPI_new2(char* pair_oc, uint32_t* index_arr, uint32_t* 
                 endIdx[index_arr[k+2]] = index_arr[k+3] + lastStructuralIndex + 1;
             }   
         }else{    
-            // printf("here error4: %c\n", structural_GPU[currentIndex]);
-            // int nextIndex = index_arr[k+1];
-
-            // int currentIndex_2 = index_arr[k+2];
-            // int nextIndex_2 = index_arr[k+3];
-            
-            // 5b xor 5d = 06
-            // 7b xor 7d = 06
-            
             uint32_t order_err = pair_oc[k] > pair_oc[k+1] | pair_oc[k+2] > pair_oc[k+3];
             uint32_t four_chars = pair_oc[k] | pair_oc[k+1] << 8 | pair_oc[k+2] << 16 | pair_oc[k+3] << 24;
             uint32_t shifted_four_chars = four_chars << 8;
@@ -1808,9 +1709,6 @@ void validate_expand_MathAPI_new2(char* pair_oc, uint32_t* index_arr, uint32_t* 
             uint32_t error_local = __vcmpeq4(xor_chars, 0x06000600) & 0xFFFFFFFF;
 
             shared_error |= (~error_local | order_err) > 0; 
-
-            // atomicOr(&shared_error, (~error_local | order_err) > 0); 
-
             endIdx[index_arr[k]] = index_arr[k+1] + lastStructuralIndex + 1;
             endIdx[index_arr[k+2]] = index_arr[k+3] + lastStructuralIndex + 1;
         }
@@ -1868,7 +1766,7 @@ int32_t* step3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  in
     cudaMemsetAsync(pairError_GPU, 0, sizeof(bool), 0);                //  Initializes a Block of Memory on the Device with a Specified Value
   
     uint32_t* pair_pos = parsed_oc + structural_cnt;
-    validate_expand_MathAPI_new2<<<numBlock_open_close_32, BLOCKSIZE>>>(pair_oc, pair_idx, pair_pos, oc_cnt_32, oc_cnt, pairError_GPU, lastStructuralIndex); 
+    validate_expand<<<numBlock_open_close_32, BLOCKSIZE>>>(pair_oc, pair_idx, pair_pos, oc_cnt_32, oc_cnt, pairError_GPU, lastStructuralIndex); 
 
     cudaStreamSynchronize(0);
     cudaMemcpyAsync(&pairError, pairError_GPU, sizeof(bool), cudaMemcpyDeviceToHost, 0);
