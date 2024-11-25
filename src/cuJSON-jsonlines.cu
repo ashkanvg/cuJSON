@@ -730,7 +730,7 @@ void bitMapCreator(uint8_t* block_GPU, uint32_t* outputSlash, uint32_t* outputQu
 }
 
 __global__
-void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outputQuote, uint8_t* op_GPU, uint8_t* open_close_GPU, uint64_t size, int total_padded_8){
+void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outputQuote, uint8_t* op_GPU, uint8_t* open_close_bitmap, uint64_t size, int total_padded_8){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     
@@ -778,7 +778,7 @@ void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outpu
             outputSlash[i] = res_slash;      // " \ "
             outputQuote[i] = res_quote;      // " " "
             op_GPU[i] = res_op;              // operands
-            open_close_GPU[i] = res_open_close;    // \n
+            open_close_bitmap[i] = res_open_close;    // \n
             continue;
         }
 
@@ -840,19 +840,19 @@ void bitMapCreatorSimd(uint32_t* block_GPU, uint8_t* outputSlash, uint8_t* outpu
         outputSlash[i] = res_slash;      // " \ "
         outputQuote[i] = res_quote;      // " " "
         op_GPU[i] = res_op;              // operands
-        open_close_GPU[i] = res_open_close;    // \n
+        open_close_bitmap[i] = res_open_close;    // \n
     }
 }
 
 
 // fusedStep2_3(): checkOverflow() + buildQuoteBitmap() + countQuotePerWord();
 __global__
-void fusedStep2_3(uint32_t* backslashes_GPU, uint32_t* quote_GPU, uint32_t* structural_quote_GPU, int size, int total_padded_32, int WORDS){
+void fusedStep2_3(uint32_t* backslashes_bitmap, uint32_t* quote_bitmap, uint32_t* structural_quote_bitmap, int size, int total_padded_32, int WORDS){
     /*
         The findEscapedQuote function analyzes the input data block and identifies the escaped characters. 
         It processes the data in parallel, utilizing bitwise operations to detect escape sequences 
         and mark the positions of non-escaped characters. 
-        The resulting information is stored in the structural_quote_GPU array for further processing or analysis.
+        The resulting information is stored in the structural_quote_bitmap array for further processing or analysis.
     */
 
     // odd-length sequences of backslashes means we have escape character
@@ -878,21 +878,21 @@ void fusedStep2_3(uint32_t* backslashes_GPU, uint32_t* quote_GPU, uint32_t* stru
 
             long j=k-1;
             if(k == 0) overflow = 0;
-            uint32_t current_word_quote = quote_GPU[k];
-            uint32_t backslashes = backslashes_GPU[k];                          
+            uint32_t current_word_quote = quote_bitmap[k];
+            uint32_t backslashes = backslashes_bitmap[k];                          
 
             uint32_t possible_escaped_quote =  current_word_quote & (backslashes << 1 | 1);  
             // this one is for finding possible escape double qutoes that we have to check
             if(possible_escaped_quote == 0){
-                structural_quote_GPU[k] = current_word_quote;
-                quote_GPU[k] = (uint32_t) __popc(structural_quote_GPU[k]);  // quote is total_one, we will rename it
+                structural_quote_bitmap[k] = current_word_quote;
+                quote_bitmap[k] = (uint32_t) __popc(structural_quote_bitmap[k]);  // quote is total_one, we will rename it
                 continue;
             }
 
             // _______________checkOverflow()_______________ : start
             while(overflow == 2){
-                uint32_t backslash_j = backslashes_GPU[j];                             
-                // This is a uint32_t variable that stores the value of backslashes_GPU[j]. It represents the backslashes at position j in the input data.
+                uint32_t backslash_j = backslashes_bitmap[j];                             
+                // This is a uint32_t variable that stores the value of backslashes_bitmap[j]. It represents the backslashes at position j in the input data.
                 uint8_t following_backslash_counts = __clz(~backslash_j); // Convert to 0-based index
                 overflow = (following_backslash_counts == 32) ? 2 : following_backslash_counts & 1; 
                 j--; // previous chunk qable 
@@ -911,11 +911,11 @@ void fusedStep2_3(uint32_t* backslashes_GPU, uint32_t* quote_GPU, uint32_t* stru
             uint32_t escaped = (evenBits ^ invert_mask) & applyEscapedChar;
             
             
-            structural_quote_GPU[k] = (~escaped) & current_word_quote;    // structural quote
+            structural_quote_bitmap[k] = (~escaped) & current_word_quote;    // structural quote
             // _______________buildQuoteBitmap()_______________ : end
 
             // _______________countQuotePerWord()_______________: start
-            quote_GPU[k] = (uint32_t) __popc(structural_quote_GPU[k]);    // quote is total_one, we will rename it,
+            quote_bitmap[k] = (uint32_t) __popc(structural_quote_bitmap[k]);    // quote is total_one, we will rename it,
             // _______________countQuotePerWord()_______________: end
 
         }
@@ -926,24 +926,24 @@ void fusedStep2_3(uint32_t* backslashes_GPU, uint32_t* quote_GPU, uint32_t* stru
 // 1 WORD - Step 3:
 // 1 Word + popc - scatter
 __global__
-void countQuotePerWord(uint32_t* real_quote_GPU, uint32_t* prediction_GPU, int total_padded_32){
+void countQuotePerWord(uint32_t* real_quote_bitmap, uint32_t* prediction_GPU, int total_padded_32){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     
     for(long i = index; i < total_padded_32; i+=stride){
-        prediction_GPU[i] = (uint32_t) __popc(real_quote_GPU[i]);
+        prediction_GPU[i] = (uint32_t) __popc(real_quote_bitmap[i]);
     }
 }
 
 // 2 WORD - Step 3:
 // 2 Word + popc - scatter
 __global__
-void countQuotePerWord64(uint64_t* real_quote_GPU, uint64_t* prediction_GPU, int total_padded_64){
+void countQuotePerWord64(uint64_t* real_quote_bitmap, uint64_t* prediction_GPU, int total_padded_64){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     
     for(long i = index; i < total_padded_64; i+=stride){
-        prediction_GPU[i] = (uint64_t) __popcll(real_quote_GPU[i]);
+        prediction_GPU[i] = (uint64_t) __popcll(real_quote_bitmap[i]);
     }
 }
 
@@ -962,7 +962,6 @@ void buildStringMask(uint32_t* quote_bitmap, uint32_t* acc_quote_cnt, uint32_t* 
     }
 }
 
-// CUDA kernel where prefix_xor is called
 __global__
 void buildStringMask64(uint64_t* quote_bitmap, uint64_t* acc_quote_cnt, uint64_t* str_mask, int total_padded_64){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
@@ -981,7 +980,7 @@ void buildStringMask64(uint64_t* quote_bitmap, uint64_t* acc_quote_cnt, uint64_t
 }
 
 __global__
-void findOutUsefulString(uint32_t* op_GPU, uint32_t* newLine_GPU, uint32_t* inString_GPU, uint64_t size, int total_padded_32, int WORDS){
+void findOutUsefulString(uint32_t* op_GPU, uint32_t* newLine_GPU, uint32_t* str_mask, uint64_t size, int total_padded_32, int WORDS){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
 
@@ -992,16 +991,18 @@ void findOutUsefulString(uint32_t* op_GPU, uint32_t* newLine_GPU, uint32_t* inSt
         for(int k=start; k<size && k<start+WORDS; k++){
             uint32_t op = op_GPU[k];                    // { } [ ] : ,
             uint32_t newLine = newLine_GPU[k];    // \n
-            uint32_t in_string = inString_GPU[k];
+            uint32_t in_string = str_mask[k];
 
             uint32_t usefulCharacter = op | newLine;
-            inString_GPU[k] = ~in_string & usefulCharacter;
+            str_mask[k] = ~in_string & usefulCharacter;
         }
     }
 }
 
+
+// fusedStep3_4():  buildStringMask() + removeCharacterInString() + countStructuralPerWord()
 __global__
-void findOutUsefulStringMerge(uint32_t* op_GPU, uint32_t* open_close_GPU, uint32_t* inString_GPU, uint64_t size, int total_padded_32, int WORDS, uint32_t* total_bits){
+void fusedStep3_4(uint32_t* op_GPU, uint32_t* open_close_bitmap, uint32_t* str_mask, uint64_t size, int total_padded_32, int WORDS, uint32_t* structural_cnt){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
 
@@ -1011,14 +1012,21 @@ void findOutUsefulStringMerge(uint32_t* op_GPU, uint32_t* open_close_GPU, uint32
         #pragma unroll
         for(int k=start; k<size && k<start+WORDS; k++){
             uint32_t all_structural = op_GPU[k];                    // { } [ ] : ,
-            uint32_t open_close = open_close_GPU[k];    // \n
-            uint32_t in_string = inString_GPU[k];
+            uint32_t open_close = open_close_bitmap[k];             // \n
+            uint32_t curr_str_mask = str_mask[k];
 
-            inString_GPU[k] = ~in_string & all_structural; // all structural that are out string
-            open_close_GPU[k] = ~in_string & open_close; // all open close that are out string
+            // ___________________removeCharacterInString()__________________ : start
+            str_mask[k] = ~curr_str_mask & all_structural;              // all structural that are out string
+            open_close_bitmap[k] = ~curr_str_mask & open_close;         // all open close that are out string
+            // ___________________removeCharacterInString()__________________ : end
 
-            total_bits[k] = (uint32_t) __popc(inString_GPU[k]);  // total_bits is total_one, we will rename it
-            op_GPU[k] = (uint32_t) __popc(open_close_GPU[k]);  // total_bits of open_close is total_one, we will rename it, we put it in op_GPU to prevenet new allocation
+            // ___________________countStructuralPerWord()___________________ : start
+            structural_cnt[k] = (uint32_t) __popc(str_mask[k]);         // total_bits is total_one, we will rename it
+            // ___________________countStructuralPerWord()___________________ : end
+
+            // ___________________countOpenClosePerWord()___________________ : start
+            op_GPU[k] = (uint32_t) __popc(open_close_bitmap[k]);    // total_bits of open_close is total_one, we will rename it, we put it in op_GPU to prevenet new allocation
+            // ___________________countOpenClosePerWord()___________________ : end
 
         }
     }
@@ -1038,27 +1046,12 @@ void count_set_bits(uint32_t* input, uint32_t* total_bits, int size, uint32_t to
     }
 }
 
-    // removeCopy<<<numBlock, BLOCKSIZE>>>(set_bit_count,                      // prefix sum set bits until each word of structural
-    //                                     set_bit_count_open_close,           // prefix sum set bits until each word of open close
-    //                                     structural_bitmap,                  // structural bitmap out string
-    //                                     open_close_GPU,                     // open close bitmap out string
-    //                                     block_GPU,                          // real json block
-    //                                     out_string_8_GPU,                   // structural byte
-    //                                     out_string_8_index_GPU,             // structural real index in real json file
-    //                                     out_string_open_close_8_GPU,        // open_close byte
-    //                                     out_string_open_close_8_index_GPU,  // structural index for each open close (not real json file)
-    //                                     size, 
-    //                                     last_index_tokens,                  // structural size
-    //                                     last_index_tokens_open_close,       // open close size
-    //                                     total_padded_32);
-
 __global__
-void removeCopy( uint32_t* set_bit_count,
-                 uint32_t* set_bit_count_open_close,
+void extractStructuralIdx( uint32_t* structural_cnt,
+                 uint32_t* open_close_cnt,
                  uint32_t* out_string, 
-                 uint32_t* open_close_GPU, 
+                 uint32_t* open_close_bitmap, 
                  uint8_t* block_GPU, 
-                //  uint8_t* out_string_8_GPU, 
                  uint32_t* out_string_8_index_GPU, 
                  uint8_t* out_string_open_close_8_GPU, 
                  uint32_t* out_string_open_close_8_index_GPU, 
@@ -1079,11 +1072,11 @@ void removeCopy( uint32_t* set_bit_count,
         uint32_t local_out_string = out_string[i];
         if (local_out_string == 0) continue; 
 
-        uint32_t local_out_string_open_close = open_close_GPU[i];
+        uint32_t local_out_string_open_close = open_close_bitmap[i];
 
 
-        uint32_t total_before = i > 0 ? set_bit_count[i-1] : 0;
-        uint32_t total_before_open_close = i > 0 ? set_bit_count_open_close[i-1] : 0;
+        uint32_t total_before = i > 0 ? structural_cnt[i-1] : 0;
+        uint32_t total_before_open_close = i > 0 ? open_close_cnt[i-1] : 0;
 
         // uint32_t current_total = 0;
         // uint32_t current_total_open_close = 0;
@@ -1148,10 +1141,10 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
     }
     cudaStreamSynchronize(0);
 
-    uint32_t* quote_GPU         = general_ptr;
-    uint32_t* backslashes_GPU   = general_ptr + total_padded_32;
-    uint32_t* open_close_GPU    = general_ptr + total_padded_32 * ROW2;
-    uint32_t* op_GPU            = general_ptr + total_padded_32 * ROW3;
+    uint32_t* quote_bitmap         = general_ptr;
+    uint32_t* backslashes_bitmap   = general_ptr + total_padded_32;         
+    uint32_t* open_close_bitmap    = general_ptr + total_padded_32 * ROW2;  //  { } [ ]
+    uint32_t* op_GPU               = general_ptr + total_padded_32 * ROW3;  //  { } [ ] : ,
 
     int WORDS = 2;
 
@@ -1177,57 +1170,59 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
 
 
     // Step 1: Build Character Bitmaps
-    bitMapCreatorSimd<<<numBlock_8, BLOCKSIZE>>>( (uint32_t*) block_GPU, (uint8_t*) backslashes_GPU, (uint8_t*) quote_GPU, (uint8_t*) op_GPU, (uint8_t*) open_close_GPU, size, total_padded_8);
+    bitMapCreatorSimd<<<numBlock_8, BLOCKSIZE>>>( (uint32_t*) block_GPU, (uint8_t*) backslashes_bitmap, (uint8_t*) quote_bitmap, (uint8_t*) op_GPU, (uint8_t*) open_close_bitmap, size, total_padded_8);
     cudaStreamSynchronize(0);
 
 
     // Step 2: Build Structural Quote Bitmap + Step 3: Build String Mask Bitmap
-    uint32_t* real_quote_GPU = general_ptr + total_padded_32 * ROW4;
+    uint32_t* real_quote_bitmap = general_ptr + total_padded_32 * ROW4;
 
     // fusedStep2_3(): checkOverflow() + buildQuoteBitmap() + countQuotePerWord();
-    fusedStep2_3<<<numBlock_8B, BLOCKSIZE>>>(backslashes_GPU, quote_GPU, real_quote_GPU, total_padded_32, total_padded_8B, WORDS);
+    fusedStep2_3<<<numBlock_8B, BLOCKSIZE>>>(backslashes_bitmap, quote_bitmap, real_quote_bitmap, total_padded_32, total_padded_8B, WORDS);
     cudaStreamSynchronize(0);
 
     // Step 3: Build String Mask Bitmap
     // Step 3a: countQuotePerWord() - handled in fusedStep2_3()
     uint32_t* quote_cnt = general_ptr;
 
-    // Step 3b
+    // Step 3b:
     thrust::exclusive_scan(thrust::cuda::par, quote_cnt, quote_cnt + (total_padded_32), quote_cnt);
     uint32_t* acc_quote_cnt = quote_cnt;
 
-    // Step 3d
-    uint32_t* inString_GPU = general_ptr;
-
-    buildStringMask<<<numBlock, BLOCKSIZE>>>(real_quote_GPU, acc_quote_cnt, inString_GPU, total_padded_32);
+    // Step 3c:
+    uint32_t* str_mask = general_ptr;
+    buildStringMask<<<numBlock, BLOCKSIZE>>>(real_quote_bitmap, acc_quote_cnt, str_mask, total_padded_32);
     cudaStreamSynchronize(0);
   
-    // Step 4 merge with 5a
-    uint32_t* set_bit_count = general_ptr + total_padded_32;
-    findOutUsefulStringMerge<<<numBlock_8B, BLOCKSIZE>>>(op_GPU, open_close_GPU, inString_GPU, total_padded_32, total_padded_8B, WORDS, set_bit_count);
+    // Step 4: Generate Tokenization Outputs
+    // fusedStep3_4():  [buildStringMask()] + removeCharacterInString() + countStructuralPerWord()
+    uint32_t* structural_cnt = general_ptr + total_padded_32;
+    fusedStep3_4<<<numBlock_8B, BLOCKSIZE>>>(op_GPU, open_close_bitmap, str_mask, total_padded_32, total_padded_8B, WORDS, structural_cnt);
     cudaStreamSynchronize(0);
 
-    uint32_t* set_bit_count_open_close = op_GPU; // lets rename it for easy understanding
-    uint32_t* structural_bitmap = inString_GPU;
+
+    uint32_t* open_close_cnt = op_GPU;          // lets rename it for easy understanding, as same as 'structural_cnt' for open_close bitmap
+    uint32_t* structural_bitmap = str_mask;     // lets rename it for easy understanding
 
  
-    // ______________Final_Step_Write_____________________
-    // Step 5b
-    thrust::inclusive_scan(thrust::cuda::par, set_bit_count, set_bit_count + total_padded_32, set_bit_count);
-    cudaMemcpyAsync(&last_index_tokens, set_bit_count + total_padded_32 - 1, sizeof(uint32_t), cudaMemcpyDeviceToHost);
+    // Step 4b:
+    thrust::inclusive_scan(thrust::cuda::par, structural_cnt, structural_cnt + total_padded_32, structural_cnt);
+    cudaMemcpyAsync(&last_index_tokens, structural_cnt + total_padded_32 - 1, sizeof(uint32_t), cudaMemcpyDeviceToHost);
+    uint32_t* acc_structural_cnt = structural_cnt;
 
-    // Step 5c
-    thrust::inclusive_scan(thrust::cuda::par, set_bit_count_open_close, set_bit_count_open_close + total_padded_32, set_bit_count_open_close);
-    cudaMemcpyAsync(&last_index_tokens_open_close, set_bit_count_open_close + total_padded_32 - 1, sizeof(uint32_t), cudaMemcpyDeviceToHost);
+    // Step 4c:
+    thrust::inclusive_scan(thrust::cuda::par, open_close_cnt, open_close_cnt + total_padded_32, open_close_cnt);
+    cudaMemcpyAsync(&last_index_tokens_open_close, open_close_cnt + total_padded_32 - 1, sizeof(uint32_t), cudaMemcpyDeviceToHost);
+    uint32_t* acc_open_close_cnt = open_close_cnt;
 
 
-    // Step 5d
+
+    // Step 4d:
     int reminder = last_index_tokens % 4;    
     int padding = (4-reminder) & 3; 
     // It will always return a number between 0 and 3, 
     // which represents the number of padding bytes needed to align the size to the next multiple of 4.
     // uint64_t last_index_tokens_padded = (last_index_tokens + padding)/4;
-
 
 
     uint32_t* out_string_8_index_GPU; // it's going to store real index.
@@ -1245,13 +1240,12 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
     cudaMallocAsync(&out_string_open_close_8_GPU, (last_index_tokens_open_close + padding2)  * sizeof(uint8_t),0);
     cudaMallocAsync(&out_string_open_close_8_index_GPU, last_index_tokens_open_close * sizeof(uint32_t),0);
 
-
-    removeCopy<<<numBlock, BLOCKSIZE>>>(set_bit_count,                      // prefix sum set bits until each word of structural
-                                        set_bit_count_open_close,           // prefix sum set bits until each word of open close
+    // extractStructuralIdx(): extractStructuralIdx() + extractOpenCloseIdx()
+    extractStructuralIdx<<<numBlock, BLOCKSIZE>>>(acc_structural_cnt,       // prefix sum set bits until each word of structural
+                                        acc_open_close_cnt,                 // prefix sum set bits until each word of open close
                                         structural_bitmap,                  // structural bitmap out string
-                                        open_close_GPU,                     // open close bitmap out string
+                                        open_close_bitmap,                  // open close bitmap out string
                                         block_GPU,                          // real json block
-                                        // out_string_8_GPU,                   // structural byte
                                         out_string_8_index_GPU,             // structural real index in real json file
                                         out_string_open_close_8_GPU,        // open_close byte
                                         out_string_open_close_8_index_GPU,  // structural index for each open close (not real json file)
@@ -1262,12 +1256,11 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
                                         lastStructuralIndex,                // last structural index from previous chunk
                                         lastChunkIndex);                    // last real json index from previous chunk
     cudaStreamSynchronize(0);
-    
     cudaFreeAsync(general_ptr,0);
 
 
     in_string_out_index_d = out_string_8_index_GPU;
-    ret_size = last_index_tokens; // latest index toye vagheait data
+    ret_size = last_index_tokens; // latest index in chunk based on real json file
 
     open_close_d = out_string_open_close_8_GPU;
     open_close_index_d = out_string_open_close_8_index_GPU;
@@ -1276,13 +1269,13 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
 }
 
 __global__
-void map_open_close(uint32_t* open_close_GPU, uint32_t* oc_1, int oc_cnt_32, int oc_cnt){
+void map_open_close(uint32_t* open_close_bitmap, uint32_t* oc_1, int oc_cnt_32, int oc_cnt){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
 
     for(int32_t i = index; i < oc_cnt_32 && i < oc_cnt ; i+=stride){
         uint32_t idx = i*4;
-        uint32_t current_4_bytes = open_close_GPU[i];
+        uint32_t current_4_bytes = open_close_bitmap[i];
 
         uint32_t isOpen = (__vcmpeq4(current_4_bytes, 0x5B5B5B5B) | __vcmpeq4(current_4_bytes, 0x7B7B7B7B) ) & 0x01010101; // 01
         uint32_t isClose = (__vcmpeq4(current_4_bytes, 0x5D5D5D5D) |  __vcmpeq4(current_4_bytes, 0x7D7D7D7D) );            // FF
@@ -1342,7 +1335,7 @@ void validate_expand(char* pair_oc, uint32_t* index_arr, uint32_t* endIdx, int o
 
 }
 
-int32_t* stage3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size, uint64_t lastStructuralIndex) {
+int32_t* stage3_parser(uint8_t* open_close_bitmap, int32_t** open_close_index_d,  int32_t** real_input_index_d, int oc_cnt, int structural_cnt, int & result_size, uint64_t lastStructuralIndex) {
     uint32_t* oc_idx = reinterpret_cast<uint32_t*>(*open_close_index_d);        // open_close index from structural array
     uint32_t* parsed_oc = reinterpret_cast<uint32_t*>(*real_input_index_d);     // contains two rows--> 1. structural     2. pair_pos 
 
@@ -1362,7 +1355,7 @@ int32_t* stage3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  i
     uint32_t* oc_1; // output 
     cudaMallocAsync(&oc_1, oc_cnt_32*sizeof(uint32_t), 0); 
     
-    map_open_close<<<numBlock_open_close_32, BLOCKSIZE>>>( (uint32_t*) open_close_GPU, oc_1, oc_cnt_32, oc_cnt);
+    map_open_close<<<numBlock_open_close_32, BLOCKSIZE>>>( (uint32_t*) open_close_bitmap, oc_1, oc_cnt_32, oc_cnt);
     cudaStreamSynchronize(0);
 
 
@@ -1371,15 +1364,15 @@ int32_t* stage3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  i
     thrust::inclusive_scan(thrust::cuda::par,  (uint8_t*) depth,  ((uint8_t*) depth) + oc_cnt,  (uint8_t*) depth); // on depth
 
     // // _______________STEP_2__(a)_________________
-    thrust::transform_if(thrust::cuda::par, (uint8_t*) depth, ((uint8_t*) depth) + oc_cnt, open_close_GPU, (uint8_t*) depth, decrease(), is_opening());
+    thrust::transform_if(thrust::cuda::par, (uint8_t*) depth, ((uint8_t*) depth) + oc_cnt, open_close_bitmap, (uint8_t*) depth, decrease(), is_opening());
 
     // // _______________STEP_3__(b)_________________
-    // Use zip iterator to combine oc_idx and open_close_GPU
-    auto zipped_begin = thrust::make_zip_iterator(thrust::make_tuple(oc_idx, open_close_GPU));
+    // Use zip iterator to combine oc_idx and open_close_bitmap
+    auto zipped_begin = thrust::make_zip_iterator(thrust::make_tuple(oc_idx, open_close_bitmap));
     // Sorting based on depth using a single stable_sort_by_key
     thrust::stable_sort_by_key(thrust::cuda::par, (uint8_t*)depth, ((uint8_t*)depth) + oc_cnt, zipped_begin);
 
-    char* pair_oc = (char *) open_close_GPU;
+    char* pair_oc = (char *) open_close_bitmap;
     uint32_t* pair_idx = oc_idx;
 
     // _______________STEP_4__(a)_________________
@@ -1401,7 +1394,7 @@ int32_t* stage3_parser(uint8_t* open_close_GPU, int32_t** open_close_index_d,  i
 
     result_size = structural_cnt;
 
-    cudaFreeAsync(open_close_GPU, 0);
+    cudaFreeAsync(open_close_bitmap, 0);
     cudaFreeAsync(depth, 0);
 
     return (int32_t*) parsed_oc;
@@ -1419,7 +1412,7 @@ inline void *stages_implementation(void* inputStart) {
     uint64_t lastChunkIndex = ((inputStartStruct *)inputStart)->lastChunkIndex;           // Last processed chunk index.
 
     uint8_t* block_GPU;            // GPU memory to hold the input buffer (our current chunk).
-    uint8_t* open_close_GPU;       // GPU memory for bitmaps of opening and closing characters (e.g., `{`, `}`, `[`, `]`).
+    uint8_t* open_close_bitmap;       // GPU memory for bitmaps of opening and closing characters (e.g., `{`, `}`, `[`, `]`).
     uint64_t *parse_tree;          // Placeholder for future usage of parse tree representation.
 
     // Calculate padding to align the buffer size to the nearest multiple of 4 bytes for optimal GPU performance.
@@ -1485,7 +1478,7 @@ inline void *stages_implementation(void* inputStart) {
     uint32_t* tokens_index_GPU;
     uint32_t* open_close_index_GPU;
 
-    open_close_GPU = stage2_tokenizer(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
+    open_close_bitmap = stage2_tokenizer(block_GPU, size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
 
     cudaEventRecord(stopTokEE, 0); // Stop timing tokenization.
     cudaEventSynchronize(stopTokEE);
@@ -1506,7 +1499,7 @@ inline void *stages_implementation(void* inputStart) {
     int32_t* result_GPU;
     int result_size;
 
-    result_GPU = stage3_parser(open_close_GPU, 
+    result_GPU = stage3_parser(open_close_bitmap, 
                         (int32_t **)(&open_close_index_GPU), 
                         (int32_t **)(&tokens_index_GPU), 
                         last_index_tokens_open_close, 
