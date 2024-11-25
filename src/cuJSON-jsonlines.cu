@@ -926,7 +926,7 @@ void fusedStep2_3(uint32_t* backslashes_GPU, uint32_t* quote_GPU, uint32_t* stru
 // 1 WORD - Step 3:
 // 1 Word + popc - scatter
 __global__
-void reduceChunkBaseline(uint32_t* real_quote_GPU, uint32_t* prediction_GPU, int total_padded_32){
+void countQuotePerWord(uint32_t* real_quote_GPU, uint32_t* prediction_GPU, int total_padded_32){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     
@@ -935,26 +935,10 @@ void reduceChunkBaseline(uint32_t* real_quote_GPU, uint32_t* prediction_GPU, int
     }
 }
 
-// CUDA kernel where prefix_xor is called
-// inStringFinderBaseline<<<numBlock, BLOCKSIZE>>>(real_quote_GPU, total_one_GPU, inString_GPU, total_padded_32);
-__global__
-void inStringFinderBaseline(uint32_t* real_quote_GPU, uint32_t* prefix_sum_ones, uint32_t* res, int total_padded_32){
-    int index = blockIdx.x * blockDim.x + threadIdx.x;
-    int stride = blockDim.x * gridDim.x;
-    for(int i = index; i < total_padded_32; i += stride){
-        // Check if the prefix sum is odd (overflow)
-        bool overflow = prefix_sum_ones[i] & 1;
-        // Apply prefix_xor to real_quote_GPU
-        res[i] = prefix_xor(real_quote_GPU[i]);
-        // Update res[i] based on the overflow
-        res[i] = overflow ? ~res[i] : res[i];
-    }
-}
-
 // 2 WORD - Step 3:
 // 2 Word + popc - scatter
 __global__
-void reduceChunkBaseline64(uint64_t* real_quote_GPU, uint64_t* prediction_GPU, int total_padded_64){
+void countQuotePerWord64(uint64_t* real_quote_GPU, uint64_t* prediction_GPU, int total_padded_64){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
     
@@ -963,22 +947,36 @@ void reduceChunkBaseline64(uint64_t* real_quote_GPU, uint64_t* prediction_GPU, i
     }
 }
 
+// CUDA kernel where prefix_xor is called
+__global__
+void buildStringMask(uint32_t* quote_bitmap, uint32_t* acc_quote_cnt, uint32_t* str_mask, int total_padded_32){
+    int index = blockIdx.x * blockDim.x + threadIdx.x;
+    int stride = blockDim.x * gridDim.x;
+    for(int i = index; i < total_padded_32; i += stride){
+        // Check if the prefix sum is odd (parity)
+        bool parity = acc_quote_cnt[i] & 1;
+        // Apply prefix_xor to quote_bitmap
+        str_mask[i] = prefix_xor(quote_bitmap[i]);
+        // Update str_mask[i] based on the parity
+        str_mask[i] = parity ? ~str_mask[i] : str_mask[i];
+    }
+}
 
 // CUDA kernel where prefix_xor is called
 __global__
-void inStringFinderBaseline64(uint64_t* real_quote_GPU, uint64_t* prefix_sum_ones, uint64_t* res, int total_padded_64){
+void buildStringMask64(uint64_t* quote_bitmap, uint64_t* acc_quote_cnt, uint64_t* str_mask, int total_padded_64){
     int index = blockIdx.x * blockDim.x + threadIdx.x;
     int stride = blockDim.x * gridDim.x;
 
     for(int i = index; i < total_padded_64; i += stride){
         // Check if the prefix sum is odd (overflow)
-        bool overflow = prefix_sum_ones[i] & 1;
+        bool parity = acc_quote_cnt[i] & 1;
 
-        // Apply prefix_xor64 to real_quote_GPU
-        res[i] = prefix_xor64(real_quote_GPU[i]);
+        // Apply prefix_xor64 to quote_bitmap
+        str_mask[i] = prefix_xor64(quote_bitmap[i]);
 
-        // Update res[i] based on the overflow
-        res[i] = overflow ? ~res[i] : res[i];
+        // Update str_mask[i] based on the parity
+        str_mask[i] = parity ? ~str_mask[i] : str_mask[i];
     }
 }
 
@@ -1183,23 +1181,25 @@ inline uint8_t * stage2_tokenizer(  uint8_t* block_GPU,
     cudaStreamSynchronize(0);
 
 
-    // Step 2: Build Structural Quote Bitmap
+    // Step 2: Build Structural Quote Bitmap + Step 3: Build String Mask Bitmap
     uint32_t* real_quote_GPU = general_ptr + total_padded_32 * ROW4;
 
     // fusedStep2_3(): checkOverflow() + buildQuoteBitmap() + countQuotePerWord();
     fusedStep2_3<<<numBlock_8B, BLOCKSIZE>>>(backslashes_GPU, quote_GPU, real_quote_GPU, total_padded_32, total_padded_8B, WORDS);
     cudaStreamSynchronize(0);
 
-    // Step 3a
-    uint32_t* total_one_GPU = general_ptr;
+    // Step 3: Build String Mask Bitmap
+    // Step 3a: countQuotePerWord() - handled in fusedStep2_3()
+    uint32_t* quote_cnt = general_ptr;
 
     // Step 3b
-    thrust::exclusive_scan(thrust::cuda::par, total_one_GPU, total_one_GPU + (total_padded_32), total_one_GPU);
+    thrust::exclusive_scan(thrust::cuda::par, quote_cnt, quote_cnt + (total_padded_32), quote_cnt);
+    uint32_t* acc_quote_cnt = quote_cnt;
 
     // Step 3d
     uint32_t* inString_GPU = general_ptr;
 
-    inStringFinderBaseline<<<numBlock, BLOCKSIZE>>>(real_quote_GPU, total_one_GPU, inString_GPU, total_padded_32);
+    buildStringMask<<<numBlock, BLOCKSIZE>>>(real_quote_GPU, acc_quote_cnt, inString_GPU, total_padded_32);
     cudaStreamSynchronize(0);
   
     // Step 4 merge with 5a
