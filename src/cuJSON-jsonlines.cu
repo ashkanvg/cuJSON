@@ -2243,10 +2243,10 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
 
 
     // _________________READ_FILE_init____________________
-    ssize_t  currentLine;
+    ssize_t  currentLineSize;
     uint8_t  *line = NULL;
     size_t   len = 0;
-    uint32_t total = 0;
+    uint32_t accumulatedSize = 0;
     uint32_t lines = 0;
     uint32_t lineLengths[1<<20]; //the maximum size of the array // we can convert it to 1 instead of array or remove it
 
@@ -2265,8 +2265,8 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
     // Read the JSON file line by line and add each line to the input buffer.
     // If the size of the input buffer exceeds `BUFSIZE`, process the accumulated chunk 
     // using the cuJSON algorithm and prepare for the next chunk.
-    while ((currentLine = getline((char **)&line, &len, handle)) != -1) {        
-        int potentialTotalSize = total + currentLine; // Calculate the potential total size if the current line is added.
+    while ((currentLineSize = getline((char **)&line, &len, handle)) != -1) {        
+        int potentialTotalSize = accumulatedSize + currentLineSize; // Calculate the potential total size if the current line is added.
 
         if (potentialTotalSize > BUFSIZE) { // Check if adding the current line exceeds the buffer size.
 
@@ -2322,25 +2322,25 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
             cudaDeviceSynchronize();
 
             // Update the index for the next chunk and reset the buffer state.
-            latest_index_realJSON += total; // Update the last processed index in the JSON.
-            total = 0;                      // Reset the buffer size.
+            latest_index_realJSON += accumulatedSize; // Update the last processed index in the JSON.
+            accumulatedSize = 0;                      // Reset the buffer size.
             i = 0;                          // Reset line index.
-            memcpy(inputBuffer + total, line, sizeof(uint8_t) * currentLine); // Copy the remaining line to the buffer.
-            total = currentLine;                   // Set the current total to the size of the last line.
-            lineLengths[i] = total;         // Record the length of the line.
+            memcpy(inputBuffer + accumulatedSize, line, sizeof(uint8_t) * currentLineSize); // Copy the latest line to the buffer for next chunk.
+            accumulatedSize = currentLineSize;                   // Set the current accumulatedSize to the size of the last line.
+            lineLengths[i] = accumulatedSize;         // Record the length of the line.
             current_chunk_num++;            // Increment the chunk counter.
         } else {
             // Add the current line to the input buffer without exceeding BUFSIZE.
-            memcpy(inputBuffer + total, line, sizeof(uint8_t) * currentLine);
-            total += currentLine;                  // Update the total size of the buffer.
-            lineLengths[i] = total;         // Record the length of the line.
+            memcpy(inputBuffer + accumulatedSize , line, sizeof(uint8_t) * currentLineSize);
+            accumulatedSize += currentLineSize;                  // Update the total size of the buffer.
+            lineLengths[i] = accumulatedSize;         // Record the length of the line.
         }
         i++; // Increment the line index.
     }
 
 
     // remaining parts that are very small (smaller than our BUFSIZE)
-    if(total > 0){
+    if(accumulatedSize > 0){
 
         inputStartStruct inputStart;
         inputStart.block = inputBuffer;
@@ -2372,11 +2372,11 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
         time_EE.copy_end += elapsedTime;
 
         cudaFree(res);
-        latest_index_realJSON += total;
+        latest_index_realJSON += accumulatedSize;
         cudaDeviceSynchronize();
         
     }
-    total = 0;
+    accumulatedSize = 0;
 
 
     // cudaFreeHost(resultBuffer);
