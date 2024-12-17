@@ -18,89 +18,30 @@ Two sample datasets are included in the `dataset` folder. Large datasets (used i
 
 <hr>
 
-## Reproduce the Results
-Here, we provided two different ways to compile and run our code based on the Prerequisites: 
-1. with Makefile
-2. direct compile and run
-
+## Reproduce the Results of Paper
 We provided produced results and figures (all of the results that this script can reproduce) at the end of this section. 
-
-### 1. Quick Start [phase times, total time, output size] - Makefile
-The cuJSON library is easily consumable. 
-1. clone the repo in your directory. 
-2. Download Dataset: Download all the datasets from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and place them in the `dataset` folder.
-3. Compile the project for both Standard JSON and JSON Lines datasets:
-```
-make -f Makefile.compile
-```
-
-**NOTE**: 
-You can change the `Makefile.compile` based on your system. These are the possible modifications:
-- Change the `nvcc` path based on your system.
-- You must set the `gencode` based on your NVIDIA GPU. Our default `gencode` is based on our desktop: `-gencode=arch=compute_61,code=sm_61`
-
-4. Run: 
-- if you are looking for JSON Lines (JSON Records that are separated by newline)
-```
-make -f Makefile.run run_small SMALL_DATASETS="custom_dataset1_small_records.json custom_dataset2_small_records.json"
-```
-**NOTE**: In this file, we set the buffer size to 256MB, but you can change it in the code by changing `#define BUFSIZE  268435456`.
-
-If you are looking for Standard JSON (One Large JSON Record), the buffer size in this file is equal to the file size.
-```
-make -f Makefile.run run_large LARGE_DATASETS="custom_dataset1_large_record.json custom_dataset2_large_record.json"
-```
-
-5. Your results are ready. It will print out the following results (for each dataset):
-```
-Batch mode running...
-1. H2D:                 [host to device time in ms]
-2. Validation:          [validation time in ms]
-3. Tokenization:        [tokenization time in ms]
-4. Parser:              [parser time in ms]
-5. D2H:                 [device to host time in ms]
-
-TOTAL (ms):             [total time in ms]
-
-Parser's Output Size:   [output memory allocation in MB]
-```
-
-6. Cleaning Compiled Binaries: If you want to clean the compiled binaries, use:
-```
-make -f Makefile.compile clean
-```
+Here, we provided all results of all figures by direct compile and run our code based on the Prerequisites: 
+1. Figure 7/8:   Parsing Time of Standard JSON
+2. Figure 9/10:  Parsing Time of JSON Lines
+3. Figure 11:    Output Memory Consumption
+4. Figure 12:    Query Costs 
+5. Figure 13/14: Costs of Five Stages
+6. Figure 15:    Multi-Streaming Benefits 
+7. Figure 16/17: Scalability
 
 
-### 2. Quick Start [phase times, total time, output size] - direct compile and run
+### Quick Start [1, 3, and 5] - Standard JSON (One Large JSON Record)
 The cuJSON library is easily consumable. 
 1. clone the repo in your directory. 
 2. follow the following command to compile your code: 
 
-- if you are looking for JSON Lines (JSON Records that are separated by newline)
-
-```
-nvcc -O3 -o output_small.exe ./src/cuJSON-jsonlines.cu -w [-gencode=arch=compute_61,code=sm_61]
-```
-
-**NOTE**: In this file, the buffer size is set to 256MB, but you can change it in the code by changing `#define BUFSIZE  268435456`.
-
-If you are looking for Standard JSON (One Large JSON Record), the buffer size in this file is equal to the file size.
-
 ```
 nvcc -O3 -o output_large.exe ./src/cuJSON-standardjson.cu -w [-gencode=arch=compute_61,code=sm_61]
 ```
+
 **NOTE**: We set the buffer size to filesize in this file.
 
-
 3. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder. Then, use this command line to parse it (default version).
-
-- if you are looking for JSON Lines (JSON Records that are separated by newline)
-
-```
-output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
-```
-
-If you are looking for Standard JSON (One Large JSON Record), the buffer size in this file is equal to the file size.
 
 ```
 output_large.exe -b ./dataset/[dataset name]_small_records_remove.json
@@ -111,18 +52,53 @@ output_large.exe -b ./dataset/[dataset name]_small_records_remove.json
 4. Your results are ready. It will print out the following results:
 ```
 Batch mode running...
-1. H2D:                 [host to device time in ms]
-2. Validation:          [validation time in ms]
-3. Tokenization:        [tokenization time in ms]
-4. Parser:              [parser time in ms]
-5. D2H:                 [device to host time in ms]
+1. H2D:                 [host to device time in ms, reported in Figure 13/14]
+2. Validation:          [validation time in ms, reported in Figure 13/14]
+3. Tokenization:        [tokenization time in ms, reported in Figure 13/14]
+4. Parser:              [parser time in ms, reported in Figure 13/14]
+5. D2H:                 [device to host time in ms, reported in Figure 13/14]
 
-TOTAL (ms):             [total time in ms]
+TOTAL (ms):             [total time in ms, reported in Figure 7/8]
 
-Parser's Output Size:   [output memory allocation in MB]
+Parser's Output Size:   [output memory allocation in MB, reported in Figure 11]
+```
+
+### Quick Start [2, 3, and 5] - JSON Lines (JSON Records that are separated by newline)
+The cuJSON library is easily consumable. 
+1. clone the repo in your directory. 
+2. follow the following command to compile your code: 
+
+```
+nvcc -O3 -o output_small.exe ./src/cuJSON-jsonlines.cu -w [-gencode=arch=compute_61,code=sm_61]
+```
+
+**NOTE**: In this file, the buffer size is set to 256MB, but you can change it in the code by changing `#define BUFSIZE  268435456`.
+
+
+3. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder. Then, use this command line to parse it (default version).
+
+```
+output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
+```
+
+**NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
+
+4. Your results are ready. It will print out the following results:
+```
+Batch mode running...
+1. H2D:                 [host to device time in ms, reported in Figure 13/14]
+2. Validation:          [validation time in ms, reported in Figure 13/14]
+3. Tokenization:        [tokenization time in ms, reported in Figure 13/14]
+4. Parser:              [parser time in ms, reported in Figure 13/14]
+5. D2H:                 [device to host time in ms, reported in Figure 13/14]
+
+TOTAL (ms):             [total time in ms, reported in Figure 9/10]
+
+Parser's Output Size:   [output memory allocation in MB, reported in Figure 11]
 ```
 
 <hr>
+
 
 ## Related Works
 We also provided instructions on running the related works and the methods we used to compare the cuJSON with them. 
