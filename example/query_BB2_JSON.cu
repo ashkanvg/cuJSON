@@ -2542,13 +2542,16 @@ int main(int argc, char **argv){
             high_resolution_clock::time_point start, stop;
 
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
-
             start = high_resolution_clock::now();
-            //GMD1
+            //BB2
             index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("routes");
+            index0 = itr.gotoKey("products");
             index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoKey("categoryPath");
+            index0 = itr.gotoArrayIndex(1);
+            index0 = itr.gotoKey("id");
+
             stop = high_resolution_clock::now();
             auto elapsed = duration_cast<nanoseconds>(stop - start);
             cout << "\nValue: " << itr.getValue() <<endl;
