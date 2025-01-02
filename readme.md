@@ -211,6 +211,7 @@ Here is a list of the directories to their corresponding instruction:
 3. pison [JSON Lines, standarad JSON]: `./related_wroks/pison`
 4. rapidJSON [standard JSON]: `./related_wroks/rapidjson`
 5. simdjson [JSON Lines, standarad JSON]: `./related_wroks/simdjson`
+5. MetaJSON [JSON Lines]: `./related_wroks/metajson`
 
 
 <hr>
