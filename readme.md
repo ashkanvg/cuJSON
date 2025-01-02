@@ -25,10 +25,10 @@ Here, we provided all results of all figures by direct compile and run our code 
 2. Figure 10:             Parsing Time of JSON Lines
 3. Figure 11:             Peak GPU Memory Footprint
 4. Figure 12/ Table 9:    Time Breakdown of cuJSON
-5. Figure 13:             Multi-Streaming Benefits 
+<!-- 5. Figure 13:             Multi-Streaming Benefits  -->
 6. Figure 14:             Space Cost of Parsing Output
 7. Figure 15:             Average Querying Cost 
-8. Figure 16:             Scalability
+<!-- 8. Figure 16:             Scalability -->
 
 
 ### [1, 4, and 6] - Standard JSON (One Large JSON Record)
@@ -151,14 +151,55 @@ kill $logging_pid
 
 
 
-### [5] - Multistreaming 
-Multistreaming is only available on JSON Lines. 
-
 ### [6] - Query Time
+In order to run all of the queries, please follow the following steps.
 
+1. clone the repo in your directory. 
+2. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder.
+3. Run the following bash script to compile and run all of the queries. 
 
-### [7] - Scalability
+```
+echo 'nspl:';
+nvcc -O3 -o query-experiment ./example/query_NSPL_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/nspl_small_records_remove.json;
 
+echo 'TT1:';
+nvcc -O3 -o query-experiment ./example/query_TT1_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/twitter_small_records_remove.json;
+
+echo 'TT2:';
+nvcc -O3 -o query-experiment ./example/query_TT2_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/twitter_small_records_remove.json;
+
+echo 'TT3:';
+nvcc -O3 -o query-experiment ./example/query_TT3_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/twitter_small_records_remove.json;
+
+echo 'TT4:';
+nvcc -O3 -o query-experiment ./example/query_TT4_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/twitter_small_records_remove.json;
+
+echo 'WM:';
+nvcc -O3 -o query-experiment ./example/query_WM_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/walmart_small_records_remove.json ;
+
+echo 'GMD1:';
+nvcc -O3 -o query-experiment ./example/query_GMD1_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/google_map_small_records_remove.json ;
+
+echo 'GMD1:';
+nvcc -O3 -o query-experiment ./example/query_GMD2_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/google_map_small_records_remove.json ;
+
+echo 'BB:';
+nvcc -O3 -o query-experiment ./example/query_BB1_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/bestbuy_small_records_remove.json ;
+
+echo 'BB:';
+nvcc -O3 -o query-experiment ./example/query_BB2_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+./query-experiment -b ./dataset/bestbuy_small_records_remove.json ;
+
+```
 
 
 ## Related Works
