@@ -152,7 +152,7 @@ kill $logging_pid
 
 
 ### [6] - Query Time + Real World Example
-In order to run all of the queries, please follow the following steps.
+In order to run all of the queries, please follow the following steps. We are reporting for query time of each record. In the paper, we report average time and also aggregated time of calling each query. 
 
 1. clone the repo in your directory. 
 2. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder.
