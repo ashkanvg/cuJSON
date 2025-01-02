@@ -195,7 +195,7 @@ echo 'BB:';
 nvcc -O3 -o query-experiment ./example/query_BB1_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
 ./query-experiment -b ./dataset/bestbuy_small_records_remove.json ;
 
-echo 'BB:';
+echo 'BB2:';
 nvcc -O3 -o query-experiment ./example/query_BB2_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
 ./query-experiment -b ./dataset/bestbuy_small_records_remove.json ;
 
