@@ -2532,30 +2532,26 @@ int main(int argc, char **argv){
             high_resolution_clock::time_point start, stop;
 
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
-            // Warmup
+            index0 = itr.gotoArrayIndex(2);
+            index0 = itr.gotoKey("claims");
+            index0 = itr.gotoKey("P1659");
             index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("routes");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("legs");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("steps");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("distance");
-            index0 = itr.gotoKey("text");
+            index0 = itr.gotoKey("mainsnak");
+            index0 = itr.gotoKey("property");
             itr.reset();
 
             start = high_resolution_clock::now();
-            //GMD2
+            //WM
+            // index0 = itr.gotoArrayIndex(0);
+            // index0 = itr.gotoKey("items");
+            // index0 = itr.gotoKey("name");
+            // itr.reset();
+            index0 = itr.gotoArrayIndex(2);
+            index0 = itr.gotoKey("claims");
+            index0 = itr.gotoKey("P1659");
             index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("routes");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("legs");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("steps");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("distance");
-            index0 = itr.gotoKey("text");
-
+            index0 = itr.gotoKey("mainsnak");
+            index0 = itr.gotoKey("property");
 
             stop = high_resolution_clock::now();
             auto elapsed = duration_cast<nanoseconds>(stop - start);

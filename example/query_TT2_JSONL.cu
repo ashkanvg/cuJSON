@@ -2532,15 +2532,18 @@ int main(int argc, char **argv){
             high_resolution_clock::time_point start, stop;
 
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
-
-            start = high_resolution_clock::now();
-            //TT2
             index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoKey("user");
-            index0 = itr.gotoKey("id");
+            index0 = itr.gotoKey("lang");
             itr.reset();
+
+            start = high_resolution_clock::now();
+            //TT1
+            index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoKey("user");
             index0 = itr.gotoKey("lang");
+            // itr.reset();
+            // index0 = itr.gotoKey("lang");
 
             stop = high_resolution_clock::now();
             auto elapsed = duration_cast<nanoseconds>(stop - start);
