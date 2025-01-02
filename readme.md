@@ -25,9 +25,9 @@ Here, we provided all results of all figures by direct compile and run our code 
 2. Figure 10:             Parsing Time of JSON Lines
 3. Figure 11:             Peak GPU Memory Footprint
 4. Figure 12/ Table 9:    Time Breakdown of cuJSON
-<!-- 5. Figure 13:             Multi-Streaming Benefits  -->
-6. Figure 14:             Space Cost of Parsing Output
-7. Figure 15:             Average Querying Cost 
+5. Figure 14:             Space Cost of Parsing Output
+6. Figure 15:             Average Querying Cost 
+<!-- 7. Figure 13:             Multi-Streaming Benefits  -->
 <!-- 8. Figure 16:             Scalability -->
 
 
