@@ -97,6 +97,7 @@ TOTAL (ms):             [total time in ms, reported in Figure 9/10]
 
 Parser's Output Size:   [output memory allocation in MB, reported in Figure 11]
 ```
+**NOTE**: In paper, for JSON Lines, we report the total time without D2H time. Here, we are reporting the Total time by considering D2H computation.
 
 <hr>
 
@@ -147,6 +148,17 @@ kill $logging_pid
 ```
 
 **NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
+
+
+
+### [5] - Multistreaming 
+Multistreaming is only available on JSON Lines. 
+
+### [6] - Query Time
+
+
+### [7] - Scalability
+
 
 
 ## Related Works
