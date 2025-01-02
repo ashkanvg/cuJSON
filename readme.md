@@ -21,16 +21,17 @@ Two sample datasets are included in the `dataset` folder. Large datasets (used i
 ## Reproduce the Results of Paper
 We provided produced results and figures (all of the results that this script can reproduce) at the end of this section. 
 Here, we provided all results of all figures by direct compile and run our code based on the Prerequisites: 
-1. Figure 7/8:   Parsing Time of Standard JSON
-2. Figure 9/10:  Parsing Time of JSON Lines
-3. Figure 11:    Output Memory Consumption
-4. Figure 12:    Query Costs 
-5. Figure 13/14: Costs of Five Stages
-6. Figure 15:    Multi-Streaming Benefits 
-7. Figure 16/17: Scalability
+1. Figure 8/9:            Parsing Time of Standard JSON
+2. Figure 10:             Parsing Time of JSON Lines
+3. Figure 11:             Peak GPU Memory Footprint
+4. Figure 12/ Table 9:    Time Breakdown of cuJSON
+5. Figure 13:             Multi-Streaming Benefits 
+6. Figure 14:             Space Cost of Parsing Output
+7. Figure 15:             Average Querying Cost 
+8. Figure 16:             Scalability
 
 
-### Quick Start [1, 3, and 5] - Standard JSON (One Large JSON Record)
+### [1, 4, and 6] - Standard JSON (One Large JSON Record)
 The cuJSON library is easily consumable. 
 1. clone the repo in your directory. 
 2. follow the following command to compile your code: 
@@ -63,7 +64,7 @@ TOTAL (ms):             [total time in ms, reported in Figure 7/8]
 Parser's Output Size:   [output memory allocation in MB, reported in Figure 11]
 ```
 
-### Quick Start [2, 3, and 5] - JSON Lines (JSON Records that are separated by newline)
+### [2, 4, and 6] - JSON Lines (JSON Records that are separated by newline)
 The cuJSON library is easily consumable. 
 1. clone the repo in your directory. 
 2. follow the following command to compile your code: 
@@ -98,6 +99,54 @@ Parser's Output Size:   [output memory allocation in MB, reported in Figure 11]
 ```
 
 <hr>
+
+
+### [3] - Peak GPU Memory
+We use the following terminal command to report used gpu memeory:
+```
+nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -n 1
+```
+
+However, we have to follow the following steps. 
+1. Repeat the same procedure of "[2, 4, and 6] - JSON Lines" until step 3.
+2. For step 3 follow the following bash script:
+
+```
+# Initialize the output log for CPU and GPU memory usage
+cpu_gpu_log="cpu_gpu_usage.log"
+echo "Timestamp,Device,Memory_Used" > $cpu_gpu_log
+
+# Function to log CPU memory usage
+log_cpu_memory() {
+    local pid=$$
+    local page_size=$(getconf PAGESIZE)
+    local rss_pages=$(awk '{print $2}' /proc/$pid/statm)
+    local memory_kb=$((rss_pages * page_size / 1024))
+    echo "$(date '+%Y-%m-%d %H:%M:%S.%3N'),CPU,${memory_kb} KB" >> $cpu_gpu_log
+}
+
+# Function to log GPU memory usage
+log_gpu_memory() {
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S.%3N')
+    local gpu_mem=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -n 1)
+    echo "${timestamp},GPU,${gpu_mem} MiB" >> $cpu_gpu_log
+}
+
+# Start CPU and GPU memory logging in the background
+while true; do
+    log_cpu_memory
+    log_gpu_memory
+    sleep 0.001  # Log every 0.001s
+done &
+logging_pid=$!
+
+
+output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
+
+kill $logging_pid
+```
+
+**NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
 
 
 ## Related Works
