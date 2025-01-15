@@ -2542,9 +2542,15 @@ int main(int argc, char **argv){
             high_resolution_clock::time_point start, stop;
 
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
+            index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoKey("products");
+            index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoKey("regularPrice");
+            itr.reset();
 
             start = high_resolution_clock::now();
-            //BB2
+            //BB1 JSON
             index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoKey("products");
@@ -2553,8 +2559,8 @@ int main(int argc, char **argv){
             
             stop = high_resolution_clock::now();
             auto elapsed = duration_cast<nanoseconds>(stop - start);
+            cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl;
             cout << "\nValue: " << itr.getValue() <<endl;
-            cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
             itr.freeJson();
 
 
