@@ -2541,11 +2541,7 @@ int main(int argc, char **argv){
             itr.reset();
 
             start = high_resolution_clock::now();
-            //WM
-            // index0 = itr.gotoArrayIndex(0);
-            // index0 = itr.gotoKey("items");
-            // index0 = itr.gotoKey("name");
-            // itr.reset();
+            //WP2
             index0 = itr.gotoArrayIndex(2);
             index0 = itr.gotoKey("claims");
             index0 = itr.gotoKey("P1659");
