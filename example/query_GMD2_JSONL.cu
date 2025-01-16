@@ -2559,8 +2559,8 @@ int main(int argc, char **argv){
 
             stop = high_resolution_clock::now();
             auto elapsed = duration_cast<nanoseconds>(stop - start);
-            cout << "\nValue: " << itr.getValue() <<endl;
             cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
+            cout << "\nValue: " << itr.getValue() <<endl;
             itr.freeJson();
 
             

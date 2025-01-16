@@ -2556,26 +2556,33 @@ int main(int argc, char **argv){
             index0 = itr.gotoKey("text");
             itr.reset();
 
+            int repeated_time = 10;
+            nanoseconds total_elapsed_time(0);
+            while(repeated_time){
+                start = high_resolution_clock::now();
+                //GMD2
+                index0 = itr.gotoArrayIndex(0);
+                index0 = itr.gotoArrayIndex(0);
+                index0 = itr.gotoKey("routes");
+                index0 = itr.gotoArrayIndex(0);
+                index0 = itr.gotoKey("legs");
+                index0 = itr.gotoArrayIndex(0);
+                index0 = itr.gotoKey("steps");
+                index0 = itr.gotoArrayIndex(0);
+                index0 = itr.gotoKey("distance");
+                index0 = itr.gotoKey("text");
+                
 
-            start = high_resolution_clock::now();
-            //GMD2
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("routes");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("legs");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("steps");
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("distance");
-            index0 = itr.gotoKey("text");
-            
-            stop = high_resolution_clock::now();
-            auto elapsed = duration_cast<nanoseconds>(stop - start);
-            cout << "\nValue: " << itr.getValue() <<endl;
-            cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
+                stop = high_resolution_clock::now();
+                total_elapsed_time += duration_cast<nanoseconds>(stop - start);
+
+                itr.reset();
+                repeated_time--;
+            }
+
+            cout << "Total Query time: " << total_elapsed_time.count() / 10 << " nanoseconds." << endl;
+            // cout << "\nValue: " << itr.getValue() <<endl;
             itr.freeJson();
-
 
             
             // cudaFreeHost(parsed_tree.structural);

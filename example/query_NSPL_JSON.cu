@@ -2544,7 +2544,11 @@ int main(int argc, char **argv){
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
             // warmup
             index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoKey("meta");
+            index0 = itr.gotoKey("view");
+            index0 = itr.gotoKey("columns");
             index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoKey("name");
             itr.reset();
 
             // NSPL

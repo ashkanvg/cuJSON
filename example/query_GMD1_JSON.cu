@@ -2543,6 +2543,13 @@ int main(int argc, char **argv){
 
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
 
+            // warmup
+            index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoKey("routes");
+            index0 = itr.gotoArrayIndex(0);
+            itr.reset();
+
             start = high_resolution_clock::now();
             //GMD1
             index0 = itr.gotoArrayIndex(0);
@@ -2551,8 +2558,9 @@ int main(int argc, char **argv){
             index0 = itr.gotoArrayIndex(0);
             stop = high_resolution_clock::now();
             auto elapsed = duration_cast<nanoseconds>(stop - start);
-            cout << "\nValue: " << itr.getValue() <<endl;
             cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
+
+            cout << "\nValue: " << itr.getValue() <<endl;
             itr.freeJson();
 
 

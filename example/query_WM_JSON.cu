@@ -2543,14 +2543,19 @@ int main(int argc, char **argv){
 
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
 
-            start = high_resolution_clock::now();
-            //WM
-            index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoKey("items");
-            index0 = itr.gotoKey("name");
+            index0 = itr.gotoArrayIndex(15);
+            index0 = itr.gotoKey("bestMarketplacePrice");
+            index0 = itr.gotoKey("price");
             itr.reset();
-            index0 = itr.gotoArrayIndex(0);
+
+            start = high_resolution_clock::now();
+            //WM
+            // index0 = itr.gotoArrayIndex(0);
+            // index0 = itr.gotoKey("items");
+            // index0 = itr.gotoKey("name");
+            // itr.reset();
             index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoKey("items");
             index0 = itr.gotoArrayIndex(15);

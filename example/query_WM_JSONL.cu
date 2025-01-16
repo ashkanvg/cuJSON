@@ -2545,7 +2545,7 @@ int main(int argc, char **argv){
             // index0 = itr.gotoKey("items");
             // index0 = itr.gotoKey("name");
             // itr.reset();
-            // index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoArrayIndex(0);
             index0 = itr.gotoKey("items");
             index0 = itr.gotoArrayIndex(15);
             index0 = itr.gotoKey("bestMarketplacePrice");
