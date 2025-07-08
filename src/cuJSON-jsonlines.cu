@@ -895,7 +895,7 @@ void fusedStep2_3(uint32_t* backslashes_bitmap, uint32_t* quote_bitmap, uint32_t
                 // This is a uint32_t variable that stores the value of backslashes_bitmap[j]. It represents the backslashes at position j in the input data.
                 uint8_t following_backslash_counts = __clz(~backslash_j); // Convert to 0-based index
                 overflow = (following_backslash_counts == 32) ? 2 : following_backslash_counts & 1; 
-                j--; // previous chunk qable 
+                j--; // previous word  
             }
             // _______________checkOverflow()_______________ : end
 

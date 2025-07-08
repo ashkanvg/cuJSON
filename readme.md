@@ -1,8 +1,8 @@
-# cuJSON: Parsing Large JSON Data on a GPU
-JSON (JavaScript Object Notation) has become a ubiquitous data format in modern computing, but its parsing can be a significant performance bottleneck. Contrary to the conventional wisdom that GPUs are not suitable for parsing due to the branching-rich nature of parsing algorithms, this work presents a novel GPU-based JSON parser, cuJSON, that redesigns the parsing algorithm to minimize branches and optimizes it for GPU architectures.
+# cuJSON: A Highly Parallel JSON Parser for GPUs
+JSON (JavaScript Object Notation) data is widely used in modern computing, yet its parsing performance can be a major bottleneck. Conventional wisdom suggests that GPUs are ill-suited for parsing due to the branch-heavy nature of parsing algorithms. This work challenges that notion by presenting cuJSON, a novel JSON parser built on a redesigned parsing algorithm, specifically tailored for GPU architectures with minimal branching and maximal parallelism.
 
-Inspired by recent advances in SIMD-based JSON processing, our work concentrates on exploiting bitwise parallelism, leveraging GPU intrinsic functions and high-performance CUDA libraries optimally. We introduce a novel output data structure that balances parsing and querying costs, and implement innovative techniques to break key dependencies in the parsing process. Through extensive experimentation, our evaluations demonstrate that cuJSON not only surpasses traditional CPU-based JSON parsers (like simdjson and Pison) but also outperforms existing GPU-based JSON parsers (such as cuDF and GPJSON), achieving unparalleled parsing speeds.
-
+cuJSON offloads all three key phases of JSON parsing to the GPU: (i) UTF validation, (ii) JSON tokenization, and (iii) nesting structure recognition. Each phase is powered by a highly parallel algorithm optimized for GPUs, effectively leveraging intrinsic GPU functions and high-performance CUDA libraries for acceleration. 
+To maximize the parsing speed, the output of cuJSON is also specially designed in a non-conventional way. Finally, cuJSON is able to break key dependencies in the parsing process, making it possible to accelerate the parsing of a single large JSON file effectively. Evaluation shows that cuJSON not only outperforms highly optimized CPU-based parsers like simdjson and Pison but also surpasses existing GPU-based parsers like cuDF and GPJSON, in terms of both functionality and performance.
 <hr>
 
 ## Datasets
@@ -21,17 +21,16 @@ Two sample datasets are included in the `dataset` folder. Large datasets (used i
 ## Reproduce the Results of Paper
 We provided produced results and figures (all of the results that this script can reproduce) at the end of this section. 
 Here, we provided all results of all figures by direct compile and run our code based on the Prerequisites: 
-1. Figure 8/9:            Parsing Time of Standard JSON
-2. Figure 10:             Parsing Time of JSON Lines
-3. Figure 11:             Peak GPU Memory Footprint
-4. Figure 12/ Table 9:    Time Breakdown of cuJSON
+1. Figure 9/10:           Parsing Time of Standard JSON
+2. Figure 11:             Parsing Time of JSON Lines
+3. Figure 12:             Peak GPU Memory Footprint
+4. Figure 13/ Table 8:    Time Breakdown of cuJSON
 5. Figure 14:             Space Cost of Parsing Output
-6. Figure 15:             Average Querying Cost 
-<!-- 7. Figure 13:             Multi-Streaming Benefits  -->
+6. Figure 15:             Querying Cost 
 <!-- 8. Figure 16:             Scalability -->
 
 
-### [1, 4, and 6] - Standard JSON (One Large JSON Record)
+### [1, 4, and 5] - Standard JSON (One Large JSON Record)
 The cuJSON library is easily consumable. 
 1. clone the repo in your directory. 
 2. follow the following command to compile your code: 
@@ -64,7 +63,7 @@ TOTAL (ms):             [total time in ms, reported in Figure 7/8]
 Parser's Output Size:   [output memory allocation in MB, reported in Figure 11]
 ```
 
-### [2, 4, and 6] - JSON Lines (JSON Records that are separated by newline)
+### [2, 4, and 5] - JSON Lines (JSON Records that are separated by newline)
 The cuJSON library is easily consumable. 
 1. clone the repo in your directory. 
 2. follow the following command to compile your code: 
