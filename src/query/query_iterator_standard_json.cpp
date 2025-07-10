@@ -12,21 +12,10 @@
 #include <sys/resource.h>
 #include <stdint.h>
 #include <algorithm>
+#include "../cujson_types.h"
 
 using namespace std;
 
-struct resultStructGJSON{
-    uint8_t* inputJSON;                     // JSON file
-    int chunkCount;                         // number of chunk in parser
-    int bufferSize;                         // size of buffer in parser
-    std::vector<int> resultSizes;           // array of size of each chunk
-    std::vector<int> resultSizesPrefix;     // prefix sums over sizes of each chunk
-    int32_t* structural;                    // real json position of each structural array
-    int32_t* pair_pos;                      // ending idx of each opening in structural will store in that corresponding idx
-    int depth;                              // max depth of JSON file
-    int totalResultSize;                    // total size of our array | tree size
-    int fileSize;                           // JSON file size
-};
 
 enum tokens_type_enum { OBJECT,ARRAY,KEYVALUE,VALUE,CLOSING }; 
 typedef tokens_type_enum token_type;
@@ -96,11 +85,10 @@ class structural_iterator{
         size_t len = 0;
         
 
-    structural_iterator(resultStructGJSON* parsedTree, const char* filePath){
+    structural_iterator(cuJSONResult* parsedTree, const char* filePath){
         if(!readFile(filePath, inputJSON, len)){
             cout << "Failed to Open File for Query!\n";
         }
-        // inputJSON = parsedTree.inputJSON;                  // JSON string
         resultSizes = parsedTree->resultSizes;
         resultSizesPrefix = parsedTree->resultSizesPrefix;
         
@@ -120,6 +108,7 @@ class structural_iterator{
 
         chunkCount = parsedTree-> chunkCount;
         currentChunkIndex = 0;
+
 
         // cout << "size = " << totalResultSize << endl;
         // exit(0);

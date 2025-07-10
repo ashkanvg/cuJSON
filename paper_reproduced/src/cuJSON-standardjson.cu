@@ -2548,6 +2548,7 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
     time_EE.copy_end = 0;
     time_EE.copy_start = 0;
 
+    cout << "\nParsed Tree Size:\t" <<  ( resultStruct->totalResultSize);
     cout << "\nParser's Output Size:\t" <<  ( resultStruct->totalResultSize * 8 ) / 1024 / 1024 << "MB" << endl << endl;
 
 

@@ -12,9 +12,21 @@
 #include <sys/resource.h>
 #include <stdint.h>
 #include <algorithm>
-#include "../cujson_types.h"
 
 using namespace std;
+
+struct resultStructGJSON{
+    uint8_t* inputJSON;                     // JSON file
+    int chunkCount;                         // number of chunk in parser
+    int bufferSize;                         // size of buffer in parser
+    std::vector<int> resultSizes;           // array of size of each chunk
+    std::vector<int> resultSizesPrefix;     // prefix sums over sizes of each chunk
+    int32_t* structural;                    // real json position of each structural array
+    int32_t* pair_pos;                      // ending idx of each opening in structural will store in that corresponding idx
+    int depth;                              // max depth of JSON file
+    int totalResultSize;                    // total size of our array | tree size
+    int fileSize;                           // JSON file size
+};
 
 enum tokens_type_enum { OBJECT,ARRAY,KEYVALUE,VALUE,CLOSING }; 
 typedef tokens_type_enum token_type;
@@ -84,13 +96,14 @@ class structural_iterator{
         size_t len = 0;
         
 
-    structural_iterator(cuJSONResult* parsedTree, const char* filePath){
+    structural_iterator(resultStructGJSON* parsedTree, const char* filePath){
         if(!readFile(filePath, inputJSON, len)){
-            std::cout << "\033[1;31m[ERR]\033[0m File loading for the query iterator failed. Please check the file path.\n";
+            cout << "Failed to Open File for Query!\n";
         }
         // inputJSON = parsedTree.inputJSON;                  // JSON string
         resultSizes = parsedTree->resultSizes;
         resultSizesPrefix = parsedTree->resultSizesPrefix;
+        
         totalResultSize = parsedTree->totalResultSize;
 
         
@@ -99,11 +112,6 @@ class structural_iterator{
 
         fileSize = parsedTree->fileSize;
         structural[totalResultSize-1] = fileSize - 1;
-        // loop over the structrual array and print the inputJSON in structural array value
-        // for(int i = 1; i < totalResultSize && i < 100; i++){
-        //     cout << "structural[" << i << "] = " << structural[i] << "\t" << inputJSON[structural[i] - 1] << endl;
-        // }   
-
         pair_pos = parsedTree->pair_pos;
         pair_pos[0] = totalResultSize-1;
 
@@ -112,6 +120,33 @@ class structural_iterator{
 
         chunkCount = parsedTree-> chunkCount;
         currentChunkIndex = 0;
+
+        // cout << "size = " << totalResultSize << endl;
+        // exit(0);
+
+        // for (int i = 0; i < totalResultSize; i++){
+        //     cout << structural[i] << "\t";
+        // }
+        // cout << endl;
+        // for (int i = 0; i < totalResultSize; i++){
+        //     if(inputJSON[structural[i]-1]=='\n') 
+        //         cout << 'b' << "\t";
+        //     else
+        //         cout << inputJSON[structural[i]-1] << "\t";
+        // }
+        // cout << endl;
+
+        // cout << endl;
+        // for (int i = 0; i < totalResultSize; i++){
+        //     cout << pair_pos[i] << "\t";
+        // }
+        // cout << endl;
+
+        // cout << endl;
+        // for (int i = 0; i < totalResultSize; i++){
+        //     cout << i << "-2->" << parsedTree->pair_pos[i] << "\t";
+        // }
+        // cout << endl;
     }
 
     private: // for printing we always print it from startIdx to endIdx
@@ -264,7 +299,6 @@ int structural_iterator::gotoArrayIndex(int index){
         // cout << "curr node in total == 1 --> " << getChar(nextNode) <<endl;
         node = nextNode-1; // change the node pointer iterator to the nextNode pointer
 
-        // cout << "node: " << node <<endl; 
         if(nextNodeChar == '{'){
             nodeType = OBJECT;
         }
@@ -455,9 +489,7 @@ string structural_iterator::getKey(){
 }
 
 string structural_iterator::getValue(){
-    // cout << "getValue called for node: " << node << endl;
     int startPos = structural[node] - 1;
-    // cout << "startPos: " << startPos << endl;
     char currentNodeChar = getChar(node);
     string value;
     primitive_type type;
