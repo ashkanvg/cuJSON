@@ -28,13 +28,9 @@
 - [About](#about)
 - [Datasets](#datasets)
 - [Getting Started](#getting_started)
-- [Deployment](#deployment)
-- [Usage](#usage)
-- [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
-- [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
+- [Integrating cuJSON into Your Project](#deployment)
+- [Query Iterator](#query)
+- [Paper](#paper)
 
 ## 🧐 About <a name = "about"></a>
 
@@ -43,7 +39,7 @@ JSON (JavaScript Object Notation) data is widely used in modern computing, yet i
 cuJSON offloads all three key phases of JSON parsing to the GPU: (i) UTF validation, (ii) JSON tokenization, and (iii) nesting structure recognition. Each phase is powered by a highly parallel algorithm optimized for GPUs, effectively leveraging intrinsic GPU functions and high-performance CUDA libraries for acceleration. 
 To maximize the parsing speed, the output of cuJSON is also specially designed in a non-conventional way. Finally, cuJSON is able to break key dependencies in the parsing process, making it possible to accelerate the parsing of a single large JSON file effectively. Evaluation shows that cuJSON not only outperforms highly optimized CPU-based parsers like simdjson and Pison but also surpasses existing GPU-based parsers like cuDF and GPJSON, in terms of both functionality and performance.
 
-## Datasets <a name = "datasets"></a>
+## 📂 Datasets <a name = "datasets"></a>
 Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. Each dataset comes with two formats:
 
 - For JSON Lines, use those datasets that end in `_small_records.json`. 
@@ -197,7 +193,7 @@ struct cuJSONResult {
 
 
 
-## 🎈 Query Iterator <a name="query"></a>
+## 🗂️ Query Iterator <a name="query"></a>
 
 After cuJSON has efficiently parsed your JSON data into the `cuJSONResult` structure on the GPU, the next step is to actually access and extract the values you need. The `cuJSONIterator` is designed precisely for this, allowing you to traverse the parsed JSON tree with exceptional speed. Thanks to the pre-calculated `pair_pos` and `structural` array within `cuJSONResult`, the iterator can cleverly skip over entire nested child structures, jumping directly to siblings or specific keys/indices, significantly accelerating data retrieval.
 
@@ -241,7 +237,7 @@ For a variety of usage examples, please refer to the files located in the `paper
 
 
 
-## ✍️ Paper
+## ✍️ cuJSON Paper <a name="paper"></a>
 his repository contains the official source code for the cuJSON paper. All figures and benchmark results presented in the publication can be fully reproduced using the code provided here.
 
 For detailed instructions on how to replicate the experimental results and figures from the paper, please refer to the `paper_reproduced/` directory.
