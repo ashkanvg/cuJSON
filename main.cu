@@ -1,15 +1,9 @@
-#include "utils.cu"
-#include "load_file.h"
-#include "load_file.cu"
-#include "parse_standard_json.h"
-#include "parse_standard_json.cu"
-#include "cujson_types.h"
-#include "./query/query_iterator_standard_json.cpp"
+#include "cujson/include.h"
 
 
 int main(int argc, char **argv) {
 
-    std::string filePath = "/home/csgrads/aveda002/Desktop/cuJSON-V3/dataset/twitter_sample_large_record.json";
+    std::string filePath = "./dataset/twitter_sample_large_record.json";
     // Check command-line arguments
     if (argc >= 2) {
         filePath = argv[1];  // XML file path
@@ -17,7 +11,6 @@ int main(int argc, char **argv) {
     } else {
         std::cout << "\033[1;36m[INFORM]\033[0m Using default JSON file path.\n";
     }
-
 
 
     // Load File
@@ -37,14 +30,13 @@ int main(int argc, char **argv) {
     }
 
 
-
     // Process the parsed tree as needed
     // For example, you can print the parsed tree size or perform further operations
     std::cout << "\033[1;32m[RESULT]\033[0m Parsed tree size: " << parsed_tree.totalResultSize << " elements\n";
 
         
     // Or you can traverse it for the query purpose:
-    structural_iterator itr = structural_iterator(&parsed_tree, filePath.c_str());
+    cuJSONIterator itr = cuJSONIterator(&parsed_tree, filePath.c_str());
 
     //TT1
     int index0;

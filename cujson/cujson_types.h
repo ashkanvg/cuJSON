@@ -32,5 +32,10 @@ struct cuJSONResult{
     int fileSize;                           // JSON file size
 };
 
+enum tokens_type_enum { OBJECT,ARRAY,KEYVALUE,VALUE,CLOSING }; 
+typedef tokens_type_enum token_type;
+
+enum primitive_type_enum { NUMBER,TRUE,FALSE,NULL_TYPE,STRING }; 
+typedef primitive_type_enum primitive_type;
 
 #endif  // CUJSON_TYPES_H

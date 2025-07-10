@@ -16,17 +16,9 @@
 
 using namespace std;
 
-
-enum tokens_type_enum { OBJECT,ARRAY,KEYVALUE,VALUE,CLOSING }; 
-typedef tokens_type_enum token_type;
-
-enum primitive_type_enum { NUMBER,TRUE,FALSE,NULL_TYPE,STRING }; 
-typedef primitive_type_enum primitive_type;
-
-
 // all over this code, "idx" and "node" will use for indexes of structural array. 
 //                   , "pos" will use for indexes of real json file.
-class structural_iterator{
+class cuJSONLinesIterator{
     public:
         uint8_t* inputJSON = nullptr;                  // JSON string
         vector<int> resultSizes;
@@ -85,13 +77,13 @@ class structural_iterator{
         size_t len = 0;
         
 
-    structural_iterator(cuJSONResult* parsedTree, const char* filePath){
+    cuJSONLinesIterator(cuJSONResult* parsedTree, const char* filePath){
         if(!readFile(filePath, inputJSON, len)){
-            cout << "Failed to Open File for Query!\n";
+            std::cout << "\033[1;31m[ERR]\033[0m File loading for the query iterator failed. Please check the file path.\n";
         }
+        // inputJSON = parsedTree.inputJSON;                  // JSON string
         resultSizes = parsedTree->resultSizes;
         resultSizesPrefix = parsedTree->resultSizesPrefix;
-        
         totalResultSize = parsedTree->totalResultSize;
 
         
@@ -100,6 +92,11 @@ class structural_iterator{
 
         fileSize = parsedTree->fileSize;
         structural[totalResultSize-1] = fileSize - 1;
+        // loop over the structrual array and print the inputJSON in structural array value
+        // for(int i = 1; i < totalResultSize && i < 100; i++){
+        //     cout << "structural[" << i << "] = " << structural[i] << "\t" << inputJSON[structural[i] - 1] << endl;
+        // }   
+
         pair_pos = parsedTree->pair_pos;
         pair_pos[0] = totalResultSize-1;
 
@@ -108,34 +105,6 @@ class structural_iterator{
 
         chunkCount = parsedTree-> chunkCount;
         currentChunkIndex = 0;
-
-
-        // cout << "size = " << totalResultSize << endl;
-        // exit(0);
-
-        // for (int i = 0; i < totalResultSize; i++){
-        //     cout << structural[i] << "\t";
-        // }
-        // cout << endl;
-        // for (int i = 0; i < totalResultSize; i++){
-        //     if(inputJSON[structural[i]-1]=='\n') 
-        //         cout << 'b' << "\t";
-        //     else
-        //         cout << inputJSON[structural[i]-1] << "\t";
-        // }
-        // cout << endl;
-
-        // cout << endl;
-        // for (int i = 0; i < totalResultSize; i++){
-        //     cout << pair_pos[i] << "\t";
-        // }
-        // cout << endl;
-
-        // cout << endl;
-        // for (int i = 0; i < totalResultSize; i++){
-        //     cout << i << "-2->" << parsedTree->pair_pos[i] << "\t";
-        // }
-        // cout << endl;
     }
 
     private: // for printing we always print it from startIdx to endIdx
@@ -146,23 +115,22 @@ class structural_iterator{
 }; 
 
 
-
-void structural_iterator::freeJson(){
+void cuJSONLinesIterator::freeJson(){
     free(inputJSON);
 }
 
-char structural_iterator::getChar(int idx){
+char cuJSONLinesIterator::getChar(int idx){
     if( inputJSON[structural[idx] - 1] == '\n' ) return ',';
     else if (idx == totalResultSize - 1) return ']';
     else if (idx == 0) return '[';
     else return inputJSON[structural[idx] - 1];
 }
 
-int structural_iterator::jumpOpeningForward(int idx){
+int cuJSONLinesIterator::jumpOpeningForward(int idx){
     return pair_pos[idx];
 }
 
-int structural_iterator::jumpSpacesForward(int pos){
+int cuJSONLinesIterator::jumpSpacesForward(int pos){
     int current_pos = pos;
     while(inputJSON[current_pos] == ' '){
         current_pos++;
@@ -170,7 +138,7 @@ int structural_iterator::jumpSpacesForward(int pos){
     return current_pos; // first place that is not space
 }
 
-int structural_iterator::jumpSpacesBackward(int pos){
+int cuJSONLinesIterator::jumpSpacesBackward(int pos){
     int current_pos = pos;
     while(inputJSON[current_pos] == ' '){
         current_pos--;
@@ -178,7 +146,7 @@ int structural_iterator::jumpSpacesBackward(int pos){
     return current_pos; // last place that is not space
 }
 
-int structural_iterator::jumpValueBackward(int pos){
+int cuJSONLinesIterator::jumpValueBackward(int pos){
     int current_pos = pos - 1;                                                          // pass its current char
     while(inputJSON[current_pos] == ' ' || inputJSON[current_pos] == '"'){
         if(inputJSON[current_pos] == '"'){
@@ -189,7 +157,7 @@ int structural_iterator::jumpValueBackward(int pos){
     return current_pos;                                                                 // last place that is not space
 }
 
-int structural_iterator::jumpValueForward(int pos){
+int cuJSONLinesIterator::jumpValueForward(int pos){
     int current_pos = pos + 1;                                                          // pass its current char
     while(inputJSON[current_pos] == ' ' || inputJSON[current_pos] == '"'){
         if(inputJSON[current_pos] == '"'){
@@ -200,12 +168,12 @@ int structural_iterator::jumpValueForward(int pos){
     return current_pos;                                                                 // last place that is not space
 }
 
-char structural_iterator::getArtificalChar(int idx){
+char cuJSONLinesIterator::getArtificalChar(int idx){
     if(idx == totalResultSize - 1) return ']';
     else return NULL;
 }
 
-int structural_iterator::jumpForwardStructural(int idx){
+int cuJSONLinesIterator::jumpForwardStructural(int idx){
     int current_idx = idx + 1;
     char current = getChar(current_idx);
     while(current == '}' || current == ']' || current == getArtificalChar(current_idx)){
@@ -215,7 +183,7 @@ int structural_iterator::jumpForwardStructural(int idx){
     return current_idx; // last place that is not space
 }
 
-bool structural_iterator::readFile(const char* file, uint8_t*& buffer, size_t& size) {
+bool cuJSONLinesIterator::readFile(const char* file, uint8_t*& buffer, size_t& size) {
     FILE* handle = fopen(file, "rb");
     if (!handle) {
         std::cerr << "File not found!" << std::endl;
@@ -249,13 +217,13 @@ bool structural_iterator::readFile(const char* file, uint8_t*& buffer, size_t& s
 }
 
 // in order to reset the pointer to the first real position
-void structural_iterator::reset(){
+void cuJSONLinesIterator::reset(){
     node = 0;
     // node_depth = 1;
     nodeType = OBJECT;
 }
 
-int structural_iterator::gotoArrayIndex(int index){
+int cuJSONLinesIterator::gotoArrayIndex(int index){
     int total = index + 1;                                // total number of index that we have to go forward to get the requested index [started from 0]
                                                           // +1 is for handling indexes [1,2,3,...], user will use [0,1,2,...]
     
@@ -288,13 +256,12 @@ int structural_iterator::gotoArrayIndex(int index){
         // cout << "curr node in total == 1 --> " << getChar(nextNode) <<endl;
         node = nextNode-1; // change the node pointer iterator to the nextNode pointer
 
+        // cout << "node: " << node <<endl; 
         if(nextNodeChar == '{'){
             nodeType = OBJECT;
         }
         else if(nextNodeChar == '['){
             nodeType = ARRAY;
-            node = nextNode;
-            return node;
         }
         else if(nextNodeChar == ',' || currentNodeChar == '\n' || nextNodeChar == ']'){
             nodeType = VALUE;
@@ -305,7 +272,7 @@ int structural_iterator::gotoArrayIndex(int index){
     return 0; // error
 }
 
-int structural_iterator::increamentIndex(int index){
+int cuJSONLinesIterator::increamentIndex(int index){
     node = node + index;
     char currentNodeChar = getChar(node);
 
@@ -354,7 +321,7 @@ int structural_iterator::increamentIndex(int index){
     return node;               // number of movement for that index
 }
 
-string structural_iterator::getString(int startPos, int endPos){ // it will use for getKeys and end string is always comma
+string cuJSONLinesIterator::getString(int startPos, int endPos){ // it will use for getKeys and end string is always comma
     int i = 0;
     int length = 0;
     string result;
@@ -367,7 +334,7 @@ string structural_iterator::getString(int startPos, int endPos){ // it will use 
     return result;
 }
 
-// string structural_iterator::getValueBackward(int startPos, int endPos, primitive_type& type){
+// string cuJSONLinesIterator::getValueBackward(int startPos, int endPos, primitive_type& type){
 //     int length = 0;                                 // size of the string, object, list, and number that we have to return
 //     string result;                                  // result
     
@@ -414,7 +381,7 @@ string structural_iterator::getString(int startPos, int endPos){ // it will use 
 //     }
 // }
 
-int structural_iterator::findKey(string input_key){
+int cuJSONLinesIterator::findKey(string input_key){
     char currentNodeChar = getChar(node);
     int nextNode = node;
 
@@ -460,7 +427,7 @@ int structural_iterator::findKey(string input_key){
     return 0;
 }
 
-string structural_iterator::getKey(){
+string cuJSONLinesIterator::getKey(){
     char currentNodeChar = getChar(node);
     // cout << "currentNodeGetkey: " << currentNodeChar <<endl;
     string key;
@@ -479,8 +446,10 @@ string structural_iterator::getKey(){
     }
 }
 
-string structural_iterator::getValue(){
+string cuJSONLinesIterator::getValue(){
+    // cout << "getValue called for node: " << node << endl;
     int startPos = structural[node] - 1;
+    // cout << "startPos: " << startPos << endl;
     char currentNodeChar = getChar(node);
     string value;
     primitive_type type;
@@ -575,7 +544,7 @@ string structural_iterator::getValue(){
 } // we have to change the place of idx and pos with each other
 
 
-int structural_iterator::gotoKey(string key){
+int cuJSONLinesIterator::gotoKey(string key){
     int index1 = findKey(key);
     return increamentIndex(index1);
 }

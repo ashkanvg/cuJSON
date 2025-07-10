@@ -1,15 +1,7 @@
-#include "utils.cu"
-#include "load_file.h"
-#include "load_file.cu"
-#include "parse_json_lines.h"
-#include "parse_json_lines.cu"
-#include "cujson_types.h"
-#include "./query/query_iterator.cpp"
-
+#include "cujson/include_jsonlines.h"
 
 int main(int argc, char **argv) {
-
-    std::string filePath = "/home/csgrads/aveda002/Desktop/cuJSON-V3/dataset/twitter_sample_small_records.json";
+    std::string filePath = "./dataset/twitter_sample_small_records.json";
     // Check command-line arguments
     if (argc >= 2) {
         filePath = argv[1];  // XML file path
@@ -61,7 +53,7 @@ int main(int argc, char **argv) {
 
         
     // // Or you can traverse it for the query purpose:
-    structural_iterator itr = structural_iterator(&parsed_tree, filePath.c_str());
+    cuJSONLinesIterator itr = cuJSONLinesIterator(&parsed_tree, filePath.c_str());
 
     // //TT1
     int index0;
