@@ -1,6 +1,7 @@
 <p align="center">
   <a href="" rel="noopener">
-    <img width="200px" height="200px" src="fig/logo.jpeg" style="border-radius: 50%; border: 4px solid #2C3E50;" alt="cuJSON Project Logo">
+    <img width="200px" height="200px" src="fig/logo-2.jpeg" alt="cuJSON Project Logo">
+    <!-- <img width="200px" height="200px" src="fig/logo.jpeg" style="border-radius: 50%; border: 4px solid #2C3E50;" alt="cuJSON Project Logo"> -->
 </p>
 
 <h3 align="center">cuJSON: A Highly Parallel JSON Parser for GPUs</h3>
@@ -17,7 +18,7 @@
 ---
 
 <p align="left"> 
-<b>cuJSON is a game-changer: it's the world's fastest JSON parser, running entirely on your GPU</b>. Forget the old idea that GPUs can't handle complex data parsing—cuJSON proves them wrong. It's built from the ground up to be super parallel, making quick work of everything from validating your data to figuring out its structure.
+<b>cuJSON is the world's fastest JSON parser, running entirely on your GPU</b>. Forget the old idea that GPUs can't handle complex data parsing—cuJSON proves them wrong. It's built from the ground up to be super parallel, making quick work of everything from validating your data to figuring out its structure.
 
 <b>The result? cuJSON absolutely flies, leaving other top-tier CPU and even existing GPU parsers in the dust</b>. If you're dealing with tons of JSON data, cuJSON is designed to eliminate that bottleneck and speed things up dramatically.
     <br> 
