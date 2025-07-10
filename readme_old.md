@@ -6,7 +6,7 @@ To maximize the parsing speed, the output of cuJSON is also specially designed i
 <hr>
 
 ## Datasets
-Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that end in `_small_records.json`. Each dataset comes with two formats:
+Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. Each dataset comes with two formats:
 
 - For JSON Lines, use those datasets that end in `_small_records.json`. 
 - For Standard JSON, use those datasets that end in `_large_record.json`.
@@ -18,16 +18,17 @@ Two sample datasets are included in the `dataset` folder. Large datasets (used i
 
 <hr>
 
-## Reproduce the Results of Paper
-We provided produced results and figures (all of the results that this script can reproduce) at the end of this section. 
-Here, we provided all results of all figures by direct compile and run our code based on the Prerequisites: 
-1. Figure 9/10:           Parsing Time of Standard JSON
-2. Figure 11:             Parsing Time of JSON Lines
-3. Figure 12:             Peak GPU Memory Footprint
-4. Figure 13/ Table 8:    Time Breakdown of cuJSON
-5. Figure 14:             Space Cost of Parsing Output
-6. Figure 15:             Querying Cost 
-<!-- 8. Figure 16:             Scalability -->
+## Start with Standard JSON
+The cuJSON library is easily usable.
+ 
+
+
+
+
+## Start with JSON Lines
+
+
+
 
 
 ### [1, 4, and 5] - Standard JSON (One Large JSON Record)
