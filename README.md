@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://i.imgur.com/6wj0hh6.jpg" alt="Project logo"></a>
+    <img width="200px" height="200px" src="fig/logo.jpeg" style="border-radius: 50%; border: 4px solid #2C3E50;" alt="cuJSON Project Logo">
 </p>
 
 <h3 align="center">cuJSON: A Highly Parallel JSON Parser for GPUs</h3>
