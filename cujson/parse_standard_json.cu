@@ -1642,7 +1642,6 @@ cuJSONResult parse_standard_json(cuJSONInput input) {
 
     int current_chunk_num = 0;
     int total_result_size = 0;          // latest index structural
-    int latest_index_realJSON = 0;      // latest index realJSON
 
 
 
@@ -1690,7 +1689,6 @@ cuJSONResult parse_standard_json(cuJSONInput input) {
     open_close_GPU = Tokenize(d_jsonContent, input.size, ret_size, last_index_tokens, last_index_tokens_open_close, tokens_index_GPU, open_close_index_GPU, lastStructuralIndex, lastChunkIndex);
 
 
-
     // Structure Recognition
     int32_t* result_GPU;
     int32_t* result;
@@ -1703,7 +1701,6 @@ cuJSONResult parse_standard_json(cuJSONInput input) {
                         result_size,
                         lastStructuralIndex);
 
-    // ((inputStartStruct *)inputStart)->result_size = result_size;
 
 
     uint32_t total_tokens = (uint32_t) last_index_tokens;
@@ -1713,11 +1710,16 @@ cuJSONResult parse_standard_json(cuJSONInput input) {
 
 
     // Device to Host Memory Copy
-    size_t chunks_count = 1;
-    int32_t* res_buf_arrays[chunks_count];
-    res_buf_arrays[0] = (int32_t*) malloc(sizeof(int32_t) * result_size * ROW2);
-    cudaMemcpy(1 + res_buf_arrays[0], result_GPU, sizeof(int32_t) * result_size, cudaMemcpyDeviceToHost); // first and last is for [ and ]
-    cudaMemcpy(1 + res_buf_arrays[0] + 1 + result_size,   result_GPU + result_size, sizeof(int32_t) * result_size, cudaMemcpyDeviceToHost); // first and last is for [ and ]
+    // int32_t* res_buf_arrays[1];
+    // res_buf_arrays[0] = (int32_t*) malloc(sizeof(int32_t) * result_size * ROW2);
+    // cudaMemcpy(1 + res_buf_arrays[0], result_GPU, sizeof(int32_t) * result_size, cudaMemcpyDeviceToHost); // first and last is for [ and ]
+    // cudaMemcpy(1 + res_buf_arrays[0] + 1 + result_size,   result_GPU + result_size, sizeof(int32_t) * result_size, cudaMemcpyDeviceToHost); // first and last is for [ and ]
+    int32_t* res_buff;
+    cudaMallocHost((void**)&res_buff, sizeof(int32_t) * (result_size + 2) * ROW2);  // Pinned memory for fast H2D copy
+
+    // Copy results from device to host
+    cudaMemcpy(1 + res_buff, result_GPU, sizeof(int32_t) * result_size, cudaMemcpyDeviceToHost);  // result 1
+    cudaMemcpy(1 + res_buff + 1 + result_size, result_GPU + result_size, sizeof(int32_t) * result_size, cudaMemcpyDeviceToHost);  // result 2
 
     
     total_result_size += result_size;
@@ -1726,11 +1728,13 @@ cuJSONResult parse_standard_json(cuJSONInput input) {
 
     // parsed tree struct generation
     parsed_tree.totalResultSize = total_result_size + 2;
-    latest_index_realJSON = result_size;
-    parsed_tree.fileSize = latest_index_realJSON + 2;
+    parsed_tree.fileSize = result_size + 2;
     
-    parsed_tree.structural = res_buf_arrays[0];
-    parsed_tree.pair_pos = res_buf_arrays[0] + total_result_size + 1;
+    // parsed_tree.structural = res_buf_arrays[0];
+    // parsed_tree.pair_pos = res_buf_arrays[0] + total_result_size + 1;
+    parsed_tree.structural = res_buff;
+    parsed_tree.pair_pos = res_buff + result_size + 1;  // skip structural section
+
 
     // cout << "Total Result Size = " << parsed_tree.totalResultSize << endl;
     // cout << "File Size = " << parsed_tree.fileSize << endl;
