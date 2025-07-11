@@ -70,7 +70,7 @@ cd cuJSON
 nvcc main.cu -o cujson_standard.out -w [-gencode=arch=compute_61,code=sm_61]
 ```
 
-3. Compile main.cu and Run (Standard JSON Parsing):
+3. Run (Standard JSON Parsing):
 Once cujson_standard.out is compiled, you can execute it. We've included example JSON files in the dataset/ folder for your convenience.
 ```
 ./cujson_sandard.out ./dataset/twitter_sample_large_record.json
@@ -92,7 +92,7 @@ cd cuJSON
 nvcc main_jsonlines.cu -o cujson_jsonlines.out -w [-gencode=arch=compute_61,code=sm_61]
 ```
 
-3. Compile main.cu and Run (Standard JSON Parsing):
+3. Run (Standard JSON Parsing):
 Once cujson_jsonlines.out is compiled, you can execute it. We've included example JSON files in the dataset/ folder for your convenience.
 ```
 ./cujson_jsonlines.out ./dataset/twitter_sample_small_records.json

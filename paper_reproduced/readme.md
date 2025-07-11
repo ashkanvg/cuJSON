@@ -32,7 +32,7 @@ Here, we provided all results of all figures by direct compile and run our code 
 
 ### [1, 4, and 5] - Standard JSON (One Large JSON Record)
 The cuJSON library is easily consumable. 
-1. clone the repo in your directory. 
+1. clone the repo in your directory and move to `paper_reproduced/` directory.
 2. follow the following command to compile your code: 
 
 ```
@@ -44,7 +44,7 @@ nvcc -O3 -o output_large.exe ./src/cuJSON-standardjson.cu -w [-gencode=arch=comp
 3. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder. Then, use this command line to parse it (default version).
 
 ```
-output_large.exe -b ./dataset/[dataset name]_small_records_remove.json
+output_large.exe -b ../dataset/[dataset name]_small_records_remove.json
 ```
 
 **NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
@@ -65,7 +65,7 @@ Parser's Output Size:   [output memory allocation in MB, reported in Figure 11]
 
 ### [2, 4, and 5] - JSON Lines (JSON Records that are separated by newline)
 The cuJSON library is easily consumable. 
-1. clone the repo in your directory. 
+1. clone the repo in your directory and move to `paper_reproduced/` directory. 
 2. follow the following command to compile your code: 
 
 ```
@@ -78,7 +78,7 @@ nvcc -O3 -o output_small.exe ./src/cuJSON-jsonlines.cu -w [-gencode=arch=compute
 3. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder. Then, use this command line to parse it (default version).
 
 ```
-output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
+output_small.exe -b ../dataset/[dataset name]_small_records_remove.json
 ```
 
 **NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
@@ -153,8 +153,8 @@ kill $logging_pid
 ### [6] - Query Time + Real World Example
 In order to run all of the queries, please follow the following steps. We are reporting for query time of each record. In the paper, we report average time and also aggregated time of calling each query. 
 
-1. clone the repo in your directory. 
-2. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder.
+1. Clone the repo in your directory and move to `paper_reproduced/` directory.
+2. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `../dataset` folder.
 3. Run the following bash script to compile and run all of the queries. 
 
 ```
