@@ -246,9 +246,10 @@ For a variety of usage examples, please refer to the files located in the `paper
 
 
 ## ✍️ cuJSON Paper <a name="paper"></a>
-his repository contains the official source code for the cuJSON paper. All figures and benchmark results presented in the publication can be fully reproduced using the code provided here.
+This repository contains the official source code for the cuJSON paper. All figures and benchmark results presented in the publication can be fully reproduced using the code provided here.
 
-For detailed instructions on how to replicate the experimental results and figures from the paper, please refer to the `paper_reproduced/` directory.
+For detailed instructions on how to replicate the experimental results and figures from the paper, <b>specially for research purposes and comparison</b>, please refer to the `paper_reproduced/` directory.
+
 
 <!-- 
 If you use cuJSON in your research or project, please cite the corresponding paper. A BibTeX entry is provided below for your convenience.
