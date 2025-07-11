@@ -1178,7 +1178,7 @@ cuJSONResult parse_json_lines(cuJSONLinesInput input) {
         // init - Calculate padding to align the buffer size to the nearest multiple of 4 bytes for optimal GPU performance.
         int remainder = currentChunkSize % 4;    
         int padding = (4 - remainder) & 3;                                                                  // Padding bytes needed.
-        uint64_t padded_length = input.size + padding;
+        uint64_t padded_length = currentChunkSize + padding;
         uint64_t size_32 = padded_length / 4;
 
         uint8_t* open_close_GPU;
@@ -1230,6 +1230,7 @@ cuJSONResult parse_json_lines(cuJSONLinesInput input) {
         cudaFreeAsync(d_jsonContent, 0); // Free the input memory on GPU after validation
     
 
+
         cudaMallocHost(&res_buf_arrays[i], sizeof(int32_t) * result_size * ROW2);
         // 'structural' array of current chunk
         cudaMemcpy(res_buf_arrays[i], 
@@ -1257,7 +1258,6 @@ cuJSONResult parse_json_lines(cuJSONLinesInput input) {
     
 
 
-    // cout << "here" << endl;
     // cout << "lastStructuralIndex: " << lastStructuralIndex << endl;
     // cout << "lastChunkIndex: " << lastChunkIndex << endl;
 
@@ -1275,6 +1275,8 @@ cuJSONResult parse_json_lines(cuJSONLinesInput input) {
     // }
     // cout << endl;
 
+
+
     
     resultBuffer = mergeChunks(res_buf_arrays, &parsed_tree, parsed_tree.chunkCount);
 
@@ -1288,7 +1290,8 @@ cuJSONResult parse_json_lines(cuJSONLinesInput input) {
 
     // cout << "Total Result Size = " << parsed_tree.totalResultSize << endl;
     // cout << "File Size = " << parsed_tree.fileSize << endl;
-    cudaFree(input.data);
+    cudaFreeHost(input.data); 
+
     return parsed_tree;
 }
 

@@ -117,6 +117,7 @@ class cuJSONLinesIterator{
 
 void cuJSONLinesIterator::freeJson(){
     free(inputJSON);
+    cudaFreeHost(structural);
 }
 
 char cuJSONLinesIterator::getChar(int idx){

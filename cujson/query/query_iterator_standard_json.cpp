@@ -142,6 +142,7 @@ class cuJSONIterator{
 
 void cuJSONIterator::freeJson(){
     free(inputJSON);
+    cudaFreeHost(structural);
 }
 
 char cuJSONIterator::getChar(int idx){

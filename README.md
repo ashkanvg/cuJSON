@@ -89,7 +89,7 @@ cd cuJSON
 
 2. Compile `main_jsonlines.cu` (JSON Lines Parsing):
 ```
-nvcc main_jsonlines.cu -o cujson_jsonlines.out -w [-gencode=arch=compute_61,code=sm_61]
+nvcc main_jsonlines.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
 ```
 
 3. Run (JSON Lines Parsing):

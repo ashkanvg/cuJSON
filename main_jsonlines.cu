@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
 
 
     // Load File
-    cuJSONLinesInput input = loadJSONLines(filePath, 2);
+    cuJSONLinesInput input = loadJSONLines(filePath, 4);
     if (!input.data) {
         std::cout << "\033[1;31m[ERR]\033[0m File loading failed. Please check the file path.\n";
         return EXIT_FAILURE;
@@ -50,7 +50,6 @@ int main(int argc, char **argv) {
     // }
     // std::cout << "\n";
     
-
         
     // // Or you can traverse it for the query purpose:
     cuJSONLinesIterator itr = cuJSONLinesIterator(&parsed_tree, filePath.c_str());
@@ -59,8 +58,6 @@ int main(int argc, char **argv) {
     int index0;
     index0 = itr.gotoArrayIndex(0);
     index0 = itr.gotoKey("lang");
-    
-
     std::cout << "\033[1;32m[RESULT]\033[0m Query Value of $[0].user.lang: " << itr.getValue() << "\n";
 
     itr.freeJson();
