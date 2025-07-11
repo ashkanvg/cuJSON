@@ -65,7 +65,7 @@ git clone https://github.com/ashkanvg/cuJSON
 cd cuJSON
 ```
 
-2. Compile main.cu (Standard JSON Parsing):
+2. Compile `main.cu` (Standard JSON Parsing):
 ```
 nvcc main.cu -o cujson_standard.out -w [-gencode=arch=compute_61,code=sm_61]
 ```
@@ -87,13 +87,13 @@ git clone https://github.com/ashkanvg/cuJSON
 cd cuJSON
 ```
 
-2. Compile main.cu (JSON Lines Parsing):
+2. Compile `main_jsonlines.cu` (JSON Lines Parsing):
 ```
 nvcc main_jsonlines.cu -o cujson_jsonlines.out -w [-gencode=arch=compute_61,code=sm_61]
 ```
 
 3. Run (Standard JSON Parsing):
-Once cujson_jsonlines.out is compiled, you can execute it. We've included example JSON files in the dataset/ folder for your convenience.
+Once `cujson_jsonlines.out` is compiled, you can execute it. We've included example JSON files in the `dataset/` folder for your convenience.
 ```
 ./cujson_jsonlines.out ./dataset/twitter_sample_small_records.json
 ```
@@ -101,7 +101,7 @@ Once cujson_jsonlines.out is compiled, you can execute it. We've included exampl
 
 ### Notes:
 1. You can use any valid standard JSON or JSON Lines file as input. For more extensive testing, refer to the [datasets](#datasets) section for information on using larger 1GB JSON datasets.
-2. [-gencode=arch=compute_61,code=sm_61]: (Optional) This flag is for specifying a target GPU architecture. You should replace 61 with the compute capability of your target GPU to achieve optimal performance. For example, for a Turing GPU (RTX 20 series), it might be compute_75,code=sm_75. If omitted, nvcc will try to detect your GPU or compile for a generic architecture, which might result in less optimal performance. You can typically find your GPU's compute capability online.
+2. [-gencode=arch=compute_61,code=sm_61]: (Optional) This flag is for specifying a target GPU architecture. You should replace 61 with the compute capability of your target GPU to achieve optimal performance. For example, for a Turing GPU (RTX 20 series), it might be `compute_75,code=sm_75`. If omitted, nvcc will try to detect your GPU or compile for a generic architecture, which might result in less optimal performance. You can typically find your GPU's compute capability online.
 3. -w: Suppresses all warnings (useful for cleaner output, but be cautious in development).
 4. -std=c++17: You can run the compilation using the C++17 standard, which is often required for modern CUDA code.
 5. Passes the -O3 optimization flag to the host C++ compiler, ensuring highly optimized CPU code.
@@ -117,16 +117,23 @@ This section guides you on how to incorporate and utilize the cuJSON library wit
 To integrate cuJSON, you'll generally follow these steps:
 
 1. Include the cuJSON Source:
-Copy the entire cujson/ directory from this repository into your project's source tree. Ensure your build system (e.g., nvcc compilation) is configured to compile these files and include their headers.
+Copy the entire `cujson/` directory from this repository into your project's source tree. Ensure your build system (e.g., nvcc compilation) is configured to compile these files and include their headers.
 
 2. Include the Main Header:
 In your source files where you intend to use cuJSON, include its primary header:
+- For Standard JSON:
 ```
 #include "cujson/include.h"
 ```
 
+- For JSON Lines:
+```
+#include "cujson/include_jsonlines.h"
+```
+
+
 3. Load Your JSON Data:
-Before parsing, your JSON data needs to be loaded into a cuJSONInput or cuJSONLinesInput structure. This structure is a simple container for your raw JSON byte buffer and its size. The loadJSON or loadJSONLines helper function (presumably provided within the cujson source) is designed for this.
+Before parsing, your JSON data needs to be loaded into a `cuJSONInput` or `cuJSONLinesInput` structure. This structure is a simple container for your raw JSON byte buffer and its size. The `loadJSON` or `loadJSONLines` helper function (presumably provided within the cujson source) is designed for this.
 - For Standard JSON:
 ```
 std::string filePath = "./dataset/twitter_sample_large_record.json";
@@ -142,14 +149,14 @@ cuJSONLinesInput input = loadJSONLines(filePath, chunk_counts);
 4. Parse the JSON Data:
 - For Standard JSON:
 ```
-cuJSONResult parsed_tree = parse_standard_json(input);
+cuJSONResult parsed_array = parse_standard_json(input);
 ```
 - For JSON Lines:
 ```
-cuJSONResult parsed_tree = parse_json_lines(input);
+cuJSONResult parsed_array = parse_json_lines(input);
 ```
 5. Access Parsed Results (Further Processing)
-The cuJSONResult structure (detailed below) contains pointers to the CPU-located parsed data. You'll typically need to write custom code or use existed cuJSON query iterator to navigate this structure and extract the values you need. We elaborate on the [Query Iterator](#query) later in this page.
+The `cuJSONResult` structure (detailed below) contains pointers to the CPU-located parsed data. You'll typically need to write custom code or use existed cuJSON query iterator to navigate this structure and extract the values you need. We elaborate on the [Query Iterator](#query) later in this page.
 
 
 
@@ -186,7 +193,7 @@ struct cuJSONResult {
                                             // for the opening structural character at `structural[i]`. 
                                             // This enables efficient navigation of nesting.
     int depth;                              // The maximum nesting depth encountered in the parsed JSON file.
-    int totalResultSize;                    // The total size of the combined parsed output or tree representation.
+    int totalResultSize;                    // The total size of the combined parsed output.
     int fileSize;                           // The size of the original input JSON file in bytes.
 };
 ```
@@ -196,19 +203,19 @@ struct cuJSONResult {
 
 ## 🗂️ Query Iterator <a name="query"></a>
 
-After cuJSON has efficiently parsed your JSON data into the `cuJSONResult` structure on the GPU, the next step is to actually access and extract the values you need. The `cuJSONIterator` is designed precisely for this, allowing you to traverse the parsed JSON tree with exceptional speed. Thanks to the pre-calculated `pair_pos` and `structural` array within `cuJSONResult`, the iterator can cleverly skip over entire nested child structures, jumping directly to siblings or specific keys/indices, significantly accelerating data retrieval.
+After cuJSON has efficiently parsed your JSON data into the `cuJSONResult` structure on the GPU, the next step is to actually access and extract the values you need. The `cuJSONIterator` is designed precisely for this, allowing you to traverse the parsed JSON array with exceptional speed. Thanks to the pre-calculated `pair_pos` and `structural` array within `cuJSONResult`, the iterator can cleverly skip over entire nested child structures, jumping directly to siblings or specific keys/indices, significantly accelerating data retrieval.
 
 
 ### Core APIs
-The cuJSONIterator provides a set of intuitive APIs for navigating the parsed JSON tree.
+The cuJSONIterator provides a set of intuitive APIs for navigating the parsed JSON array.
 
 1. Initialize the Iterator:
-First, create an instance of the cuJSONIterator, linking it to your `parsed_tree` (the output from `parse_standard_json` or `parse_json_lines`) and the original file path.
+First, create an instance of the cuJSONIterator, linking it to your `parsed_array` (the output from `parse_standard_json` or `parse_json_lines`) and the original file path.
 
 
 ```
-// Assuming 'parsed_tree' is your cuJSONResult and 'filePath' is a const char* to the original file path
-cuJSONIterator itr = cuJSONIterator(&parsed_tree, filePath);
+// Assuming 'parsed_array' is your cuJSONResult and 'filePath' is a const char* to the original file path
+cuJSONIterator itr = cuJSONIterator(&parsed_array, filePath);
 ```
 
 2. Traverse and Extract Data: Once initialized, you can use the iterator's methods to move through the JSON structure and retrieve information.
@@ -221,7 +228,7 @@ cuJSONIterator itr = cuJSONIterator(&parsed_tree, filePath);
 | `int incrementIndex(int index)` | Advances the iterator's current position forward by `index` steps along the `structural` array. This is useful for sequential traversal within objects or elements within arrays. Returns `structural` index on success. |
 | `string getKey()`               | When positioned at a key-value pair within a JSON object, this returns the `string` representation of the current key.|
 | `string getValue()`             | When positioned at a value, this returns its `string` representation. |
-| `void reset()`                  | Resets the iterator's internal pointer back to the very first structural character of the parsed JSON tree, allowing you to re-traverse from the beginning.|
+| `void reset()`                  | Resets the iterator's internal pointer back to the very first structural character of the parsed JSON array, allowing you to re-traverse from the beginning.|
 
 
 The primary distinction when querying JSON Lines compared to standard JSON lies in the initial step: for Standard JSON, you are required to call gotoArrayIndex(0) at the beginning of your traversal. After this initial call, you can proceed with the same querying steps as you would for a JSON Lines document.
