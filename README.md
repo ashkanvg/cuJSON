@@ -87,9 +87,20 @@ git clone https://github.com/ashkanvg/cuJSON
 cd cuJSON
 ```
 
-2. Compile `main_jsonlines.cu` (JSON Lines Parsing):
+2. We have provided multiple files for differenet APIs. We will explore more about the difference of them in the next section. 
+
+Compile `main_jsonlines.cu` for Parsing JSON Lines by splitting the data into 4 chunks:
 ```
 nvcc main_jsonlines.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
+```
+
+Or compile `main_jsonlines_chunksize_MB.cu` or `main_jsonlines_chunksize.cu` for Parsing JSON Lines by splitting the data into chunks with size of `256MB`:
+```
+nvcc main_jsonlines_chunksize_MB.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
+```
+Or
+```
+nvcc main_jsonlines_chunksize.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
 ```
 
 3. Run (JSON Lines Parsing):
@@ -139,11 +150,25 @@ Before parsing, your JSON data needs to be loaded into a `cuJSONInput` or `cuJSO
 std::string filePath = "./dataset/twitter_sample_large_record.json";
 cuJSONInput input = loadJSON(filePath);
 ```
-- For JSON Lines: 
+- For JSON Lines, there are multiple cases: 
+
+a. Split based on the number of chunks:
 ```
 int chunk_counts = 4;
 std::string filePath = "./dataset/twitter_sample_small_records.json";
 cuJSONLinesInput input = loadJSONLines(filePath, chunk_counts);
+```
+b. Split based on the maximum chunk size in bytes:
+```
+string filePath = "./dataset/twitter_sample_small_records.json";
+int maxChunkSize = 256 * 1024 * 1024; // 256MB
+cuJSONLinesInput input = loadJSONLines_chunkSizeBytes(filePath, maxChunkSize);
+```
+c. Split based on the maximum chunk size in megabytes:
+```
+string filePath = "./dataset/twitter_sample_small_records.json";
+int maxChunkSize = 256; // 256MB
+cuJSONLinesInput input = loadJSONLines_chunkSizeMegaBytes(filePath, maxChunkSize);
 ```
 
 4. Parse the JSON Data:
@@ -155,8 +180,20 @@ cuJSONResult parsed_array = parse_standard_json(input);
 ```
 cuJSONResult parsed_array = parse_json_lines(input);
 ```
+
 5. Access Parsed Results (Further Processing)
-The `cuJSONResult` structure (detailed below) contains pointers to the CPU-located parsed data. You'll typically need to write custom code or use existed cuJSON query iterator to navigate this structure and extract the values you need. We elaborate on the [Query Iterator](#query) later in this page.
+The `cuJSONResult` structure (described in detail later) contains pointers to parsed data located in host (CPU) memory. You can either implement your own post-processing logic or use the built-in cuJSON query iterator to navigate the parsed result and extract desired values. We elaborate on the [Query Iterator](#query) section for more information.
+
+
+### Summary of the Load and Parse APIs
+| API Method                            | Description |
+| :-------------------------------------------- |:------------------------- |
+| `cuJSONInput loadJSON(const string& filePath)`       |  Loads a Standard JSON file into a `cuJSONInput` structure. |
+| `cuJSONLinesInput loadJSONLines_chunkCount(const string& filePath, size_t chunkCount)` | Loads a JSON Lines file and splits it into `chunkCount` chunks. |
+| `cuJSONLinesInput loadJSONLines_chunkSizeBytes(const string& filePath, size_t chunkSizeBytes)` | Loads a JSON Lines file and splits it into chunks based on a maximum chunk size (in bytes). |
+| `cuJSONLinesInput loadJSONLines_chunkSizeMegaBytes(const string& filePath, size_t chunkSizeMegaBytes)`| Loads a JSON Lines file and splits it into chunks based on a maximum chunk size (in megabytes). |
+| `cuJSONResult parse_standard_json(cuJSONInput input)` | Parses a Standard JSON file after it has been loaded into a `cuJSONInput` structure. |
+| `cuJSONResult parse_json_lines(cuJSONLinesInput input)` | Parses a JSON Lines file after it has been loaded into a `cuJSONLinesInput` structure. |
 
 
 
@@ -234,7 +271,7 @@ cuJSONIterator itr = cuJSONIterator(&parsed_array, filePath);
 The primary distinction when querying JSON Lines compared to standard JSON lies in the initial step: for Standard JSON, you are required to call gotoArrayIndex(0) at the beginning of your traversal. After this initial call, you can proceed with the same querying steps as you would for a JSON Lines document.
 
 
-3. Third, make sure to freeJSON at the end.
+3. Third, make sure to call `freeJSON()` at the end, to free the allocated memory of the input and parsed array.
 ```
 freeJson();                            
 ```

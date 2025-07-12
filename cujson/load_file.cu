@@ -5,7 +5,6 @@
 
 
 cuJSONInput loadJSON(const std::string& filePath) { 
-
     // ______________________LOAD_FILE_____________________________
     std::ifstream file(filePath, std::ios::binary | std::ios::ate);                     // Open in binary mode, seek to end
     if (!file) {                                                                        // unable to open file
@@ -36,8 +35,7 @@ cuJSONInput loadJSON(const std::string& filePath) {
     return {h_buffer, fileSize}; // Return the buffer and its size
 }
 
-
-cuJSONLinesInput loadJSONLines(const std::string& filePath, size_t chunkCount = 1) { 
+cuJSONLinesInput loadJSONLines_chunkCount(const std::string& filePath, size_t chunkCount = 1) { 
     cuJSONLinesInput input; 
     input.data = nullptr;
     input.size = 0;
@@ -106,4 +104,153 @@ cuJSONLinesInput loadJSONLines(const std::string& filePath, size_t chunkCount = 
 
     
     return input; // Return the buffer and its size
+}
+
+cuJSONLinesInput loadJSONLines_chunkSizeBytes(const std::string& filePath, size_t chunkSizeBytes) {
+    cuJSONLinesInput input;
+    input.data = nullptr;
+    input.size = 0;
+
+    // ----------------- LOAD FILE -----------------
+    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
+    if (!file) {
+        std::cerr << "\033[1;31m Error: Unable to open file: \033[0m \n" << filePath << std::endl;
+        return input;
+    }
+
+    size_t fileSize = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    // Allocate pinned memory
+    uint8_t* h_buffer;
+    cudaHostAlloc((void**)&h_buffer, fileSize * sizeof(uint8_t), cudaHostAllocDefault);
+    if (!h_buffer) {
+        std::cerr << "\033[1;31m Error: Unable to allocate pinned memory! \033[0m \n" << std::endl;
+        file.close();
+        return input;
+    }
+
+    // Read file
+    file.read(reinterpret_cast<char*>(h_buffer), fileSize);
+    file.close();
+
+    // ----------------- FIND LINE OFFSETS -----------------
+    std::vector<size_t> line_offsets;
+    line_offsets.push_back(0);  // First line
+
+    for (size_t i = 0; i < fileSize; ++i) {
+        if (h_buffer[i] == '\n') {
+            line_offsets.push_back(i + 1);  // Start of next line
+        }
+    }
+    if (line_offsets.back() < fileSize) {
+        line_offsets.push_back(fileSize);
+    }
+
+    input.data = h_buffer;
+    input.size = fileSize;
+
+    size_t current_chunk_start = 0;
+    size_t current_offset = 0;
+    size_t chunk_count = 0;
+    for (size_t i = 1; i < line_offsets.size(); ++i) {
+        size_t line_start = line_offsets[i - 1];
+        size_t line_end = line_offsets[i];
+        size_t line_len = line_end - line_start;
+
+        // If adding this line would exceed the chunk size, finalize current chunk
+        if ((line_end - current_chunk_start) > chunkSizeBytes) {
+            chunk_count++;
+            input.chunks.push_back(h_buffer + current_chunk_start);
+            input.chunksSize.push_back(current_offset - current_chunk_start);
+            current_chunk_start = line_start;
+        }
+
+        current_offset = line_end;
+    }
+
+    // Add last chunk
+    if (current_chunk_start < fileSize) {
+        input.chunks.push_back(h_buffer + current_chunk_start);
+        input.chunksSize.push_back(fileSize - current_chunk_start);
+        chunk_count++;
+    }
+
+    input.chunkCount = chunk_count;
+    return input;
+}
+
+cuJSONLinesInput loadJSONLines_chunkSizeMegaBytes(const std::string& filePath, size_t chunkSizeMegaBytes) {
+    cuJSONLinesInput input;
+    input.data = nullptr;
+    input.size = 0;
+    size_t chunkSizeBytes = chunkSizeMegaBytes * 1024 * 1024; // Convert MB to bytes
+
+    // ----------------- LOAD FILE -----------------
+    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
+    if (!file) {
+        std::cerr << "\033[1;31m Error: Unable to open file: \033[0m \n" << filePath << std::endl;
+        return input;
+    }
+
+    size_t fileSize = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    // Allocate pinned memory
+    uint8_t* h_buffer;
+    cudaHostAlloc((void**)&h_buffer, fileSize * sizeof(uint8_t), cudaHostAllocDefault);
+    if (!h_buffer) {
+        std::cerr << "\033[1;31m Error: Unable to allocate pinned memory! \033[0m \n" << std::endl;
+        file.close();
+        return input;
+    }
+
+    // Read file
+    file.read(reinterpret_cast<char*>(h_buffer), fileSize);
+    file.close();
+
+    // ----------------- FIND LINE OFFSETS -----------------
+    std::vector<size_t> line_offsets;
+    line_offsets.push_back(0);  // First line
+
+    for (size_t i = 0; i < fileSize; ++i) {
+        if (h_buffer[i] == '\n') {
+            line_offsets.push_back(i + 1);  // Start of next line
+        }
+    }
+    if (line_offsets.back() < fileSize) {
+        line_offsets.push_back(fileSize);
+    }
+
+    input.data = h_buffer;
+    input.size = fileSize;
+
+    size_t current_chunk_start = 0;
+    size_t current_offset = 0;
+    size_t chunk_count = 0;
+    for (size_t i = 1; i < line_offsets.size(); ++i) {
+        size_t line_start = line_offsets[i - 1];
+        size_t line_end = line_offsets[i];
+        size_t line_len = line_end - line_start;
+
+        // If adding this line would exceed the chunk size, finalize current chunk
+        if ((line_end - current_chunk_start) > chunkSizeBytes) {
+            chunk_count++;
+            input.chunks.push_back(h_buffer + current_chunk_start);
+            input.chunksSize.push_back(current_offset - current_chunk_start);
+            current_chunk_start = line_start;
+        }
+
+        current_offset = line_end;
+    }
+
+    // Add last chunk
+    if (current_chunk_start < fileSize) {
+        input.chunks.push_back(h_buffer + current_chunk_start);
+        input.chunksSize.push_back(fileSize - current_chunk_start);
+        chunk_count++;
+    }
+
+    input.chunkCount = chunk_count;
+    return input;
 }

@@ -13,7 +13,8 @@ int main(int argc, char **argv) {
 
 
     // Load File
-    cuJSONLinesInput input = loadJSONLines_chunkCount(filePath, 4);
+    size_t maxChunkSizeMB = 256; // 256MB
+    cuJSONLinesInput input = loadJSONLines_chunkSizeMegaBytes(filePath, maxChunkSizeMB);
     if (!input.data) {
         std::cout << "\033[1;31m[ERR]\033[0m File loading failed. Please check the file path.\n";
         return EXIT_FAILURE;
