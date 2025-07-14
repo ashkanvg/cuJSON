@@ -2301,7 +2301,7 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
     // printf("File size: %ld bytes\n", fileSize);
     // int chunks_count = (fileSize + BUFSIZE -1) / BUFSIZE;            // best case
     int chunks_count = 1;                  // worst case
-    int BUFSIZE = fileSize + 1000;
+    int BUFSIZE = fileSize + 10000;
 
     // printf("chunks_count: %d Chunks \n", chunks_count);
 
@@ -2309,7 +2309,7 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
     resultStruct->chunkCount = chunks_count;
     // resultStruct->structural = res_buf;
     // resultStruct->pair_pos = res_buf + BUFSIZE*chunks_count;
-
+    
 
     // _________________READ_FILE____________________
     // Start  definition:
@@ -2318,7 +2318,7 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
     size_t   len = 0;
     uint32_t total = 0;
     uint32_t lines = 0;
-    uint32_t lineLengths[1<<20]; //the maximum size of the array // we can convert it to 1 instead of array or remove it
+    // uint32_t lineLengths[1<<20]; //the maximum size of the array // we can convert it to 1 instead of array or remove it
 
     // //read start of file
     int i = 0;
@@ -2338,7 +2338,7 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
             // cout << "current chunk num: " << current_chunk_num << endl;
             inputStartStruct inputStart;
             inputStart.block = buf;
-            inputStart.size  = lineLengths[i-1];
+            inputStart.size  = fileSize;                                        
             inputStart.lastChunkIndex = latest_index_realJSON;
             inputStart.lastStructuralIndex = total_result_size;
 
@@ -2346,7 +2346,7 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
 
             // device to host time:
             // cudaMallocHost((void**)&res_buf_arrays[current_chunk_num], sizeof(int32_t)*inputStart.result_size*ROW2);   
-            res_buf_arrays[current_chunk_num] = (int32_t*) malloc(sizeof(int32_t) * inputStart.result_size * ROW2);
+            res_buf_arrays[current_chunk_num] = (int32_t*) malloc(sizeof(int32_t) * (inputStart.result_size + 2) * ROW2);
             // cudaMallocHost(&res_buf_arrays[current_chunk_num], sizeof(int32_t)*inputStart.result_size * ROW2);   // output(all chunks together)
 
             cudaMemcpy(res_buf_arrays[current_chunk_num],                            res,                          sizeof(int32_t)*(inputStart.result_size), cudaMemcpyDeviceToHost); // first and last is for [ and ]
@@ -2405,14 +2405,14 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
 
             // totalChar += read;
 
-            lineLengths[i] = total;
+            // lineLengths[i] = total;
             current_chunk_num++;
         }else{
             memcpy(buf+total, line, sizeof(uint8_t)*read);
             total += read;
             // totalChar += read;
             //printf("size before star: %d \n",total);
-            lineLengths[i] = total;
+            // lineLengths[i] = total;
         }
         i++;
 
@@ -2424,7 +2424,7 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
         //print8(buf, total, ROW1);
         inputStartStruct inputStart;
         inputStart.block = buf;
-        inputStart.size = lineLengths[i-1];                                         // fileSize
+        inputStart.size = total;                                         // fileSize
         inputStart.lastChunkIndex = 0;
         inputStart.lastStructuralIndex = 0;
 
@@ -2433,12 +2433,6 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
         res = (int32_t*) start( (void*) &inputStart);
         //printf("remaining injast 2\n");
 
-
-        // cudaEvent_t startDtoH, stopDtoH;
-        // cudaEventCreate(&startDtoH);
-        // cudaEventCreate(&stopDtoH);
-        // cudaEventRecord(startDtoH, 0);
-        
 
             
         // device to host time:
@@ -2574,13 +2568,6 @@ int main(int argc, char **argv){
             parsed_tree.structural = NULL;
             parsed_tree.pair_pos = NULL;
 
-            // char* nsplPath = "./Test-Files/Pison Large Datasets/nspl_small_records_remove.json ";
-            // char* twitterPath = "./Test-Files/Pison Large Datasets/twitter_small_records_remove.json ";
-            // char* walmartPath = "./Test-Files/Pison Large Datasets/walmart_small_records_remove.json ";
-            // char* wikiPath = "./Test-Files/Pison Large Datasets/wiki_small_records_remove.json ";
-            // char* googlePath = "./Test-Files/Pison Large Datasets/google_small_records_remove.json ";
-            // char* bestbuyPath = "./Test-Files/Pison Large Datasets/bestbuy_small_records_remove.json ";
-
             result = readFileStandard(argv[2], 1 , &parsed_tree);
             int index0;
 
@@ -2601,7 +2588,7 @@ int main(int argc, char **argv){
 
             stop = high_resolution_clock::now();
             auto elapsed = duration_cast<nanoseconds>(stop - start);
-            cout << "\nValue: " << itr.getValue() <<endl;
+            // cout << "\nValue: " << itr.getValue() <<endl;
             cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
             itr.freeJson();
 
