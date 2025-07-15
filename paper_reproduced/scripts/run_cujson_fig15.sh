@@ -1,0 +1,86 @@
+#!/bin/bash
+set -e
+
+echo "🚀 Running all query experiments (10× each) and computing averages..."
+
+mkdir -p results
+OUT_FILE="results/query_figX.csv"
+: > "$OUT_FILE"
+echo "QueryName,AverageTime" >> "$OUT_FILE"
+
+# 🔧 Full path to directory containing query_XYZ_JSONL.cu
+SRC_DIR="/home/csgrads/aveda002/Desktop/cuJSON/paper_reproduced/src/reproduced/query_example"
+
+declare -A QUERIES=(
+  ["TT1"]="query_TT1_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/twitter_small_records_remove.json"
+  ["TT2"]="query_TT2_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/twitter_small_records_remove.json"
+  ["TT3"]="query_TT3_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/twitter_small_records_remove.json"
+  ["TT4"]="query_TT4_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/twitter_small_records_remove.json"
+  ["WM"]="query_WM_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/walmart_small_records_remove.json"
+  ["GMD1"]="query_GMD1_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/google_map_small_records_remove.json"
+  ["GMD2"]="query_GMD2_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/google_map_small_records_remove.json"
+  ["NSPL"]="query_NSPL_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/nspl_small_records_remove.json"
+  ["BB1"]="query_BB1_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/bestbuy_small_records_remove.json"
+  ["BB2"]="query_BB2_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/bestbuy_small_records_remove.json"
+  ["WP1"]="query_WP1_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/wiki_small_records_remove.json"
+  ["WP2"]="query_WP2_JSONL.cu /home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/wiki_small_records_remove.json"
+)
+
+declare -A group_sums
+declare -A group_counts
+
+for key in "${!QUERIES[@]}"; do
+  IFS=' ' read -r cu_file json_file <<< "${QUERIES[$key]}"
+  echo "🔹 Running $key"
+
+  # Compile from absolute path
+  nvcc -O3 -o query-experiment "$SRC_DIR/$cu_file" -w -gencode=arch=compute_61,code=sm_61
+
+  sum=0
+  for i in {1..10}; do
+    TIME=$(./query-experiment -b "$json_file" | grep -Eo '[0-9]+(\.[0-9]+)?' | tail -1)
+    sum=$(awk "BEGIN {print $sum + $TIME}")
+  done
+
+  avg=$(awk "BEGIN {print $sum / 10}")
+  echo "$key average: $avg ns"
+  echo "$key,$avg" >> "$OUT_FILE"
+
+  # Group accumulation
+  prefix=$(echo "$key" | grep -Eo '^[A-Z]+')
+  group_sums["$prefix"]=$(awk "BEGIN {print ${group_sums[$prefix]:-0} + $avg}")
+  group_counts["$prefix"]=$((${group_counts[$prefix]:-0} + 1))
+done
+
+# -----------------------------
+# Group-wise summary
+# -----------------------------
+echo "" >> "$OUT_FILE"
+echo "Group,GroupAverage" >> "$OUT_FILE"
+echo ""
+echo "📊 Group-wise Averages:"
+for prefix in "${!group_sums[@]}"; do
+  total=${group_sums[$prefix]}
+  count=${group_counts[$prefix]}
+  group_avg=$(awk "BEGIN {print $total / $count}")
+  echo "$prefix → $group_avg ns"
+  echo "$prefix,$group_avg" >> "$OUT_FILE"
+done
+
+# -----------------------------
+# Final total average of all groups
+# -----------------------------
+total_sum=0
+group_count=0
+
+while IFS=',' read -r group avg; do
+  # Skip header
+  if [[ "$group" == "Group" ]]; then continue; fi
+  total_sum=$(awk "BEGIN {print $total_sum + $avg}")
+  group_count=$((group_count + 1))
+done < <(tail -n +$(($(grep -n '^Group,GroupAverage' "$OUT_FILE" | cut -d: -f1) + 1)) "$OUT_FILE")
+
+final_avg=$(awk "BEGIN {print $total_sum / $group_count}")
+echo ""
+echo "🌐 Final overall average of all group averages: $final_avg ns"
+echo "ALL,$final_avg" >> "$OUT_FILE"
