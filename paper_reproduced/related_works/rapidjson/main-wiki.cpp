@@ -38,14 +38,14 @@ int main() {
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/nspl_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/walmart_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/twitter_large_record.json", "r");
-    FILE* fp = fopen("../Test-Files/Pison Large Datasets/wiki_large_record.json", "r");
+    FILE* fp = fopen("/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/wiki_large_record.json", "r");
   
     // Check if the file was opened successfully
     if (!fp) {
         std::cerr << "Error: unable to open file"<< std::endl;
         return 1;
     }
-    printMemoryUsage("1"); // Print memory usage after deallocation
+    // printMemoryUsage("1"); // Print memory usage after deallocation
 
     
 
@@ -67,10 +67,10 @@ int main() {
         fclose(fp);
         return 1;
     }
-    printMemoryUsage("2"); // Print memory usage after deallocation
+    // printMemoryUsage("2"); // Print memory usage after deallocation
 
     end = clock();
-    std::cout << "time: " << ((double)(end-start)/CLOCKS_PER_SEC)*1000 << std::endl;
+    std::cout << ((double)(end-start)/CLOCKS_PER_SEC)*1000 << std::endl;
     
     // Close the file
     fclose(fp);

@@ -31,7 +31,7 @@ Note: If you want to run only one or two datasets instead of all of them, modify
 
 5. Run all executables: To run all executables with a message before each one, use:
 ```
-cd bin; ./bestbuy; ./google; ./nspl; ./twitter; ./walmart; ./wiki; 
+cd bin; ./twitter; ./bestbuy; ./google; ./nspl; ./walmart; ./wiki; 
 ```
 
 6. Clean all executables: To remove all compiled .exe files, run:

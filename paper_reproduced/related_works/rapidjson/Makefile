@@ -4,51 +4,51 @@ CXXFLAGS = -O3
 
 # Source files
 SOURCES = \
-    ./related_works/rapidjson/main-bestbuy.cpp \
-    ./related_works/rapidjson/main-nspl.cpp \
-    ./related_works/rapidjson/main-wiki.cpp \
-    ./related_works/rapidjson/main-walmart.cpp \
-    ./related_works/rapidjson/main-google.cpp \
-    ./related_works/rapidjson/main-twitter.cpp
+    ./main-bestbuy.cpp \
+    ./main-nspl.cpp \
+    ./main-wiki.cpp \
+    ./main-walmart.cpp \
+    ./main-google.cpp \
+    ./main-twitter.cpp
 
 # Executable files (outputs)
 EXECUTABLES = \
-    ./related_works/rapidjson/output-bestbuy.exe \
-    ./related_works/rapidjson/output-nspl.exe \
-    ./related_works/rapidjson/output-wiki.exe \
-    ./related_works/rapidjson/output-walmart.exe \
-    ./related_works/rapidjson/output-google.exe \
-    ./related_works/rapidjson/output-twitter.exe
+    ./output-bestbuy.exe \
+    ./output-nspl.exe \
+    ./output-wiki.exe \
+    ./output-walmart.exe \
+    ./output-google.exe \
+    ./output-twitter.exe
 
 # Compile each source file to corresponding executable
 all: $(EXECUTABLES)
 
-./related_works/rapidjson/output-bestbuy.exe: ./related_works/rapidjson/main-bestbuy.cpp
+./output-bestbuy.exe: ./main-bestbuy.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-./related_works/rapidjson/output-nspl.exe: ./related_works/rapidjson/main-nspl.cpp
+./output-nspl.exe: ./main-nspl.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-./related_works/rapidjson/output-wiki.exe: ./related_works/rapidjson/main-wiki.cpp
+./output-wiki.exe: ./main-wiki.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-./related_works/rapidjson/output-walmart.exe: ./related_works/rapidjson/main-walmart.cpp
+./output-walmart.exe: ./main-walmart.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-./related_works/rapidjson/output-google.exe: ./related_works/rapidjson/main-google.cpp
+./output-google.exe: ./main-google.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-./related_works/rapidjson/output-twitter.exe: ./related_works/rapidjson/main-twitter.cpp
+./output-twitter.exe: ./main-twitter.cpp
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 # Run all executables with a message before each run
 run:
-	@echo "Running BestBuy:"; ./related_works/rapidjson/output-bestbuy.exe
-	@echo "Running NSPL:"; ./related_works/rapidjson/output-nspl.exe
-	@echo "Running Wiki:"; ./related_works/rapidjson/output-wiki.exe
-	@echo "Running Walmart:"; ./related_works/rapidjson/output-walmart.exe
-	@echo "Running Google:"; ./related_works/rapidjson/output-google.exe
-	@echo "Running Twitter:"; ./related_works/rapidjson/output-twitter.exe
+	@echo "Running Twitter:"; ./output-twitter.exe
+	@echo "Running BestBuy:"; ./output-bestbuy.exe
+	@echo "Running Google:"; ./output-google.exe
+	@echo "Running NSPL:"; ./output-nspl.exe
+	@echo "Running Walmart:"; ./output-walmart.exe
+	@echo "Running Wiki:"; ./output-wiki.exe
 
 # Clean all executables
 clean:

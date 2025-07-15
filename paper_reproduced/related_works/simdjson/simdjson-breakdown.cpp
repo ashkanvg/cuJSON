@@ -8203,12 +8203,12 @@ namespace jsoncharutils {
 // return non-zero if not a structural or whitespace char
 // zero otherwise
 simdjson_inline uint32_t is_not_structural_or_whitespace(uint8_t c) {
-  // std::cout << "arm64\n";
+  std::cout << "arm64\n";
   return internal::structural_or_whitespace_negated[c];
 }
 
 simdjson_inline uint32_t is_structural_or_whitespace(uint8_t c) {
-  // std::cout << "arm64\n";
+  std::cout << "arm64\n";
   return internal::structural_or_whitespace[c];
 }
 
@@ -11322,7 +11322,7 @@ using namespace simd;
     simdjson_inline void check_utf8_bytes(const simd8<uint8_t> input, const simd8<uint8_t> prev_input) {
       // Flip prev1...prev3 so we can easily determine if they are 2+, 3+ or 4+ lead bytes
       // (2, 3, 4-byte leads become large positive numbers instead of small negative numbers)
-      // std::cout << "here!" << endl;
+      std::cout << "here!" << endl;
       simd8<uint8_t> prev1 = input.prev<1>(prev_input);
       simd8<uint8_t> sc = check_special_cases(input, prev1);
       this->error |= check_multibyte_lengths(input, prev_input, sc);
@@ -13970,12 +13970,12 @@ namespace jsoncharutils {
 // return non-zero if not a structural or whitespace char
 // zero otherwise
 simdjson_inline uint32_t is_not_structural_or_whitespace(uint8_t c) {
-  // std::cout << "fallback\n";
+  std::cout << "fallback\n";
   return internal::structural_or_whitespace_negated[c];
 }
 
 simdjson_inline uint32_t is_structural_or_whitespace(uint8_t c) {
-  // std::cout << "fallback\n";
+  std::cout << "fallback\n";
   return internal::structural_or_whitespace[c];
 }
 
@@ -17562,12 +17562,12 @@ namespace simdjson {
 namespace fallback {
 
 simdjson_warn_unused error_code dom_parser_implementation::stage2(dom::document &_doc) noexcept {
-  // std::cout << "hello7!\n";  
+  std::cout << "hello7!\n";  
   return stage2::tape_builder::parse_document<false>(*this, _doc);
 }
 
 simdjson_warn_unused error_code dom_parser_implementation::stage2_next(dom::document &_doc) noexcept {
-  // std::cout << "hello8!\n";  
+  std::cout << "hello8!\n";  
   return stage2::tape_builder::parse_document<true>(*this, _doc);
 }
 
@@ -23761,24 +23761,24 @@ simdjson_warn_unused error_code implementation::minify(const uint8_t *buf, size_
 }
 
 simdjson_warn_unused error_code dom_parser_implementation::stage1(const uint8_t *_buf, size_t _len, stage1_mode streaming) noexcept {
-  // std::cout << "LAILA\n";
+  std::cout << "LAILA\n";
   this->buf = _buf;
   this->len = _len;
   return haswell::stage1::json_structural_indexer::index<128>(_buf, _len, *this, streaming);
 }
 
 simdjson_warn_unused bool implementation::validate_utf8(const char *buf, size_t len) const noexcept {
-  // std::cout << "here!\n";
+  std::cout << "here!\n";
   return haswell::stage1::generic_validate_utf8(buf,len);
 }
 
 simdjson_warn_unused error_code dom_parser_implementation::stage2(dom::document &_doc) noexcept {
-  // std::cout << "hello2!\n";
+  std::cout << "hello2!\n";
   return stage2::tape_builder::parse_document<false>(*this, _doc);
 }
 
 simdjson_warn_unused error_code dom_parser_implementation::stage2_next(dom::document &_doc) noexcept {
-  // std::cout << "hello3!\n";
+  std::cout << "hello3!\n";
   return stage2::tape_builder::parse_document<true>(*this, _doc);
 }
 
@@ -23791,19 +23791,19 @@ simdjson_warn_unused uint8_t *dom_parser_implementation::parse_wobbly_string(con
 }
 
 simdjson_warn_unused error_code dom_parser_implementation::parse(const uint8_t *_buf, size_t _len, dom::document &_doc) noexcept {
-  // std::cout << "LAILA2\n";
+  std::cout << "LAILA2\n";
   auto start = std::chrono::high_resolution_clock::now();
   auto error = stage1(_buf, _len, stage1_mode::regular);
   if (error) { return error; }
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds total_time_validation = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-  // std::cout << "Total time spent in stage 1: " << total_time_validation.count() << " nanoseconds" << std::endl;
+  std::cout << "Total time spent in stage 1: " << total_time_validation.count() << " nanoseconds" << std::endl;
 
   auto start_2 = std::chrono::high_resolution_clock::now();
   auto stg2_temp = stage2(_doc);
   auto end_2 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds total_time_validation_2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-  // std::cout << "Total time spent in stage 2: " << total_time_validation_2.count() << " nanoseconds" << std::endl;
+  std::cout << "Total time spent in stage 2: " << total_time_validation_2.count() << " nanoseconds" << std::endl;
 
   return stg2_temp;
 }
@@ -24605,12 +24605,12 @@ namespace jsoncharutils {
 // return non-zero if not a structural or whitespace char
 // zero otherwise
 simdjson_inline uint32_t is_not_structural_or_whitespace(uint8_t c) {
-  // std::cout << "icelake;\n";
+  std::cout << "icelake;\n";
   return internal::structural_or_whitespace_negated[c];
 }
 
 simdjson_inline uint32_t is_structural_or_whitespace(uint8_t c) {
-  // std::cout << "icelake;\n";
+  std::cout << "icelake;\n";
   return internal::structural_or_whitespace[c];
 }
 
@@ -30858,12 +30858,12 @@ namespace jsoncharutils {
 // return non-zero if not a structural or whitespace char
 // zero otherwise
 simdjson_inline uint32_t is_not_structural_or_whitespace(uint8_t c) {
-  // std::cout << "ppc64\n";
+  std::cout << "ppc64\n";
   return internal::structural_or_whitespace_negated[c];
 }
 
 simdjson_inline uint32_t is_structural_or_whitespace(uint8_t c) {
-  // std::cout << "ppc64\n";
+  std::cout << "ppc64\n";
   return internal::structural_or_whitespace[c];
 }
 
@@ -33929,7 +33929,7 @@ using namespace simd;
     simdjson_inline void check_utf8_bytes(const simd8<uint8_t> input, const simd8<uint8_t> prev_input) {
       // Flip prev1...prev3 so we can easily determine if they are 2+, 3+ or 4+ lead bytes
       // (2, 3, 4-byte leads become large positive numbers instead of small negative numbers)
-      // std::cout << "bomb3\n";
+      std::cout << "bomb3\n";
       simd8<uint8_t> prev1 = input.prev<1>(prev_input);
       simd8<uint8_t> sc = check_special_cases(input, prev1);
       this->error |= check_multibyte_lengths(input, prev_input, sc);
@@ -37477,12 +37477,12 @@ namespace jsoncharutils {
 // return non-zero if not a structural or whitespace char
 // zero otherwise
 simdjson_inline uint32_t is_not_structural_or_whitespace(uint8_t c) {
-  // std::cout << "westmere\n";
+  std::cout << "westmere\n";
   return internal::structural_or_whitespace_negated[c];
 }
 
 simdjson_inline uint32_t is_structural_or_whitespace(uint8_t c) {
-  // std::cout << "westmere\n";
+  std::cout << "westmere\n";
   return internal::structural_or_whitespace[c];
 }
 
@@ -40872,7 +40872,7 @@ using namespace simd;
     simdjson_inline void check_utf8_bytes(const simd8<uint8_t> input, const simd8<uint8_t> prev_input) {
       // Flip prev1...prev3 so we can easily determine if they are 2+, 3+ or 4+ lead bytes
       // (2, 3, 4-byte leads become large positive numbers instead of small negative numbers)
-      // std::cout << "Bomb4\n";
+      std::cout << "Bomb4\n";
       simd8<uint8_t> prev1 = input.prev<1>(prev_input);
       simd8<uint8_t> sc = check_special_cases(input, prev1);
       this->error |= check_multibyte_lengths(input, prev_input, sc);
@@ -43196,12 +43196,12 @@ simdjson_warn_unused bool implementation::validate_utf8(const char *buf, size_t 
 }
 
 simdjson_warn_unused error_code dom_parser_implementation::stage2(dom::document &_doc) noexcept {
-  // std::cout << "hello4!\n";
+  std::cout << "hello4!\n";
   return stage2::tape_builder::parse_document<false>(*this, _doc);
 }
 
 simdjson_warn_unused error_code dom_parser_implementation::stage2_next(dom::document &_doc) noexcept {
-  // std::cout << "hello5!\n";
+  std::cout << "hello5!\n";
   return stage2::tape_builder::parse_document<true>(*this, _doc);
 }
 
@@ -43214,7 +43214,7 @@ simdjson_warn_unused uint8_t *dom_parser_implementation::parse_wobbly_string(con
 }
 
 simdjson_warn_unused error_code dom_parser_implementation::parse(const uint8_t *_buf, size_t _len, dom::document &_doc) noexcept {
-  // std::cout << "here!!!!\n";
+  std::cout << "here!!!!\n";
   auto error = stage1(_buf, _len, stage1_mode::regular);
   if (error) { return error; }
   return stage2(_doc);

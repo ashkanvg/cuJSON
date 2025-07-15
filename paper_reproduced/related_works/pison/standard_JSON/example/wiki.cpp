@@ -110,7 +110,7 @@ string query(BitmapIterator* iter) {
 }
 
 int main() {
-    char* file_path = "../../../Test-Files/Pison Large Datasets/wiki_large_record.json";
+    char* file_path = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/wiki_large_record.json";
     
     // auto start2 = chrono::high_resolution_clock::now();
     Record* rec = RecordLoader::loadSingleRecord(file_path);    
@@ -129,7 +129,7 @@ int main() {
     /* process the input record in serial order: first build bitmap,
      * then perform the query with a bitmap iterator
      */
-    int thread_num = 1;
+    int thread_num = 4;
     int level_num = 5;
     Bitmap* bm = BitmapConstructor::construct(rec, thread_num,level_num);
     BitmapIterator* iter = BitmapConstructor::getIterator(bm);
@@ -147,11 +147,10 @@ int main() {
 
     auto end = chrono::high_resolution_clock::now();
 
-    double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
-    time_taken *= 1e-9;
- 
-    cout << "Time taken by program is : " << fixed << time_taken << setprecision(9);
-    cout << " sec" << endl;
+
+    double time_taken_ms = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+
+    cout << time_taken_ms << setprecision(3) << endl;
 
     // delete iter;
     // delete bm;

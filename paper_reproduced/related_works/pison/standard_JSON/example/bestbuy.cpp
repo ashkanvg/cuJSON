@@ -67,7 +67,7 @@ string query2(BitmapIterator* iter) {
 
 int main() {
     // char* file_path = "../dataset/bestbuy_sample_small_records.json";
-    char* file_path = "../../../Test-Files/Pison Large Datasets/bestbuy_large_record.json";
+    char* file_path = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/bestbuy_large_record.json";
     
     // auto start2 = chrono::high_resolution_clock::now();
     Record* rec = RecordLoader::loadSingleRecord(file_path);
@@ -113,11 +113,12 @@ int main() {
     // std::cout << "query: " << duration.count() << " nanoseconds" << std::endl;
 
     auto end = chrono::high_resolution_clock::now();
-    double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
-    time_taken *= 1e-9;
+    // double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    // time_taken *= 1e-9;
  
-    cout << "Time taken by program is : " << fixed << time_taken << setprecision(9);
-    cout << " sec" << endl;
+    double time_taken_ms = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+
+    cout << time_taken_ms << setprecision(3) << endl;
 
     //cout<<"matches are: "<<output<<endl;
     return 0;

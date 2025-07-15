@@ -7257,7 +7257,7 @@ simdjson_inline bool document_stream::iterator::operator!=(const document_stream
 }
 
 inline void document_stream::start() noexcept {
-  // std::cout << "hi2-start()\n";
+  std::cout << "hi2-start()\n";
   if (error) { return; }
   error = parser->ensure_capacity(batch_size);
   if (error) { return; }
@@ -7302,7 +7302,7 @@ simdjson_inline std::string_view document_stream::iterator::source() const noexc
 
 
 inline void document_stream::next() noexcept {
-  // std::cout << "hello!\n";
+  std::cout << "hello!\n";
   // We always exit at once, once in an error condition.
   if (error) { return; }
 
@@ -7565,20 +7565,20 @@ simdjson_inline simdjson_result<element> parser::parse(const padded_string_view 
 }
 
 inline simdjson_result<document_stream> parser::parse_many(const uint8_t *buf, size_t len, size_t batch_size) noexcept {
-  // std::cout << "hello8!\n";  
+  std::cout << "hello8!\n";  
   if(batch_size < MINIMAL_BATCH_SIZE) { batch_size = MINIMAL_BATCH_SIZE; }
   return document_stream(*this, buf, len, batch_size);
 }
 inline simdjson_result<document_stream> parser::parse_many(const char *buf, size_t len, size_t batch_size) noexcept {
-  // std::cout << "hello9!\n";  
+  std::cout << "hello9!\n";  
   return parse_many(reinterpret_cast<const uint8_t *>(buf), len, batch_size);
 }
 inline simdjson_result<document_stream> parser::parse_many(const std::string &s, size_t batch_size) noexcept {
-  // std::cout << "hello10!\n";  
+  std::cout << "hello10!\n";  
   return parse_many(s.data(), s.length(), batch_size);
 }
 inline simdjson_result<document_stream> parser::parse_many(const padded_string &s, size_t batch_size) noexcept {
-  // std::cout << "hello11!\n";  
+  std::cout << "hello11!\n";  
   return parse_many(s.data(), s.length(), batch_size);
 }
 
@@ -15838,12 +15838,12 @@ namespace jsoncharutils {
 // return non-zero if not a structural or whitespace char
 // zero otherwise
 simdjson_inline uint32_t is_not_structural_or_whitespace(uint8_t c) {
-  // std::cout << "haswell\n";
+  std::cout << "haswell\n";
   return internal::structural_or_whitespace_negated[c];
 }
 
 simdjson_inline uint32_t is_structural_or_whitespace(uint8_t c) {
-  // std::cout << "haswell\n";
+  std::cout << "haswell\n";
   return internal::structural_or_whitespace[c];
 }
 
@@ -32551,7 +32551,7 @@ simdjson_inline document_stream::iterator document_stream::end() noexcept {
 }
 
 inline void document_stream::start() noexcept {
-  // std::cout << "hi5-start()\n";
+  std::cout << "hi5-start()\n";
   if (error) { return; }
   error = parser->allocate(batch_size);
   if (error) { return; }
@@ -34083,7 +34083,7 @@ simdjson_warn_unused simdjson_inline error_code parser::allocate(size_t new_capa
 }
 
 simdjson_warn_unused simdjson_inline simdjson_result<document> parser::iterate(padded_string_view json) & noexcept {
-  // std::cout << "hi3\n";
+  std::cout << "hi3\n";
   if (json.padding() < SIMDJSON_PADDING) { return INSUFFICIENT_PADDING; }
 
   // Allocate if needed
@@ -41295,7 +41295,7 @@ simdjson_inline document::document(ondemand::json_iterator &&_iter) noexcept
 }
 
 simdjson_inline document document::start(json_iterator &&iter) noexcept {
-  // std::cout<<"document:start-fallback\n";
+  std::cout<<"document:start-fallback\n";
   return document(std::forward<json_iterator>(iter));
 }
 
@@ -42295,7 +42295,7 @@ simdjson_inline document_stream::iterator document_stream::end() noexcept {
 }
 
 inline void document_stream::start() noexcept {
-  // std::cout << "hi3-start()\n";
+  std::cout << "hi3-start()\n";
   if (error) { return; }
   error = parser->allocate(batch_size);
   if (error) { return; }
@@ -42383,7 +42383,7 @@ inline void document_stream::next() noexcept {
        * So we need to re-anchor the json_iterator after each call to stage 1 so that
        * all of the pointers are in sync.
        */
-      // std::cout << "lola\n";
+      std::cout << "lola\n";
       doc.iter = json_iterator(&buf[batch_start], parser);
       doc.iter._streaming = true;
       /**
@@ -43828,7 +43828,7 @@ simdjson_warn_unused simdjson_inline error_code parser::allocate(size_t new_capa
 }
 
 simdjson_warn_unused simdjson_inline simdjson_result<document> parser::iterate(padded_string_view json) & noexcept {
-  // std::cout << "hi2\n";
+  std::cout << "hi2\n";
   if (json.padding() < SIMDJSON_PADDING) { return INSUFFICIENT_PADDING; }
 
   // Allocate if needed
@@ -43841,15 +43841,15 @@ simdjson_warn_unused simdjson_inline simdjson_result<document> parser::iterate(p
   SIMDJSON_TRY( implementation->stage1(reinterpret_cast<const uint8_t *>(json.data()), json.length(), stage1_mode::regular) );
   auto end = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds total_time_validation = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-  // std::cout << "Total time spent in stage 1: " << total_time_validation.count() << " nanoseconds" << std::endl;
+  std::cout << "Total time spent in stage 1: " << total_time_validation.count() << " nanoseconds" << std::endl;
 
   
-  // std::cout << "LOOP\n";
+  std::cout << "LOOP\n";
   auto start_2 = std::chrono::high_resolution_clock::now();
   auto doc_temp = document::start({ reinterpret_cast<const uint8_t *>(json.data()), this });
   auto end_2 = std::chrono::high_resolution_clock::now();
   std::chrono::nanoseconds total_time_validation_2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end_2 - start_2);
-  // std::cout << "Total time spent in stage 2: " << total_time_validation_2.count() << " nanoseconds" << std::endl;
+  std::cout << "Total time spent in stage 2: " << total_time_validation_2.count() << " nanoseconds" << std::endl;
 
   return doc_temp;
 }
@@ -52545,7 +52545,7 @@ simdjson_inline document_stream::iterator document_stream::end() noexcept {
 }
 
 inline void document_stream::start() noexcept {
-  // std::cout << "hi-haswell-start()\n";
+  std::cout << "hi-haswell-start()\n";
   if (error) { return; }
   error = parser->allocate(batch_size);
   if (error) { return; }
@@ -54077,14 +54077,14 @@ simdjson_warn_unused simdjson_inline error_code parser::allocate(size_t new_capa
 }
 
 simdjson_warn_unused simdjson_inline simdjson_result<document> parser::iterate(padded_string_view json) & noexcept {
-  // std::cout << "hi!\n";
+  std::cout << "hi!\n";
   if (json.padding() < SIMDJSON_PADDING) { return INSUFFICIENT_PADDING; }
 
   // Allocate if needed
   if (capacity() < json.length() || !string_buf) {
     SIMDJSON_TRY( allocate(json.length(), max_depth()) );
   }
-  // std::cout << "hi!\n";
+  std::cout << "hi!\n";
   // Run stage 1.
   SIMDJSON_TRY( implementation->stage1(reinterpret_cast<const uint8_t *>(json.data()), json.length(), stage1_mode::regular) );
   return document::start({ reinterpret_cast<const uint8_t *>(json.data()), this });
@@ -54127,7 +54127,7 @@ simdjson_warn_unused simdjson_inline simdjson_result<json_iterator> parser::iter
   if (capacity() < json.length()) {
     SIMDJSON_TRY( allocate(json.length(), max_depth()) );
   }
-  // std::cout << "hi!\n";
+  std::cout << "hi!\n";
   // Run stage 1.
   SIMDJSON_TRY( implementation->stage1(reinterpret_cast<const uint8_t *>(json.data()), json.length(), stage1_mode::regular) );
   return json_iterator(reinterpret_cast<const uint8_t *>(json.data()), this);
@@ -62780,7 +62780,7 @@ simdjson_inline document_stream::iterator document_stream::end() noexcept {
 }
 
 inline void document_stream::start() noexcept {
-  // std::cout << "hi6-start()\n";
+  std::cout << "hi6-start()\n";
   if (error) { return; }
   error = parser->allocate(batch_size);
   if (error) { return; }
@@ -62794,7 +62794,7 @@ inline void document_stream::start() noexcept {
     error = run_stage1(*parser, batch_start);
   }
   if (error) { return; }
-  // std::cout << "inja!\n";
+  std::cout << "inja!\n";
   doc_index = batch_start;
   doc = document(json_iterator(&buf[batch_start], parser));
 
@@ -64314,7 +64314,7 @@ simdjson_warn_unused simdjson_inline error_code parser::allocate(size_t new_capa
 }
 
 simdjson_warn_unused simdjson_inline simdjson_result<document> parser::iterate(padded_string_view json) & noexcept {
-  // std::cout << "hi6\n";
+  std::cout << "hi6\n";
   if (json.padding() < SIMDJSON_PADDING) { return INSUFFICIENT_PADDING; }
 
   // Allocate if needed
@@ -74661,7 +74661,7 @@ simdjson_warn_unused simdjson_inline error_code parser::allocate(size_t new_capa
 }
 
 simdjson_warn_unused simdjson_inline simdjson_result<document> parser::iterate(padded_string_view json) & noexcept {
-  // std::cout << "hi5\n";
+  std::cout << "hi5\n";
   if (json.padding() < SIMDJSON_PADDING) { return INSUFFICIENT_PADDING; }
 
   // Allocate if needed
@@ -83801,7 +83801,7 @@ simdjson_inline document_stream::iterator document_stream::end() noexcept {
 }
 
 inline void document_stream::start() noexcept {
-  // std::cout << "hi4-start()\n";
+  std::cout << "hi4-start()\n";
   if (error) { return; }
   error = parser->allocate(batch_size);
   if (error) { return; }
@@ -85333,7 +85333,7 @@ simdjson_warn_unused simdjson_inline error_code parser::allocate(size_t new_capa
 }
 
 simdjson_warn_unused simdjson_inline simdjson_result<document> parser::iterate(padded_string_view json) & noexcept {
-  // std::cout << "hi4\n";
+  std::cout << "hi4\n";
   if (json.padding() < SIMDJSON_PADDING) { return INSUFFICIENT_PADDING; }
 
   // Allocate if needed

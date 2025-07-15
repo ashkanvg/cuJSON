@@ -159,52 +159,51 @@ In order to run all of the queries, please follow the following steps. We are re
 
 ```
 echo 'TT1:';
-nvcc -O3 -o query-experiment ./example/query_TT1_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_TT1_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/twitter_small_records_remove.json;
 
 echo 'TT2:';
-nvcc -O3 -o query-experiment ./example/query_TT2_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_TT2_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/twitter_small_records_remove.json;
 
 echo 'TT3:';
-nvcc -O3 -o query-experiment ./example/query_TT3_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_TT3_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/twitter_small_records_remove.json;
 
 echo 'TT4:';
-nvcc -O3 -o query-experiment ./example/query_TT4_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_TT4_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/twitter_small_records_remove.json;
 
 echo 'WM:';
-nvcc -O3 -o query-experiment ./example/query_WM_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_WM_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/walmart_small_records_remove.json ;
 
 echo 'GMD1:';
-nvcc -O3 -o query-experiment ./example/query_GMD1_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_GMD1_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/google_map_small_records_remove.json ;
 
 echo 'GMD2:';
-nvcc -O3 -o query-experiment ./example/query_GMD2_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_GMD2_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/google_map_small_records_remove.json ;
 
 echo 'nspl:';
-nvcc -O3 -o query-experiment ./example/query_NSPL_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_NSPL_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/nspl_small_records_remove.json;
 
 echo 'BB1:';
-nvcc -O3 -o query-experiment ./example/query_BB1_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_BB1_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/bestbuy_small_records_remove.json ;
 
 echo 'BB2:';
-nvcc -O3 -o query-experiment ./example/query_BB2_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_BB2_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/bestbuy_small_records_remove.json ;
 
-
 echo 'WP1:';
-nvcc -O3 -o query-experiment ./example/query_WP1_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_WP1_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/wiki_small_records_remove.json ;
 
 echo 'WP2:';
-nvcc -O3 -o query-experiment ./example/query_WP2_JSONL.cu -w [-gencode=arch=compute_61,code=sm_61];
+nvcc -O3 -o query-experiment ./example/query_WP2_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
 ./query-experiment -b ./dataset/wiki_small_records_remove.json ;
 
 ```

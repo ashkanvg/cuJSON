@@ -20,7 +20,7 @@
 #include <thrust/partition.h>
 #include <thrust/execution_policy.h>
 #include <inttypes.h>
-#include "../src/query/query_iterator.cpp"
+#include "../../query/query_iterator.cpp"
 #include <thrust/host_vector.h>
 #include <device_launch_parameters.h>
 #include <vector>
@@ -2513,7 +2513,7 @@ int main(int argc, char **argv){
     int32_t* result;
     if (argv[1] != NULL){
         if( strcmp(argv[1], "-b") == 0 && argv[2] != NULL){
-            std::cout << "Batch mode running..." << std::endl;
+            // std::cout << "Batch mode running..." << std::endl;
             int n = 6;
             float total_time = 0;
 
@@ -2532,31 +2532,24 @@ int main(int argc, char **argv){
             high_resolution_clock::time_point start, stop;
 
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
-            // warmup
+            // Warmup
             index0 = itr.gotoArrayIndex(0);
-            // index0 = itr.gotoKey("products");
-            // index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("regularPrice");
+            index0 = itr.gotoKey("user");
+            index0 = itr.gotoKey("id");
             itr.reset();
 
-            int repeated_time = 10;
-            nanoseconds total_elapsed_time(0);
-            while(repeated_time){
-                start = high_resolution_clock::now();
-                //BB1 JSONL
-                index0 = itr.gotoArrayIndex(0);
-                // index0 = itr.gotoKey("products");
-                // index0 = itr.gotoArrayIndex(0);
-                index0 = itr.gotoKey("regularPrice");
+            start = high_resolution_clock::now();
+            //TT2
+            index0 = itr.gotoArrayIndex(0);
+            index0 = itr.gotoKey("user");
+            index0 = itr.gotoKey("id");
+            // itr.reset();
+            // index0 = itr.gotoKey("user");
+            // index0 = itr.gotoKey("lang");
 
-                stop = high_resolution_clock::now();
-                total_elapsed_time += duration_cast<nanoseconds>(stop - start);
-
-                itr.reset();
-                repeated_time--;
-            }
-
-            cout << "Total Query time: " << total_elapsed_time.count() / 10 << " nanoseconds." << endl;
+            stop = high_resolution_clock::now();
+            auto elapsed = duration_cast<nanoseconds>(stop - start);
+            cout << elapsed.count() << endl;
             // cout << "\nValue: " << itr.getValue() <<endl;
             itr.freeJson();
 

@@ -12,28 +12,13 @@
 #include <malloc.h>
 #include <fstream>
 #include <unistd.h>
+#include <chrono>
 
 using namespace std;
 using namespace std::chrono;
-// using namespace simdjson::haswell::stage1;
-
-
 using namespace simdjson;
-// using namespace simdjson::haswell::utf8_validation;
 
-double calcTimeSplit(string fileNameChunk);
 double calcTime(string fileNam, int which);
-
-// void printMemoryUsage() {
-//     struct mallinfo mi = mallinfo();
-//     std::cout << "Total non-mmapped bytes allocated (arena): " << mi.arena / 1024 << " KB\n";
-//     std::cout << "Number of free chunks (ordblks): " << mi.ordblks << "\n";
-//     std::cout << "Number of fastbin blocks (smblks): " << mi.smblks << "\n";
-//     std::cout << "Number of mapped regions (hblks): " << mi.hblks << "\n";
-//     std::cout << "Total allocated space (uordblks): " << mi.uordblks / 1024 << " KB\n";
-//     std::cout << "Total free space (fordblks): " << mi.fordblks / 1024 << " KB\n";
-//     std::cout << "Top-most, releasable (via malloc_trim) space (keepcost): " << mi.keepcost / 1024 << " KB\n";
-// }
 
 void printMemoryUsage(const std::string& message) {
     std::ifstream file("/proc/self/statm");
@@ -51,58 +36,85 @@ void printMemoryUsage(const std::string& message) {
 int main(void) {
 
     // ALL TOGETHER
-    string fileName = "../Test-Files/Pison Large Datasets/nspl_large_record.json";
-    calcTime(fileName, 0);
-    // calcTime(fileName, 1);
+    string fileName;
+    double totalTime = 0;
+
+    totalTime = 0;
+    for(int i = 0; i < 10; i++){
+        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/twitter_large_record.json";
+        totalTime += calcTime(fileName, 0);
+    }
+    cout << "TT, " << totalTime / 10.0 << endl;
+   
+    totalTime = 0;
+    for(int i = 0; i < 10; i++){
+        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/bestbuy_large_record.json";
+        totalTime += calcTime(fileName, 0);
+    }
+    cout << "BB, " << totalTime / 10.0 << endl;
+
+
+    totalTime = 0;
+    for(int i = 0; i < 10; i++){
+        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/google_map_large_record.json";
+        totalTime += calcTime(fileName, 0);
+    }
+    cout << "GMD, " << totalTime / 10.0 << endl;
+   
     
-    fileName = "../Test-Files/Pison Large Datasets/twitter_large_record.json";
-    calcTime(fileName, 1);
-    // calcTime(fileName, 2);
-    // calcTime(fileName, 3);
-    // calcTime(fileName, 4);
+    totalTime = 0;
+    for(int i = 0; i < 10; i++){
+        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/nspl_large_record.json";
+        totalTime += calcTime(fileName, 0);
+    }
+    cout << "NSPL, " << totalTime / 10.0 << endl;
 
-    fileName = "../Test-Files/Pison Large Datasets/walmart_large_record.json";
-    calcTime(fileName, 5);
+        
+    totalTime = 0;
+    for(int i = 0; i < 10; i++){
+        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/walmart_large_record.json";
+        totalTime += calcTime(fileName, 0);
+    }
+    cout << "WM, " << totalTime / 10.0 << endl;
+   
 
-    fileName = "../Test-Files/Pison Large Datasets/wiki_large_record.json";
-    calcTime(fileName, 6);
-    // calcTime(fileName, 7);
+    totalTime = 0;
+    for(int i = 0; i < 10; i++){
+        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/wiki_large_record.json";
+        totalTime += calcTime(fileName, 0);
+    }
+    cout << "WP, " << totalTime / 10.0 << endl;
+   
 
-    fileName = "../Test-Files/Pison Large Datasets/google_map_large_record.json";
-    calcTime(fileName, 8);    
-    // calcTime(fileName, 9);    
-    
-    fileName = "../Test-Files/Pison Large Datasets/bestbuy_large_record.json";
-    calcTime(fileName, 10);
-    // calcTime(fileName, 11);
+
 
     return 0;
-    
 }
 
 
 
 double calcTime(string fileName, int which){
-    cout << "FILE NAME:" << fileName << endl;
-    time_t start, end;
-    time_t start_load, end_load;
-
+    // cout << "FILE NAME:" << fileName << endl;
     ondemand::parser parser;
 
-    start_load = clock();
+    // start_load = clock();
     padded_string json = padded_string::load(fileName);
-    end_load = clock();
+    // end_load = clock();
 
-    start = clock();
-    ondemand::document tweets = parser.iterate(json);
-    end = clock();
+
+    // Measure parse time
+    auto start = high_resolution_clock::now();
+    simdjson::ondemand::document tweets = parser.iterate(json);
+    auto end = high_resolution_clock::now();
 
     simdjson::simdjson_result<simdjson::dom::element> query_res;
-    
-    printMemoryUsage("2"); 
 
-    std::cout << "load: " << ((double)(end_load-start_load)/CLOCKS_PER_SEC) << std::endl;
-    std::cout << "total: " << ((double)(end-start)/CLOCKS_PER_SEC) << std::endl;
+    // Optional: show load time (milliseconds)
+    // double load_time_ms = duration_cast<milliseconds>(end_load - start_load).count();
+    // std::cout << "Load time: " << load_time_ms << " ms\n";
 
-    return 1;
+    // Compute and return parsing time in milliseconds
+    // Return parsing time in milliseconds (as double)
+    std::chrono::duration<double, std::milli> parse_duration = end - start;
+    return parse_duration.count();
 }

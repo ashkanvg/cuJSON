@@ -20,7 +20,7 @@
 #include <thrust/partition.h>
 #include <thrust/execution_policy.h>
 #include <inttypes.h>
-#include "./query/query_iterator_standard_json.cpp"
+#include "../query/query_iterator_standard_json.cpp"
 #include <thrust/host_vector.h>
 #include <device_launch_parameters.h>
 #include <vector>
@@ -2524,13 +2524,13 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
         cout << "Warmup Start Running: " << time_EE.EE_t <<endl;
         cout << "Warmup DtoH Time:" << time_EE.copy_end << endl;
     }else{
-        cout << "1. H2D: \t\t" << time_EE.copy_start<<endl;
-        cout << "2. Validation:\t\t" << time_EE.EE_t_val <<endl;
-        cout << "3. Tokenization:\t" <<time_EE.EE_t_tok <<endl;
-        cout << "4. Parser: \t\t" << time_EE.EE_t_pars <<endl;
-        cout << "5. D2H: \t\t" << time_EE.copy_end<<endl;
+        // cout << "1. H2D: \t\t" << time_EE.copy_start<<endl;
+        // cout << "2. Validation:\t\t" << time_EE.EE_t_val <<endl;
+        // cout << "3. Tokenization:\t" <<time_EE.EE_t_tok <<endl;
+        // cout << "4. Parser: \t\t" << time_EE.EE_t_pars <<endl;
+        // cout << "5. D2H: \t\t" << time_EE.copy_end<<endl;
 
-        cout << "\nTOTAL (ms):\t\t" << time_EE.copy_start + time_EE.EE_t_val + time_EE.EE_t_tok + time_EE.EE_t_pars + time_EE.copy_end << endl;
+        cout << time_EE.copy_start + time_EE.EE_t_val + time_EE.EE_t_tok + time_EE.EE_t_pars /*+ time_EE.copy_end*/ << endl;
 
         time_EE.EE_total += time_EE.EE_t;
         time_EE.copy_end_toal += time_EE.copy_end;
@@ -2541,8 +2541,8 @@ inline int32_t *readFileStandard(char *file,int n, resultStructGJSON* resultStru
     time_EE.copy_end = 0;
     time_EE.copy_start = 0;
 
-    cout << "\nParsed Tree Size:\t" <<  ( resultStruct->totalResultSize);
-    cout << "\nParser's Output Size:\t" <<  ( resultStruct->totalResultSize * 8 ) / 1024 / 1024 << "MB" << endl << endl;
+    // cout << "\nParsed Tree Size:\t" <<  ( resultStruct->totalResultSize);
+    // cout << "\nParser's Output Size:\t" <<  ( resultStruct->totalResultSize * 8 ) / 1024 / 1024 << "MB" << endl << endl;
 
 
 
@@ -2554,7 +2554,7 @@ int main(int argc, char **argv){
     int32_t* result;
     if (argv[1] != NULL){
         if( strcmp(argv[1], "-b") == 0 && argv[2] != NULL){
-            std::cout << "Batch mode running..." << std::endl;
+            // std::cout << "Batch mode running..." << std::endl;
             int n = 6;
             float total_time = 0;
 
@@ -2574,21 +2574,21 @@ int main(int argc, char **argv){
 
             structural_iterator itr = structural_iterator(&parsed_tree,argv[2]);
 
-            start = high_resolution_clock::now();
-            //TT1
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("user");
-            index0 = itr.gotoKey("lang");
-            itr.reset();
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoArrayIndex(0);
-            index0 = itr.gotoKey("lang");
+            // start = high_resolution_clock::now();
+            // //TT1
+            // index0 = itr.gotoArrayIndex(0);
+            // index0 = itr.gotoArrayIndex(0);
+            // index0 = itr.gotoKey("user");
+            // index0 = itr.gotoKey("lang");
+            // itr.reset();
+            // index0 = itr.gotoArrayIndex(0);
+            // index0 = itr.gotoArrayIndex(0);
+            // index0 = itr.gotoKey("lang");
 
-            stop = high_resolution_clock::now();
-            auto elapsed = duration_cast<nanoseconds>(stop - start);
+            // stop = high_resolution_clock::now();
+            // auto elapsed = duration_cast<nanoseconds>(stop - start);
             // cout << "\nValue: " << itr.getValue() <<endl;
-            cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
+            // cout << "Total Query time: " << elapsed.count() << " nanoseconds." << endl << endl;
             itr.freeJson();
 
 
