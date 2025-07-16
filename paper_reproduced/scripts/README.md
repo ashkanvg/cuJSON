@@ -19,6 +19,7 @@ In order to run each method seperately, the results is per each dataset and 10 t
 ./run_pison_fig9.sh
 ```
 
+
 In order to run all the resutls together:
 ```
 run_all_fig9.sh
@@ -28,9 +29,23 @@ You can find the results of all methods: `scripts/results/fig9_data.csv` <br>
 You can find the resutls of each methods in `scripts/results`: `cujson_fig9_temp.sh`, `simdjson_fig9_tmp.sh`, `rapidjson_fig9_tmp.sh`, and `pison_fig9_tmp.sh`.
 
 
-<!-- # Fig 11:
+# Fig 11:
+- GPJSON 
+```
+./run_gpjson_fig11.sh
+```
+- cuDF
+```
+./run_cuDF_fig11.sh
+```
 
-# Fig 12: -->
+In order to run all the resutls together:
+```
+run_all_fig11.sh
+```
+
+You can find the results of all methods: `scripts/results/fig9_data.csv` <br>
+You can find the resutls of each methods in `scripts/results`: `cujson_fig9_temp.sh`, `simdjson_fig9_tmp.sh`, `rapidjson_fig9_tmp.sh`, and `pison_fig9_tmp.sh`.
 
 
 ## Fig 13, Table 8 (only cuJSON):

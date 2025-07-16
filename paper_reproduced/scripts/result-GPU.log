@@ -1,0 +1,6 @@
+
+EnvironmentNameNotFound: Could not find conda environment: cuDF_env
+You can list all discoverable environments with `conda info --envs`.
+
+
+✅ Combined results saved to results/fig11_data.csv

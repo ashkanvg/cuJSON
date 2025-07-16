@@ -10,7 +10,7 @@ function printMemoryUsageCPU(message) {
 const start = performance.now(); // Start time
 
 const gpjson = Polyglot.eval('gpjson', 'jsonpath');
-const result = gpjson.query('/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/GPJSON/walmart_small_records_smaller.json', '$.items.name');
+const result = gpjson.query('/rhome/aveda002/bigdata/Test-Files/walmart_small_records_remove.json', '$.items.name');
 
 const end = performance.now(); // End time
 

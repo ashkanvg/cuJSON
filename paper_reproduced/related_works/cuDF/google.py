@@ -28,7 +28,7 @@ def measure_parsing_time(json_file_path, description, query_version):
 
     # Display results
     print(df.head())
-    print(f"Time taken to read and parse {description} JSON file: {total_time_ms:.2f} ms\n")
+    print(f"Time taken to parse: {total_time_ms:.2f} ms\n")
     # print(f"Time taken to transfer data from GPU to CPU: {transfer_time} ns\n")
 
 
@@ -148,12 +148,16 @@ def measure_parsing_time(json_file_path, description, query_version):
     
 
 # Paths to JSON files
-json_file_path_nspl = '/rhome/aveda002/my-code/json-parsing/Json_Parsing_GPU-master/Test-Files/wiki_small_records_remove.json'
-json_file_path_wiki = '/rhome/aveda002/my-code/json-parsing/Json_Parsing_GPU-master/Test-Files/wiki_small_records_remove.json'
-json_file_path_walmart = '/rhome/aveda002/my-code/json-parsing/Json_Parsing_GPU-master/Test-Files/walmart_small_records_remove.json'
-json_file_path_twitter = '/rhome/aveda002/my-code/json-parsing/Json_Parsing_GPU-master/Test-Files/twitter_small_records_remove.json'
-json_file_path_google = '/rhome/aveda002/my-code/json-parsing/Json_Parsing_GPU-master/Test-Files/google_map_small_records_remove.json'
-json_file_path_bestbuy = '/rhome/aveda002/my-code/json-parsing/Json_Parsing_GPU-master/Test-Files/bestbuy_small_records_remove.json'
+
+    
+
+# Paths to JSON files
+json_file_path_nspl = '/rhome/aveda002/bigdata/Test-Files/wiki_small_records_remove.json'
+json_file_path_wiki = '/rhome/aveda002/bigdata/Test-Files/wiki_small_records_remove.json'
+json_file_path_walmart = '/rhome/aveda002/bigdata/Test-Files/walmart_small_records_remove.json'
+json_file_path_twitter = '/rhome/aveda002/bigdata/Test-Files/twitter_small_records_remove.json'
+json_file_path_google = '/rhome/aveda002/bigdata/Test-Files/google_map_small_records_remove.json'
+json_file_path_bestbuy = '/rhome/aveda002/bigdata/Test-Files/bestbuy_small_records_remove.json'
 
 # Measure and print the parsing times
 # measure_parsing_time(json_file_path_wiki, "nspl", 0)

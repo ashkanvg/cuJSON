@@ -10,12 +10,12 @@ function printMemoryUsageCPU(message) {
 const start = performance.now(); // Start time
 
 const gpjson = Polyglot.eval('gpjson', 'jsonpath');
-const result = gpjson.query('/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/GPJSON/google_map_small_records_remove.json', '$.routes');
+const result = gpjson.query('/rhome/aveda002/bigdata/Test-Files/google_map_small_records_remove.json', '$.routes');
 
 const end = performance.now(); // End time
 
 console.log(`Execution time: ${end - start} ms`); // Log the execution time
 
-console.log("Query Result:", result[0][0][0]);
+// console.log("Query Result:", result[0][0][0]);
 // console.log("Query Result_3:", JSON.stringify(result, null, 1));
 
