@@ -15,16 +15,15 @@ g++ -O3 ../related_works/simdjson/simdjson.cpp ../related_works/simdjson/quickst
 # -------------------------------------
 
 OUT_FILE="results/simdjson_fig9_tmp.csv"
-# FINAL_CSV="results/fig9_data.csv"
 
-echo "🚀 Running simdjson benchmark..."
+echo "🚀 Running simdjson results:..."
 ./simdjson_results/output_large.exe > "$OUT_FILE"
 
 # -------------------------------------
 # Step 3: Merge with cuJSON results
 # -------------------------------------
 # Create merged CSV (Dataset,cuJSON,simdjson)
-TMP_CSV="results/tmp_fig9_combined.csv"
+# TMP_CSV="results/tmp_fig9_combined.csv"
 
 # Read cuJSON and simdjson line by line and join
 # paste -d',' <(tail -n +2 "$FINAL_CSV") <(cut -d',' -f2 "$OUT_FILE") > "$TMP_CSV"

@@ -14,7 +14,7 @@ using namespace rapidjson;
 using namespace std;
  
 
-void printMemoryUsage(const std::string& message) {
+void printMemoryUsage() {
     std::ifstream file("/proc/self/statm");
     long rss;
     file >> rss;
@@ -23,7 +23,7 @@ void printMemoryUsage(const std::string& message) {
     long page_size_kb = sysconf(_SC_PAGESIZE) / 1024;
     long resident_set = rss * page_size_kb;
     double resident_set_mb = resident_set / 1024.0;
-    std::cout << message << " - Memory Usage: " << resident_set_mb << " MB\n";
+    std::cout << "Memory Usage: " << resident_set_mb << " MB\n";
 }
 
 
@@ -34,21 +34,13 @@ int main() {
 
     // Open the file
     FILE* fp = fopen("/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/bestbuy_large_record.json", "r");
-    // FILE* fp = fopen("../Test-Files/Pison Large Datasets/google_map_large_record.json", "r");
-    // FILE* fp = fopen("../Test-Files/Pison Large Datasets/nspl_large_record.json", "r");
-    // FILE* fp = fopen("../Test-Files/Pison Large Datasets/walmart_large_record.json", "r");
-    // FILE* fp = fopen("../Test-Files/Pison Large Datasets/twitter_large_record.json", "r");
-    // FILE* fp = fopen("../Test-Files/Pison Large Datasets/wiki_large_record.json", "r");
-  
+
     // Check if the file was opened successfully
     if (!fp) {
         std::cerr << "Error: unable to open file"<< std::endl;
         return 1;
     }
     // printMemoryUsage("1"); // Print memory usage after deallocation
-
-    
-
     
     time_t start, end;
     start = clock();
@@ -67,7 +59,7 @@ int main() {
         fclose(fp);
         return 1;
     }
-    // printMemoryUsage("2"); // Print memory usage after deallocation
+    // printMemoryUsage(); // Print memory usage after deallocation
 
     end = clock();
     std::cout << ((double)(end-start)/CLOCKS_PER_SEC)*1000 << std::endl;

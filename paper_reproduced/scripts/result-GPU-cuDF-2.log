@@ -3,22 +3,22 @@ EnvironmentNameNotFound: Could not find conda environment: cuDF_env
 You can list all discoverable environments with `conda info --envs`.
 
 
-🚀 Running cuDF benchmarks (10× each) and computing averages...
+🚀 Measuring output memory usage (cuDF, 10× each)...
 
 EnvironmentNameNotFound: Could not find conda environment: cuDF_env
 You can list all discoverable environments with `conda info --envs`.
 
 
-▶️  Running TT with twitter.py
-TT average: 1046.33 ms
-▶️  Running BB with bestbuy.py
-BB average: 1015.45 ms
-▶️  Running GMD with google.py
-GMD average: 931.753 ms
-▶️  Running NSPL with nspl.py
-NSPL average: 12886.2 ms
-▶️  Running WM with walmart.py
-WM average: 956.632 ms
-▶️  Running WP with wiki.py
-WP average: 12786.2 ms
-✅ cuDF results saved to ../../scripts/results/cudf_fig11_tmp_2.csv
+▶️  Running TT with twitter.py for GPU memory...
+TT peak GPU memory: 7082 MiB
+▶️  Running BB with bestbuy.py for GPU memory...
+BB peak GPU memory: 8936 MiB
+▶️  Running GMD with google.py for GPU memory...
+GMD peak GPU memory: 9388 MiB
+▶️  Running NSPL with nspl.py for GPU memory...
+NSPL peak GPU memory: 9858 MiB
+▶️  Running WM with walmart.py for GPU memory...
+WM peak GPU memory: 8276 MiB
+▶️  Running WP with wiki.py for GPU memory...
+WP peak GPU memory: 9858 MiB
+✅ cuDF parsing memory size results saved to ../../scripts/results/cudf_fig14_parsing_output.csv

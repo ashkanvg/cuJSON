@@ -1,0 +1,75 @@
+🔧 Compiling cuJSON...
+🚀 Measuring cuJSON Output Size...
+📂 TT: /rhome/aveda002/bigdata/Test-Files/twitter_small_records_remove.json
+Run 1 total output size: 1267.6 MB
+Run 2 total output size: 1267.6 MB
+Run 3 total output size: 1267.6 MB
+Run 4 total output size: 1267.6 MB
+Run 5 total output size: 1267.6 MB
+Run 6 total output size: 1267.6 MB
+Run 7 total output size: 1267.6 MB
+Run 8 total output size: 1267.6 MB
+Run 9 total output size: 1267.6 MB
+Run 10 total output size: 1267.6 MB
+✅ TT max output size: 1267.6 MB
+📂 BB: /rhome/aveda002/bigdata/Test-Files/bestbuy_small_records_remove.json
+Run 1 total output size: 1713.79 MB
+Run 2 total output size: 1713.79 MB
+Run 3 total output size: 1713.79 MB
+Run 4 total output size: 1713.79 MB
+Run 5 total output size: 1713.79 MB
+Run 6 total output size: 1713.79 MB
+Run 7 total output size: 1713.79 MB
+Run 8 total output size: 1713.79 MB
+Run 9 total output size: 1713.79 MB
+Run 10 total output size: 1713.79 MB
+✅ BB max output size: 1713.79 MB
+📂 GMD: /rhome/aveda002/bigdata/Test-Files/google_map_small_records_remove.json
+Run 1 total output size: 1618.43 MB
+Run 2 total output size: 1618.43 MB
+Run 3 total output size: 1618.43 MB
+Run 4 total output size: 1618.43 MB
+Run 5 total output size: 1618.43 MB
+Run 6 total output size: 1618.43 MB
+Run 7 total output size: 1618.43 MB
+Run 8 total output size: 1618.43 MB
+Run 9 total output size: 1618.43 MB
+Run 10 total output size: 1618.43 MB
+✅ GMD max output size: 1618.43 MB
+📂 NSPL: /rhome/aveda002/bigdata/Test-Files/nspl_small_records_remove.json
+Run 1 total output size: 1840.84 MB
+Run 2 total output size: 1840.84 MB
+Run 3 total output size: 1840.84 MB
+Run 4 total output size: 1840.84 MB
+Run 5 total output size: 1840.84 MB
+Run 6 total output size: 1840.84 MB
+Run 7 total output size: 1840.84 MB
+Run 8 total output size: 1840.84 MB
+Run 9 total output size: 1840.84 MB
+Run 10 total output size: 1840.84 MB
+✅ NSPL max output size: 1840.84 MB
+📂 WM: /rhome/aveda002/bigdata/Test-Files/walmart_small_records_remove.json
+Run 1 total output size: 1089.72 MB
+Run 2 total output size: 1089.72 MB
+Run 3 total output size: 1089.72 MB
+Run 4 total output size: 1089.72 MB
+Run 5 total output size: 1089.72 MB
+Run 6 total output size: 1089.72 MB
+Run 7 total output size: 1089.72 MB
+Run 8 total output size: 1089.72 MB
+Run 9 total output size: 1089.72 MB
+Run 10 total output size: 1089.72 MB
+✅ WM max output size: 1089.72 MB
+📂 WP: /rhome/aveda002/bigdata/Test-Files/wiki_small_records_remove.json
+Run 1 total output size: 2096.81 MB
+Run 2 total output size: 2096.81 MB
+Run 3 total output size: 2096.81 MB
+Run 4 total output size: 2096.81 MB
+Run 5 total output size: 2096.81 MB
+Run 6 total output size: 2096.81 MB
+Run 7 total output size: 2096.81 MB
+Run 8 total output size: 2096.81 MB
+Run 9 total output size: 2096.81 MB
+Run 10 total output size: 2096.81 MB
+✅ WP max output size: 2096.81 MB
+✅ cuJSON output sizes saved to results/cujson_fig14_parsing_output.csv

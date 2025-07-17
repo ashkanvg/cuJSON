@@ -1,0 +1,49 @@
+#include "simdjson.h"
+#include <string>
+#include <chrono>
+#include <unistd.h>
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+using namespace std::chrono;
+using namespace simdjson;
+
+void calcMemoryUsage(string fileName, string short_file_name);
+
+void printMemoryUsage(const std::string& message) {
+    std::ifstream file("/proc/self/statm");
+    long size, resident;
+    file >> size >> resident;
+
+    long page_size_kb = sysconf(_SC_PAGESIZE) / 1024;
+    long rss_kb = resident * page_size_kb;
+    double rss_mb = rss_kb / 1024.0;
+
+    std::cout << message << "," << rss_mb << std::endl;
+}
+
+int main() {
+    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/twitter_large_record.json", "TT");
+    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/bestbuy_large_record.json", "BB");
+    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/google_map_large_record.json", "GMD");
+    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/nspl_large_record.json", "NSPL");
+    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/walmart_large_record.json", "WM");
+    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/wiki_large_record.json", "WP");
+    return 0;
+}
+
+void calcMemoryUsage(string fileName, string short_file_name) {
+    simdjson::ondemand::parser parser;
+
+    // Load file into padded_string
+    padded_string json = padded_string::load(fileName);
+
+    // Run parsing once to trigger any allocations
+    auto start = high_resolution_clock::now();
+    simdjson::ondemand::document doc = parser.iterate(json);
+    auto end = high_resolution_clock::now();
+
+    // Output memory usage
+    printMemoryUsage(short_file_name);
+}

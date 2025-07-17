@@ -20,7 +20,7 @@ def measure_parsing_time(json_file_path, description, query_version):
     df_size_mb = df_size_bytes / (1024 * 1024)
 
     # Print the size in MB
-    print(f"DataFrame Size: {df_size_mb:.2f} MB")
+    print(f"DataFrame Size: {df_size_mb:.2f}")
     # # Convert the cuDF DataFrame to a Pandas DataFrame (CPU)
     # start_transfer_time = time.time_ns()
     # df_cpu = df.to_pandas()

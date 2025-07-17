@@ -5,7 +5,7 @@ echo "🔧 Compiling Pison (with gcc-toolset)..."
 mkdir -p results
 
 # Compile inside GCC 13 environment
-# cd ../related_works/pison/standard_JSON && make clean && make all
+cd ../related_works/pison/standard_JSON && make clean && make all
 
 # Move into bin after compilation
 cd ../related_works/pison/standard_JSON/bin

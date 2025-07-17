@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Running all Figure 9 benchmarks and generating merged results..."
+echo "🚀 Running all Figure 11 benchmarks and generating merged results..."
 
 # Step 1: Run cuJSON
 echo "▶️  [1/4] Running cuJSON benchmark..."
