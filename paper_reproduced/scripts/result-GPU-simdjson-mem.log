@@ -1,7 +1,0 @@
-🔧 Compiling simdjson...
-../related_works/simdjson/quickstart-original-iterate-query.cpp: In function ‘double calcTime(std::__cxx11::string, int)’:
-../related_works/simdjson/quickstart-original-iterate-query.cpp:66:65: error: expected ‘)’ before ‘]’ token
-                 tweets["entities"]["urls"].at(0)["indices"].at(0];
-                                                               ~ ^
-                                                                 )
-🚀 Running simdjson query results:...

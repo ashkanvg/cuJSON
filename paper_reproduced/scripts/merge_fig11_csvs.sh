@@ -23,9 +23,9 @@ set -e
 # ------------------------------
 # Step 1: Input CSV paths
 # ------------------------------
-CUJSON="results/cujson_fig9_temp.csv"
-cudf="results/cudf_fig11_tmp.csv"
-gpjson="results/gpjson_fig11_tmp.csv"
+CUJSON="results/cujson_fig9.csv"
+cudf="results/cudf_fig11.csv"
+gpjson="results/gpjson_fig11.csv"
 MERGED="results/fig11_data.csv"
 
 # Ordered list of datasets (enforces row order)

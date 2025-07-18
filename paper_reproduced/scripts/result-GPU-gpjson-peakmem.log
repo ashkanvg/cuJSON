@@ -1,6 +1,0 @@
-🔧 Compiling RapidJSON benchmarks...
-🚀 Measuring RapidJSON Output Memory Usage...
-📂 TT: output-twitter.exe
-/var/spool/slurmd/job17996734/slurm_script: line 50: ./output-twitter.exe: No such file or directory
-❌ Failed to extract memory for TT (run 1)
-

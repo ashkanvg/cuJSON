@@ -30,7 +30,7 @@ g++ -O3 ../related_works/simdjson/simdjson.cpp ../related_works/simdjson/quickst
 # Step 2: Run and save output
 # -------------------------------------
 
-OUT_FILE="results/simdjson_fig14_tmp.csv"
+OUT_FILE="results/simdjson_fig14.csv"
 
 echo "🚀 Running simdjson memory results:..."
 echo "Dataset,MemoryUsage(MB)" > "$OUT_FILE"

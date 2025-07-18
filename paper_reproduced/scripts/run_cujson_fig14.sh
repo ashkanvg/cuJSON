@@ -19,7 +19,7 @@ mkdir -p cujson_results
 
 SRC="../src/reproduced/cuJSON-standardjson-parser-output.cu"
 BINARY="./cujson_results/output_large.exe"
-OUT_FILE="results/cujson_fig14_parsing_output.csv"
+OUT_FILE="results/cujson_fig14.csv"
 
 : > "$OUT_FILE"
 echo "Dataset,MaxOutputSize(MB)" > "$OUT_FILE"

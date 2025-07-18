@@ -14,7 +14,7 @@ g++ -O3 ../related_works/simdjson/simdjson.cpp ../related_works/simdjson/quickst
 # Step 2: Run and save output
 # -------------------------------------
 
-OUT_FILE="results/simdjson_fig9_tmp.csv"
+OUT_FILE="results/simdjson_fig9.csv"
 
 echo "🚀 Running simdjson results:..."
 ./simdjson_results/output_large.exe > "$OUT_FILE"

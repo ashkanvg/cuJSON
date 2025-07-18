@@ -33,7 +33,7 @@ declare -A SCRIPTS=(
 
 
 mkdir -p results
-OUT_FILE="results/gpjson_fig11_tmp.csv"
+OUT_FILE="results/gpjson_fig11.csv"
 : > "$OUT_FILE"
 echo "Dataset,AverageTime(ms)" > "$OUT_FILE"
 

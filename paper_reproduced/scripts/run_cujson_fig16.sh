@@ -19,7 +19,7 @@ mkdir -p cujson_results
 
 SRC="../src/reproduced/cuJSON-jsonlines-total-parsing.cu"
 BINARY="./cujson_results/output_scalability.exe"
-OUT_FILE="results/cujson_scalability_outputsize.csv"
+OUT_FILE="results/cujson_fig16.csv"
 
 : > "$OUT_FILE"
 echo "Dataset,FileSize,MaxOutputSize(MB)" > "$OUT_FILE"

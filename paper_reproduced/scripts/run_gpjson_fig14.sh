@@ -29,7 +29,7 @@ make all
 # Move into bin after compilation
 cd bin
 
-TMP_FILE="../../../../scripts/results/gpjson_fig14_tmp.csv"
+TMP_FILE="../../../../scripts/results/gpjson_fig14.csv"
 : > "$TMP_FILE"
 
 echo "Dataset,OutputSize(MB)" > "$TMP_FILE"

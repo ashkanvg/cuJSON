@@ -36,7 +36,7 @@ declare -A SCRIPTS=(
 )
 
 mkdir -p ../../scripts/results
-OUT_FILE="../../scripts/results/cudf_fig12_peak_memory.csv"
+OUT_FILE="../../scripts/results/cudf_fig12.csv"
 : > "$OUT_FILE"
 echo "Dataset,PeakMemory(MiB)" > "$OUT_FILE"
 

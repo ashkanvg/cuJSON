@@ -44,7 +44,7 @@ declare -A SCRIPTS=(
 )
 
 mkdir -p ../../scripts/results
-OUT_FILE="../../scripts/results/cudf_fig11_tmp_2.csv"
+OUT_FILE="../../scripts/results/cudf_fig11.csv"
 : > "$OUT_FILE"
 echo "Dataset,AverageTime(ms)" > "$OUT_FILE"
 

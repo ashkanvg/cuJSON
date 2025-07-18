@@ -39,7 +39,7 @@ int main() {
             sum += calcFunction(fileName, query_id);
         }
     }
-    cout << "Average," << (sum / count) << endl;
+    cout << "AVERAGE," << (sum / count) << endl;
 
     return 0;
 }

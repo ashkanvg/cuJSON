@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+echo "🚀 Running all Figure 12 benchmarks and generating merged results..."
+
+# Step 1: Run cuJSON
+echo "▶️  [1/4] Running cuJSON benchmark..."
+bash scripts/run_cujson_fig14.sh
+
+# Step 2: Run simdjson
+echo "▶️  [2/4] Running simdjson benchmark..."
+bash scripts/run_simdjson_fig14.sh
+
+# Step 3: Run RapidJSON
+echo "▶️  [3/4] Running RapidJSON benchmark..."
+bash scripts/run_rapidjson_fig14.sh
+
+# Step 3: Run RapidJSON
+echo "▶️  [3/4] Running pison benchmark..."
+bash scripts/run_pison_fig14.sh
+
+# Step 4: Merge all results
+echo "🧩 [4/4] Merging CSV files..."
+bash scripts/merge_fig14_csvs.sh
+
+echo "✅ All done. Final CSV: results/fig14_data.csv"

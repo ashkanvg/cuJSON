@@ -4,8 +4,11 @@ set -e
 echo "🚀 Running all query experiments (10× each) and computing averages..."
 
 mkdir -p results
-OUT_FILE="results/cujson_fig15_query.csv"
+OUT_FILE="results/cujson_fig15_temp.csv"
 : > "$OUT_FILE"
+
+OUT_FILE_FINAL="results/cujson_fig15.csv"
+: > "$OUT_FILE_FINAL"
 echo "QueryName,AverageTime" >> "$OUT_FILE"
 
 # 🔧 Full path to directory containing query_XYZ_JSONL.cu
@@ -83,4 +86,4 @@ done < <(tail -n +$(($(grep -n '^Group,GroupAverage' "$OUT_FILE" | cut -d: -f1) 
 final_avg=$(awk "BEGIN {print $total_sum / $group_count}")
 echo ""
 echo "🌐 Final overall average of all group averages: $final_avg ns"
-echo "ALL,$final_avg" >> "$OUT_FILE"
+echo "AVERAGE,$final_avg" >> "$OUT_FILE_FINAL"

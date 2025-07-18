@@ -4,10 +4,10 @@ set -e
 # ------------------------------
 # Step 1: Input CSV paths
 # ------------------------------
-CUJSON="results/cujson_fig9_temp.csv"
-SIMDJSON="results/simdjson_fig9_tmp.csv"
-RAPIDJSON="results/rapidjson_fig9_tmp.csv"
-PISON="results/pison_fig9_tmp.csv"
+CUJSON="results/cujson_fig9.csv"
+SIMDJSON="results/simdjson_fig9.csv"
+RAPIDJSON="results/rapidjson_fig9.csv"
+PISON="results/pison_fig9.csv"
 MERGED="results/fig9_data.csv"
 
 # Ordered list of datasets (enforces row order)

@@ -25,7 +25,7 @@ mkdir -p results
 
 cd ../related_works/rapidjson/  # Adjust if needed
 
-OUT_FILE="../../scripts/results/rapidjson_fig14_output_memory.csv"
+OUT_FILE="../../scripts/results/rapidjson_fig14.csv"
 : > "$OUT_FILE"
 echo "Dataset,MaxMemoryUsage(MB)" > "$OUT_FILE"
 

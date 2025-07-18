@@ -23,10 +23,12 @@ set -e
 # ------------------------------
 # Step 1: Input CSV paths
 # ------------------------------
-CUJSON="results/cujson_fig12.csv"
-cudf="results/cudf_fig12.csv"
-gpjson="results/gpjson_fig12.csv"
-MERGED="results/fig12_data.csv"
+CUJSON="results/cujson_fig14.csv"
+rapidjson="results/rapidjson_fig14.csv"
+simdjson="results/simdjson_fig14.csv"
+pison="results/pison_fig14.csv"
+cudf="results/cudf_fig14.csv"
+MERGED="results/fig14_data.csv"
 
 # Ordered list of datasets (enforces row order)
 ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
@@ -42,9 +44,11 @@ echo "Dataset,cuJSON,cuDF,GPJSON" > "$MERGED"
 for dataset in "${ORDERED_KEYS[@]}"; do
     cu_val=$(grep "^$dataset," "$CUJSON" | cut -d',' -f2)
     cudf_val=$(grep "^$dataset," "$cudf" | cut -d',' -f2)
-    gpjson_val=$(grep "^$dataset," "$gpjson" | cut -d',' -f2)
+    simdjson_val=$(grep "^$dataset," "$simdjson" | cut -d',' -f2)
+    pison_val=$(grep "^$dataset," "$pison" | cut -d',' -f2)
+    rapidjson_val=$(grep "^$dataset," "$rapidjson" | cut -d',' -f2)
 
-    echo "$dataset,$cu_val,$cudf_val,$gpjson_val" >> "$MERGED"
+    echo "$dataset,$cu_val,$cudf_val,$simdjson_val,$pison_val,$rapidjson_val" >> "$MERGED"
 done
 
 echo "✅ Combined results saved to $MERGED"

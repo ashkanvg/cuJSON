@@ -9,7 +9,7 @@ mkdir -p cujson_results
 
 SRC="../src/reproduced/cuJSON-standardjson-total-parsing.cu"
 BINARY="./cujson_results/output_large.exe"
-TMP_FILE="results/cujson_fig9_temp.csv"
+TMP_FILE="results/cujson_fig9.csv"
 OUT_FILE="results/fig9_data.csv"
 : > "$TMP_FILE"
 

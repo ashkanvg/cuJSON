@@ -26,7 +26,7 @@ g++ -O3 ../related_works/simdjson/simdjson.cpp ../related_works/simdjson/quickst
 # Step 2: Run and save output
 # -------------------------------------
 
-OUT_FILE="results/simdjson_fig15_query.csv"
+OUT_FILE="results/simdjson_fig15.csv"
 
 echo "🚀 Running simdjson query results:..."
 # echo "Dataset,TotalAvgQuery" > "$OUT_FILE"

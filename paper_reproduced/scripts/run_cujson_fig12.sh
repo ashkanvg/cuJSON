@@ -19,7 +19,7 @@ mkdir -p cujson_results
 
 SRC="../src/reproduced/cuJSON-jsonlines-total-parsing.cu"
 BINARY="./cujson_results/output_large.exe"
-OUT_FILE="results/cujson_fig12_peak_memory-2.csv"
+OUT_FILE="results/cujson_fig12.csv"
 
 : > "$OUT_FILE"
 echo "Dataset,PeakMemory(MiB)" > "$OUT_FILE"

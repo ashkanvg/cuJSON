@@ -14,7 +14,7 @@ nvcc -O3 -o "$BINARY" "$SRC" -w -gencode=arch=compute_61,code=sm_61
 
 # Output paths
 mkdir -p results
-OUT_FILE="results/fig13_breakdown.csv"
+OUT_FILE="results/fig13_data.csv"
 : > "$OUT_FILE"
 
 

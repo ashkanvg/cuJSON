@@ -39,7 +39,7 @@ declare -A SCRIPTS=(
 # Output File Setup
 # -------------------------------
 mkdir -p results
-OUT_FILE="results/gpjson_fig12_peak_memory.csv"
+OUT_FILE="results/gpjson_fig12.csv"
 : > "$OUT_FILE"
 echo "Dataset,PeakMemory(MiB)" > "$OUT_FILE"
 

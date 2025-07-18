@@ -7,15 +7,22 @@ set -e
 echo "🔧 Compiling RapidJSON benchmarks..."
 mkdir -p results
 
-cd ../related_works/rapidjson/  # <--- Adjust this path if needed
+cd ../related_works/rapidjson/  # Path to .cpp and .exe files
 
-# make clean
-# make all
-
-TMP_FILE="../../scripts/results/rapidjson_fig9_tmp.csv"
+TMP_FILE="../../scripts/results/rapidjson_fig9.csv"
 : > "$TMP_FILE"
 
 ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
+
+declare -A SOURCES=(
+    ["TT"]="main-twitter.cpp"
+    ["BB"]="main-bestbuy.cpp"
+    ["GMD"]="main-google.cpp"
+    ["NSPL"]="main-nspl.cpp"
+    ["WM"]="main-walmart.cpp"
+    ["WP"]="main-wiki.cpp"
+)
+
 declare -A BINARIES=(
     ["TT"]="output-twitter.exe"
     ["BB"]="output-bestbuy.exe"
@@ -26,7 +33,17 @@ declare -A BINARIES=(
 )
 
 # ------------------------------
-# Step 2: Run each binary 10 times
+# Step 2: Compile each binary
+# ------------------------------
+for key in "${ORDERED_KEYS[@]}"; do
+    SRC="${SOURCES[$key]}"
+    BIN="${BINARIES[$key]}"
+    echo "🔨 Compiling $SRC -> $BIN"
+    g++ -O3 "$SRC" -o "$BIN" -std=c++17
+done
+
+# ------------------------------
+# Step 3: Run each binary 10 times
 # ------------------------------
 echo "🚀 Benchmarking RapidJSON parsers..."
 for key in "${ORDERED_KEYS[@]}"; do
