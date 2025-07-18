@@ -24,5 +24,6 @@ python plot_fig12.py
 python plot_fig13.py
 python plot_fig14.py
 python plot_fig15.py
+python plot_fig16.py
 
 echo "✅ Python script completed and figure generated!"

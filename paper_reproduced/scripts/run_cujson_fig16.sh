@@ -2,69 +2,80 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --output="result-GPU-cujson-scalability.log"
+#SBATCH --output="result-GPU-cujson-scalability-parsing.log"
 #SBATCH --mem=8G
 #SBATCH -p short_gpu
 #SBATCH --gres=gpu:ada6000:1
-#SBATCH --time=02:00:00
+#SBATCH --time=01:00:00
 
+# ------------------------------
+# Environment Setup
+# ------------------------------
 module load slurm
 module load cuda/11.8
 
 # ------------------------------
-# Step 1: Paths and Setup
+# Step 1: Setup
 # ------------------------------
 mkdir -p results
 mkdir -p cujson_results
 
 SRC="../src/reproduced/cuJSON-jsonlines-total-parsing.cu"
-BINARY="./cujson_results/output_scalability.exe"
-OUT_FILE="results/cujson_fig16.csv"
+BINARY="./cujson_results/output_large.exe"
+OUT_FILE="results/fig16_data.csv"
 
-: > "$OUT_FILE"
-echo "Dataset,FileSize,MaxOutputSize(MB)" > "$OUT_FILE"
+ORDERED_KEYS=("tt" "bb" "gmp" "nspl" "wm" "wp")
+SIZES_MB=(2 4 8 16 32 64 128 256)
 
-ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
-BASE_DIR="/rhome/aveda002/bigdata/scalability"  # Each folder TT, BB, etc. inside here
+BASE_DIR="/rhome/aveda002/bigdata/Test-Files/scalability"
 
 # ------------------------------
-# Step 2: Compile cuJSON
+# Step 2: Compile
 # ------------------------------
 echo "🔧 Compiling cuJSON..."
 nvcc -O3 -o "$BINARY" "$SRC" -w -gencode=arch=compute_89,code=sm_89
 
 # ------------------------------
-# Step 3: Run each scalability file
+# Step 3: Run and collect results
 # ------------------------------
-echo "🚀 Running cuJSON scalability benchmarks..."
+echo "🚀 Benchmarking scalability (cuJSON parsing time)..."
 
+# Header
+echo -n "Dataset" > "$OUT_FILE"
+for size in "${SIZES_MB[@]}"; do
+    echo -n ",$size" >> "$OUT_FILE"
+done
+echo "" >> "$OUT_FILE"
+
+# Per dataset
 for label in "${ORDERED_KEYS[@]}"; do
-    DATASET_DIR="$BASE_DIR/$label"
+    echo -n "$label" >> "$OUT_FILE"
 
-    for JSON_PATH in "$DATASET_DIR"/file_*.json; do
-        FILE_SIZE=$(basename "$JSON_PATH" | grep -oP "[0-9]+MB")
-        echo "📂 $label - $FILE_SIZE"
+    for size in "${SIZES_MB[@]}"; do
+        JSON_PATH="$BASE_DIR/$label/output_${size}MB.json"
 
-        max_size=0
+        if [[ ! -f "$JSON_PATH" ]]; then
+            echo -n ",NaN" >> "$OUT_FILE"
+            continue
+        fi
+
+        SUM=0
         for i in {1..10}; do
-            OUTPUT=$("$BINARY" -b "$JSON_PATH")
-            PARSER_MB=$(echo "$OUTPUT" | grep -oP "Parser's Output Size:\s*\K[0-9]+(\.[0-9]+)?")
-
-            INPUT_BYTES=$(stat -c%s "$JSON_PATH")
-            INPUT_MB=$(awk "BEGIN {print $INPUT_BYTES / 1024 / 1024}")
-
-            if [[ -z "$PARSER_MB" ]]; then
-                echo "❌ Failed to extract parser size for $label/$FILE_SIZE run $i"
-                echo "$OUTPUT"
-                exit 1
+            # OUTPUT=$("$BINARY" -b "$JSON_PATH")
+            PARSE_TIME=$("$BINARY" -b "$JSON_PATH")
+            if [[ -z "$PARSE_TIME" ]]; then
+                echo "⚠️ Failed to extract time for $label - ${size}MB (run $i)"
+                continue
             fi
 
-            TOTAL_MB=$(awk "BEGIN {print $PARSER_MB + $INPUT_MB}")
-            max_size=$(awk "BEGIN {print ($TOTAL_MB > $max_size) ? $TOTAL_MB : $max_size}")
+            SUM=$(awk "BEGIN {print $SUM + $PARSE_TIME}")
         done
 
-        echo "$label,$FILE_SIZE,$max_size" >> "$OUT_FILE"
+        AVG=$(awk "BEGIN {print $SUM / 10}")
+        echo -n ",$AVG" >> "$OUT_FILE"
     done
+
+    echo "" >> "$OUT_FILE"
 done
 
-echo "✅ cuJSON scalability output sizes saved to $OUT_FILE"
+echo "✅ Scalability parsing times saved to $OUT_FILE"

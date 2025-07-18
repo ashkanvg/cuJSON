@@ -1724,13 +1724,7 @@ inline int32_t *cuJSON(char *file,int n, resultStructGJSON* resultStruct){
         cout << "Warmup Start Running: " << time_EE.EE_t <<endl;
         cout << "Warmup DtoH Time:" << time_EE.copy_end << endl;
     }else{
-        // cout << "1. H2D: \t\t" << time_EE.copy_start<<endl;
-        // cout << "2. Validation:\t\t" << time_EE.EE_t_val <<endl;
-        // cout << "3. Tokenization:\t" <<time_EE.EE_t_tok <<endl;
-        // cout << "4. Parser: \t\t" << time_EE.EE_t_pars <<endl;
-        // cout << "5. D2H: \t\t" << time_EE.copy_end<<endl;
-
-        cout << "\nTOTAL (ms):\t\t" << time_EE.copy_start + time_EE.EE_t_val + time_EE.EE_t_tok + time_EE.EE_t_pars << endl;
+        cout << time_EE.copy_start + time_EE.EE_t_val + time_EE.EE_t_tok + time_EE.EE_t_pars << endl;
 
         time_EE.EE_total += time_EE.EE_t;
         time_EE.copy_end_total += time_EE.copy_end;
@@ -1756,7 +1750,7 @@ int main(int argc, char **argv) {
     if (argv[1] != NULL) {
         // Check if the user wants to run in batch mode and has provided a file path.
         if (strcmp(argv[1], "-b") == 0 && argv[2] != NULL) {
-            std::cout << "Batch mode running..." << std::endl;
+            // std::cout << "Batch mode running..." << std::endl;
 
             // Initialize the output structure to store the parsed JSON tree data.
             resultStructGJSON parsed_tree;
