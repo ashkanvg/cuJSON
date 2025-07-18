@@ -287,6 +287,8 @@ This repository contains the official source code for the cuJSON paper. All figu
 
 For detailed instructions on how to replicate the experimental results and figures from the paper, <b>specially for research purposes and comparison</b>, please refer to the `paper_reproduced/` directory.
 
+Additionally, all the scripts are available at `paper_reproduced/scripts/readme.md`.
+
 
 <!-- 
 If you use cuJSON in your research or project, please cite the corresponding paper. A BibTeX entry is provided below for your convenience.
