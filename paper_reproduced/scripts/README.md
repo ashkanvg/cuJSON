@@ -10,7 +10,7 @@ In order to run each method seperately, the results is per each dataset and 10 t
 ```
 - simdJSON
 ```
-./run_cujson_fig9.sh
+./run_simdjson_fig9.sh
 ```
 - RapidJSON
 ```
@@ -79,14 +79,84 @@ In order to report time-breakdowns:
 <!-- We are not able to provide the script for the time-breakdown for the other methods, because it requires to change the library after compilation by changing the inside of the code.  -->
 
 
+# Fig 14:
+In order to run each method seperately and report output memory:
+- cuJSON
+```
+./run_cujson_fig14.sh
+```
+- simdJSON
+```
+./run_simdjson_fig14.sh
+```
+- RapidJSON
+```
+./run_rapidjson_fig14.sh
+```
+- Pison
+```
+./run_pison_fig14.sh
+```
+- cuDF/MetaJSON
+```
+./run_cudf_fig14.sh
+```
+- GPJSON: Computing the correct number for the gpjson requires lib modification, which is required further modification, because it is not generating any output. 
+```
+./run_gpjson_fig14.sh
+```
 
 
-
-## Fig 15 (only cuJSON):
+## Fig 15 (Left):
 In order to report the average time of running the queries, please run the mentioned script:
+- cuJSON
 ```
 ./run_cujson_fig15.sh
 ```
 
+- simdjson
+```
+./run_simdjson_fig15.sh
+```
+
+- pison
+```
+./run_pison_fig15.sh
+```
+
+- RapidJSON
+```
+./run_rapidjson_fig15.sh
+```
+
+
 It reports the value of the each query, and average of of all of them in final row of the output.
 
+## Fig 15 (Middle):
+This one require to modify the JSON file to only have one record to get the only one record from it. 
+- cuJSON
+```
+./run_cujson_fig15.sh
+```
+- cuDF
+
+- GPJSON
+
+
+
+## Fig 15 (Right):
+- cuJSON
+
+- cuDF
+
+- GPJSON
+
+
+
+## Fig 16 
+- cuJSON Scalability
+In order to run it, first, download the scalability data. 
+Second use the mentioned script:
+```
+./run_cujson_fig16.sh
+```

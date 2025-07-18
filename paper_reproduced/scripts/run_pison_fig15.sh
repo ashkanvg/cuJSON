@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --output="result-GPU-pison-mem.log"
+#SBATCH --output="result-GPU-pison-query.log"
 #SBATCH --mem=8G
 #SBATCH -p short_gpu
 #SBATCH --gres=gpu:ada6000:1
@@ -14,22 +14,17 @@
 module load slurm
 module load cuda/11.8
 
-
 echo "🔧 Compiling Pison (with gcc-toolset)..."
 mkdir -p results
 
 # Compile inside GCC 13 environment
-cd ../related_works/pison/output_memory
-make clean
-make all
+cd ../related_works/pison/query && make clean && make all
 
 # Move into bin after compilation
 cd bin
 
-TMP_FILE="../../../../scripts/results/pison_fig14_tmp.csv"
+TMP_FILE="../../../../scripts/results/pison_fig15_tmp.csv"
 : > "$TMP_FILE"
-
-echo "Dataset,OutputSize(MB)" > "$TMP_FILE"
 
 ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 declare -A BINARIES=(
@@ -48,8 +43,8 @@ for key in "${ORDERED_KEYS[@]}"; do
 
     SUM=0
     for i in {1..10}; do
-        MEM=$(./"$BIN" | grep -Eo '[0-9]+(\.[0-9]+)?' | tail -1)
-        SUM=$(awk "BEGIN {print $SUM+$MEM}")
+        TIME=$(./"$BIN" | tail -n 1)
+        SUM=$(awk "BEGIN {print $SUM+$TIME}")
     done
     AVG=$(awk "BEGIN {print $SUM/10}")
     echo "$key,$AVG" >> "$TMP_FILE"

@@ -4,7 +4,7 @@ set -e
 echo "🚀 Running all query experiments (10× each) and computing averages..."
 
 mkdir -p results
-OUT_FILE="results/query_figX.csv"
+OUT_FILE="results/cujson_fig15_query.csv"
 : > "$OUT_FILE"
 echo "QueryName,AverageTime" >> "$OUT_FILE"
 

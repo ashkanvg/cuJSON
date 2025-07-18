@@ -1,0 +1,6 @@
+🔧 Compiling RapidJSON benchmarks...
+g++: error: ../related_works/rapidjson/main-query.cpp: No such file or directory
+g++: fatal error: no input files
+compilation terminated.
+/var/spool/slurmd/job18063458/slurm_script: line 28: : No such file or directory
+✅ RapidJSON results saved to ../../scripts/results/rapidjson_fig15_tmp.csv
