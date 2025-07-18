@@ -3,3 +3,8 @@ Two sample datasets are included in `dataset` folder. Large datasets (used in pe
 
 - For JSON Lines, use those datasets that ended in `_small_records.json`. 
 - For Standard JSON, use those datasets that ended in `_large_record.json`.
+
+
+### Scalability 
+
+The scalability folder is only for reproduced use of Scalability Result of our paper.

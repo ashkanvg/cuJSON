@@ -1,12 +1,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import sys
 
 # -------------------------------
 # Step 1: Load CSV
 # -------------------------------
-csv_path = "results/fig9_data.csv"
-output_path = "figures/fig9.png"
+csv_path = "results/fig11_data.csv"
+output_path = "figures/fig11.png"
 
 df = pd.read_csv(csv_path)
 
@@ -19,13 +18,12 @@ x = range(len(df["Dataset"]))
 
 # Plot each method with an offset
 plt.bar([i - 1.5*bar_width for i in x], df["cuJSON"], width=bar_width, label="cuJSON")
-plt.bar([i - 0.5*bar_width for i in x], df["simdjson"], width=bar_width, label="simdjson")
-plt.bar([i + 0.5*bar_width for i in x], df["RapidJSON"], width=bar_width, label="RapidJSON")
-plt.bar([i + 1.5*bar_width for i in x], df["Pison"], width=bar_width, label="Pison")
+plt.bar([i - 0.5*bar_width for i in x], df["cuDF"], width=bar_width, label="cuDF")
+plt.bar([i + 0.5*bar_width for i in x], df["GPJSON"], width=bar_width, label="GPJSON")
 
 plt.xticks(x, df["Dataset"])
 plt.ylabel("Parsing Time (ms)")
-plt.title("Figure 9: End-to-End Parsing Time")
+plt.title("Figure 11: End-to-End Parsing Time")
 plt.legend()
 plt.grid(axis='y', linestyle='--', alpha=0.5)
 plt.tight_layout()

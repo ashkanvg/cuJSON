@@ -36,7 +36,7 @@ ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 # ------------------------------
 # Step 2: Output header
 # ------------------------------
-echo "Dataset,cuJSON,cuDF,GPJSON" > "$MERGED"
+echo "Dataset,cuJSON,cuDF,simdjson,pison,rapidjson" > "$MERGED"
 
 # ------------------------------
 # Step 3: Merge values line-by-line

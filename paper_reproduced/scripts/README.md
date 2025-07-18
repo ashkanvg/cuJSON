@@ -248,4 +248,18 @@ To run **cuJSON** scalability tests:
 - For specific modifications or troubleshooting, refer to the individual script files, or readme of each relarted works for more details.
 
 
+
+
+## Figures Generator
+We also provide a script that will use for generate figures of the paper. 
+If you'd like to run generate the figure, simply execute. After you generate the csv files, you can run this srcip:
+
+```bash
+figure_generator.sh
+```
+### Results Location:
+- All figures are stored `scripts/figures/`.
+
 Happy experimenting! 🚀
+
+

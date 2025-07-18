@@ -1,0 +1,2 @@
+Method,cuJSON,simdjson,pison,rapidjson
+Time (ns),1275.02,44.3021,9556.900,1870.9
