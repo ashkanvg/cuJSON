@@ -49,12 +49,12 @@ void printMemoryUsage(const std::string& message, const std::string& fileName) {
 
     // Compute file size in MB
     struct stat st;
-    double file_size_mb = 0.0;
+    // double file_size_mb = 0.0;
     if (stat(fileName.c_str(), &st) == 0) {
         rss_mb += st.st_size / (1024.0 * 1024.0);
     }
 
-    std::cout << message << "," << file_size_mb << std::endl;
+    std::cout << message << "," << rss_mb << std::endl;
 }
 
 

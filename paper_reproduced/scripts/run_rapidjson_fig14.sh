@@ -14,8 +14,6 @@
 module load slurm
 module load cuda/11.8
 
-#!/bin/bash
-set -e
 
 # ------------------------------
 # Step 1: Setup
