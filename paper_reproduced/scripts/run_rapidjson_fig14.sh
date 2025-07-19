@@ -30,12 +30,12 @@ echo "Dataset,MaxMemoryUsage(MB)" > "$OUT_FILE"
 ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 
 declare -A SOURCES=(
-    ["TT"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/rapidjson/main-twitter-memory.cpp"
-    ["BB"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/rapidjson/main-bestbuy-memory.cpp"
-    ["GMD"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/rapidjson/main-google-memory.cpp"
-    ["NSPL"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/rapidjson/main-nspl-memory.cpp"
-    ["WM"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/rapidjson/main-walmart-memory.cpp"
-    ["WP"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/rapidjson/main-wiki-memory.cpp"
+    ["TT"]="../related_works/rapidjson/main-twitter-memory.cpp"
+    ["BB"]="../related_works/rapidjson/main-bestbuy-memory.cpp"
+    ["GMD"]="../related_works/rapidjson/main-google-memory.cpp"
+    ["NSPL"]="../related_works/rapidjson/main-nspl-memory.cpp"
+    ["WM"]="../related_works/rapidjson/main-walmart-memory.cpp"
+    ["WP"]="../related_works/rapidjson/main-wiki-memory.cpp"
 )
 
 # ------------------------------

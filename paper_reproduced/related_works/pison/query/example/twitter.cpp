@@ -103,7 +103,7 @@ string query2(BitmapIterator* iter){
 // }
 
 int main() {
-    char* file_path = "/rhome/aveda002/bigdata/Test-Files/twitter_large_record.json";
+    char* file_path = "../../../../../dataset/twitter_large_record.json";
     
 
     // auto start2 = chrono::high_resolution_clock::now();

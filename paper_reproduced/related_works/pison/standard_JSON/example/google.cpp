@@ -64,7 +64,7 @@ string query(BitmapIterator* iter){
 }
 
 int main() {
-    char* file_path = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/google_map_large_record.json";
+    char* file_path = "../../../../../dataset/google_map_large_record.json";
     
     // auto start2 = chrono::high_resolution_clock::now();
     Record* rec = RecordLoader::loadSingleRecord(file_path);

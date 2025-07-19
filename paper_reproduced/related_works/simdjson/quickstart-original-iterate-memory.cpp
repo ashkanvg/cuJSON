@@ -14,12 +14,12 @@ void calcMemoryUsage(const string& fileName, const string& short_file_name);
 void printMemoryUsage(const std::string& message, const std::string& fileName);
 
 int main() {
-    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/twitter_large_record.json", "TT");
-    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/bestbuy_large_record.json", "BB");
-    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/google_map_large_record.json", "GMD");
-    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/nspl_large_record.json", "NSPL");
-    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/walmart_large_record.json", "WM");
-    calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/wiki_large_record.json", "WP");
+    calcMemoryUsage("../../../dataset/twitter_large_record.json", "TT");
+    calcMemoryUsage("../../../dataset/bestbuy_large_record.json", "BB");
+    calcMemoryUsage("../../../dataset/google_map_large_record.json", "GMD");
+    calcMemoryUsage("../../../dataset/nspl_large_record.json", "NSPL");
+    calcMemoryUsage("../../../dataset/walmart_large_record.json", "WM");
+    calcMemoryUsage("../../../dataset/wiki_large_record.json", "WP");
     return 0;
 }
 
@@ -84,12 +84,12 @@ void printMemoryUsage(const std::string& message, const std::string& fileName) {
 // }
 
 // int main() {
-//     calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/twitter_large_record.json", "TT");
-//     calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/bestbuy_large_record.json", "BB");
-//     calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/google_map_large_record.json", "GMD");
-//     calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/nspl_large_record.json", "NSPL");
-//     calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/walmart_large_record.json", "WM");
-//     calcMemoryUsage("/rhome/aveda002/bigdata/Test-Files/wiki_large_record.json", "WP");
+//     calcMemoryUsage("../../../dataset/twitter_large_record.json", "TT");
+//     calcMemoryUsage("../../../dataset/bestbuy_large_record.json", "BB");
+//     calcMemoryUsage("../../../dataset/google_map_large_record.json", "GMD");
+//     calcMemoryUsage("../../../dataset/nspl_large_record.json", "NSPL");
+//     calcMemoryUsage("../../../dataset/walmart_large_record.json", "WM");
+//     calcMemoryUsage("../../../dataset/wiki_large_record.json", "WP");
 //     return 0;
 // }
 

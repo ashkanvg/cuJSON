@@ -23,12 +23,12 @@ set -e
 echo "🚀 Running GPJSON benchmark (10× per dataset)..."
 
 declare -A SCRIPTS=(
-  ["TT"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/gpjson/gpjson-twitter.js"
-  ["BB"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/gpjson/gpjson-bestbuy.js"
-  ["GMD"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/gpjson/gpjson-google.js"
-  ["NSPL"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/gpjson/gpjson-nspl.js"
-  ["WM"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/gpjson/gpjson-walmart.js"
-  ["WP"]="/rhome/aveda002/bigdata/cuJSON/paper_reproduced/related_works/gpjson/gpjson-wiki.js"
+  ["TT"]="../related_works/gpjson/gpjson-twitter.js"
+  ["BB"]="../related_works/gpjson/gpjson-bestbuy.js"
+  ["GMD"]="../related_works/gpjson/gpjson-google.js"
+  ["NSPL"]="../related_works/gpjson/gpjson-nspl.js"
+  ["WM"]="../related_works/gpjson/gpjson-walmart.js"
+  ["WP"]="../related_works/gpjson/gpjson-wiki.js"
 )
 
 

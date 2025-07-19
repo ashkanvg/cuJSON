@@ -27,7 +27,7 @@ OUT_FILE="results/fig16_data.csv"
 ORDERED_KEYS=("tt" "bb" "gmp" "nspl" "wm" "wp")
 SIZES_MB=(2 4 8 16 32 64 128 256)
 
-BASE_DIR="/rhome/aveda002/bigdata/Test-Files/scalability"
+BASE_DIR="../../dataset/scalability"
 
 # ------------------------------
 # Step 2: Compile

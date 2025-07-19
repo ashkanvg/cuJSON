@@ -20,17 +20,17 @@ int main(void) {
     // #ifdef SIMDJSON_THREADS_ENABLED
     //     cout << "enable";
     // ALL TOGETHER
-    string fileName = "../Test-Files/Pison Large Datasets/bestbuy_small_records_remove.json";
+    string fileName = "../../../dataset/bestbuy_small_records_remove.json";
     calcTime(fileName);
-    fileName = "../Test-Files/Pison Large Datasets/nspl_small_records_remove.json";
+    fileName = "../../../dataset/nspl_small_records_remove.json";
     calcTime(fileName);
-    fileName = "../Test-Files/Pison Large Datasets/twitter_small_records_remove.json";
+    fileName = "../../../dataset/twitter_small_records_remove.json";
     calcTime(fileName);
-    fileName = "../Test-Files/Pison Large Datasets/google_map_small_records_remove.json";
+    fileName = "../../../dataset/google_map_small_records_remove.json";
     calcTime(fileName);    
-    fileName = "../Test-Files/Pison Large Datasets/wiki_small_records_remove.json";
+    fileName = "../../../dataset/wiki_small_records_remove.json";
     calcTime(fileName);
-    fileName = "../Test-Files/Pison Large Datasets/walmart_small_records_remove.json";
+    fileName = "../../../dataset/walmart_small_records_remove.json";
     calcTime(fileName);
 
     return 0;

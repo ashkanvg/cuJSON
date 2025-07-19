@@ -41,14 +41,14 @@ int main(void) {
 
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/twitter_large_record.json";
+        fileName = "../../../dataset/twitter_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "TT, " << totalTime / 10.0 << endl;
    
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/bestbuy_large_record.json";
+        fileName = "../../../dataset/bestbuy_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "BB, " << totalTime / 10.0 << endl;
@@ -56,7 +56,7 @@ int main(void) {
 
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/google_map_large_record.json";
+        fileName = "../../../dataset/google_map_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "GMD, " << totalTime / 10.0 << endl;
@@ -64,7 +64,7 @@ int main(void) {
     
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/nspl_large_record.json";
+        fileName = "../../../dataset/nspl_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "NSPL, " << totalTime / 10.0 << endl;
@@ -72,7 +72,7 @@ int main(void) {
         
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/walmart_large_record.json";
+        fileName = "../../../dataset/walmart_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "WM, " << totalTime / 10.0 << endl;
@@ -80,7 +80,7 @@ int main(void) {
 
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/wiki_large_record.json";
+        fileName = "../../../dataset/wiki_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "WP, " << totalTime / 10.0 << endl;

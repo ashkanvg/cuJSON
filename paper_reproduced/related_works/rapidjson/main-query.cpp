@@ -19,12 +19,12 @@ double calcFunction(const char* fileName, int which);
 
 int main() {
     map<const char*, vector<int>> files_and_queries = {
-        // {"/rhome/aveda002/bigdata/Test-Files/nspl_large_record.json", {0}},
-        {"/rhome/aveda002/bigdata/Test-Files/twitter_large_record.json", {1, 2, 3, 4}},
-        {"/rhome/aveda002/bigdata/Test-Files/walmart_large_record.json", {5}},
-        {"/rhome/aveda002/bigdata/Test-Files/wiki_large_record.json", {6, 7}},
-        {"/rhome/aveda002/bigdata/Test-Files/google_map_large_record.json", {8, 9}},
-        {"/rhome/aveda002/bigdata/Test-Files/bestbuy_large_record.json", {10}}
+        // {"../../../dataset/nspl_large_record.json", {0}},
+        {"../../../dataset/twitter_large_record.json", {1, 2, 3, 4}},
+        {"../../../dataset/walmart_large_record.json", {5}},
+        {"../../../dataset/wiki_large_record.json", {6, 7}},
+        {"../../../dataset/google_map_large_record.json", {8, 9}},
+        {"../../../dataset/bestbuy_large_record.json", {10}}
     };
 
 

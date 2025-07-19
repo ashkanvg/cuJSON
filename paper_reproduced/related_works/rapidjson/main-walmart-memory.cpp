@@ -40,7 +40,7 @@ void printMemoryUsage(const string& filePath) {
 }
 
 int main() {
-    const string filePath = "/rhome/aveda002/bigdata/Test-Files/walmart_large_record.json";
+    const string filePath = "../../../dataset/walmart_large_record.json";
 
     // Open the file
     FILE* fp = fopen(filePath.c_str(), "r");

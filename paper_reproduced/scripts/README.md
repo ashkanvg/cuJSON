@@ -241,14 +241,16 @@ To run **cuJSON** scalability tests:
 
 ---
 
-### General Notes:
+## General Notes:
 
 - All scripts assume you have the necessary dependencies installed.
+- For `GPJSON` after you install the required library files, you have to add your keys in the scripts: `scripts/run_gpjson_fig11.sh` and `scripts/run_gpjson_fig12.sh`.
 - The `scripts/results` folder will contain all output files, categorized by method and csvs.
 - For specific modifications or troubleshooting, refer to the individual script files, or readme of each relarted works for more details.
+- Make sure to download all the datasets can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. `scabality` folder must place exactly like what it is in the `dataset` folder for proper experiment.
 
 
-
+---
 
 ## Figures Generator
 We also provide a script that will use for generate figures of the paper. 
@@ -257,8 +259,16 @@ If you'd like to run generate the figure, simply execute. After you generate the
 ```bash
 figure_generator.sh
 ```
+
+> **Note**: You can select which figures you want to generate by modifying `figure_generator.sh` and comments the figures that you do not want to generate.
+
+
+
 ### Results Location:
 - All figures are stored `scripts/figures/`.
+
+
+
 
 Happy experimenting! 🚀
 

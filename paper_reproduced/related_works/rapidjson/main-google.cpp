@@ -34,7 +34,7 @@ int main() {
 
     // Open the file
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/bestbuy_large_record.json", "r");
-    FILE* fp = fopen("/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/google_map_large_record.json", "r");
+    FILE* fp = fopen("../../../dataset/google_map_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/nspl_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/walmart_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/twitter_large_record.json", "r");

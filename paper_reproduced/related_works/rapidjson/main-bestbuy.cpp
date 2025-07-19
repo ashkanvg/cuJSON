@@ -33,7 +33,7 @@ int main() {
     // "../Test-Files/Pison Large Datasets/bestbuy_small_records.json"
 
     // Open the file
-    FILE* fp = fopen("/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/bestbuy_large_record.json", "r");
+    FILE* fp = fopen("../../../dataset/bestbuy_large_record.json", "r");
 
     // Check if the file was opened successfully
     if (!fp) {

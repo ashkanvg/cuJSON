@@ -36,7 +36,7 @@ int main() {
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/bestbuy_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/google_map_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/nspl_large_record.json", "r");
-    FILE* fp = fopen("/rhome/aveda002/bigdata/Test-Files/walmart_large_record.json", "r");
+    FILE* fp = fopen("../../../dataset/walmart_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/twitter_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/wiki_large_record.json", "r");
   

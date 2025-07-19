@@ -58,7 +58,7 @@ void printMemoryUsage(const std::string& label) {
 }
 
 int main() {
-    char* file_path = "/rhome/aveda002/bigdata/Test-Files/twitter_large_record.json";
+    char* file_path = "../../../../../dataset/twitter_large_record.json";
 
     Record* rec = RecordLoader::loadSingleRecord(file_path);
     if (rec == NULL) {

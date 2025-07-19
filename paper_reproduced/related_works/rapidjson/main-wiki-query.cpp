@@ -38,7 +38,7 @@ int main() {
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/nspl_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/walmart_large_record.json", "r");
     // FILE* fp = fopen("../Test-Files/Pison Large Datasets/twitter_large_record.json", "r");
-    FILE* fp = fopen("/rhome/aveda002/bigdata/Test-Files/wiki_large_record.json", "r");
+    FILE* fp = fopen("../../../dataset/wiki_large_record.json", "r");
   
     // Check if the file was opened successfully
     if (!fp) {

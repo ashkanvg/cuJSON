@@ -18,12 +18,12 @@ ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 
 # Map keys to file paths
 declare -A DATASETS=(
-    ["TT"]="/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/twitter_large_record.json"
-    ["BB"]="/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/bestbuy_large_record.json"
-    ["GMD"]="/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/google_map_large_record.json"
-    ["NSPL"]="/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/nspl_large_record.json"
-    ["WM"]="/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/walmart_large_record.json"
-    ["WP"]="/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/Pison_Large_Datasets/wiki_large_record.json"
+    ["TT"]="../../dataset/twitter_large_record.json"
+    ["BB"]="../../dataset/bestbuy_large_record.json"
+    ["GMD"]="../../dataset/google_map_large_record.json"
+    ["NSPL"]="../../dataset/nspl_large_record.json"
+    ["WM"]="../../dataset/walmart_large_record.json"
+    ["WP"]="../../dataset/wiki_large_record.json"
 )
 
 # ------------------------------

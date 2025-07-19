@@ -40,7 +40,7 @@ void printMemoryUsage(const string& filePath) {
 }
 
 int main() {
-    const string filePath = "/rhome/aveda002/bigdata/Test-Files/google_map_large_record.json";
+    const string filePath = "../../../dataset/google_map_large_record.json";
 
     // Open the file
     FILE* fp = fopen(filePath.c_str(), "r");
@@ -110,7 +110,7 @@ int main() {
 //     // "../Test-Files/Pison Large Datasets/bestbuy_small_records.json"
 
 //     // Open the file
-//     FILE* fp = fopen("/rhome/aveda002/bigdata/Test-Files/bestbuy_large_record.json", "r");
+//     FILE* fp = fopen("../../../dataset/bestbuy_large_record.json", "r");
 
 //     // Check if the file was opened successfully
 //     if (!fp) {

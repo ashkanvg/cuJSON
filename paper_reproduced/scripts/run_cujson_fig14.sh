@@ -27,12 +27,12 @@ echo "Dataset,MaxOutputSize(MB)" > "$OUT_FILE"
 ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 
 declare -A DATASETS=(
-    ["TT"]="/rhome/aveda002/bigdata/Test-Files/twitter_small_records_remove.json"
-    ["BB"]="/rhome/aveda002/bigdata/Test-Files/bestbuy_small_records_remove.json"
-    ["GMD"]="/rhome/aveda002/bigdata/Test-Files/google_map_small_records_remove.json"
-    ["NSPL"]="/rhome/aveda002/bigdata/Test-Files/nspl_small_records_remove.json"
-    ["WM"]="/rhome/aveda002/bigdata/Test-Files/walmart_small_records_remove.json"
-    ["WP"]="/rhome/aveda002/bigdata/Test-Files/wiki_small_records_remove.json"
+    ["TT"]="../../dataset/twitter_large_record.json"
+    ["BB"]="../../dataset/bestbuy_large_record.json"
+    ["GMD"]="../../dataset/google_map_large_record.json"
+    ["NSPL"]="../../dataset/nspl_large_record.json"
+    ["WM"]="../../dataset/walmart_large_record.json"
+    ["WP"]="../../dataset/wiki_large_record.json"
 )
 
 # ------------------------------

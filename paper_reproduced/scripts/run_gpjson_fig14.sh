@@ -14,11 +14,7 @@
 module load slurm
 module load cuda/11.8
 
-
-#!/bin/bash
-set -e
-
-echo "🔧 Compiling Pison (with gcc-toolset)..."
+echo "🔧 Compiling ..."
 mkdir -p results
 
 # Compile inside GCC 13 environment

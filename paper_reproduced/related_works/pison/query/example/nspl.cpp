@@ -69,7 +69,7 @@ string query(BitmapIterator* iter){
 // }
 
 int main() {
-    char* file_path = "/rhome/aveda002/bigdata/Test-Files/nspl_large_record.json";
+    char* file_path = "../../../../../dataset/nspl_large_record.json";
     
 
     // auto start2 = chrono::high_resolution_clock::now();
