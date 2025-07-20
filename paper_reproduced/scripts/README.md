@@ -154,7 +154,7 @@ To run each method separately and report memory usage:
   ./run_cudf_fig14.sh
   ```
 
-> **Note**: To compute results for **GPJSON**, the library requires modifications. This library lead to no output and it required to modify the source code after installation.
+> **Note**: To compute results for **GPJSON**, the library requires modifications. This library lead to no output and it required to modify the source code after installation. However, Theoritcally, the best possible results of `GPJSON` will be as same as `pison`, but by modification we realize it is even worst than `pison`.
 
 To run all methods together:
 
