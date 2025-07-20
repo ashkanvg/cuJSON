@@ -41,14 +41,16 @@ int main(void) {
 
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "../../../dataset/twitter_large_record.json";
+        fileName = "../../dataset/twitter_large_record.json";
+        // fileName = "/rhome/aveda002/bigdata/Test-Files/twitter_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "TT, " << totalTime / 10.0 << endl;
    
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "../../../dataset/bestbuy_large_record.json";
+        fileName = "../../dataset/bestbuy_large_record.json";
+        // fileName = "/rhome/aveda002/bigdata/Test-Files/bestbuy_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "BB, " << totalTime / 10.0 << endl;
@@ -56,7 +58,8 @@ int main(void) {
 
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "../../../dataset/google_map_large_record.json";
+        fileName = "../../dataset/google_map_large_record.json";
+        // fileName = "/rhome/aveda002/bigdata/Test-Files/google_map_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "GMD, " << totalTime / 10.0 << endl;
@@ -64,7 +67,8 @@ int main(void) {
     
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "../../../dataset/nspl_large_record.json";
+        fileName = "../../dataset/nspl_large_record.json";
+        // fileName = "/rhome/aveda002/bigdata/Test-Files/nspl_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "NSPL, " << totalTime / 10.0 << endl;
@@ -72,7 +76,7 @@ int main(void) {
         
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "../../../dataset/walmart_large_record.json";
+        fileName = "../../dataset/walmart_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "WM, " << totalTime / 10.0 << endl;
@@ -80,7 +84,7 @@ int main(void) {
 
     totalTime = 0;
     for(int i = 0; i < 10; i++){
-        fileName = "../../../dataset/wiki_large_record.json";
+        fileName = "../../dataset/wiki_large_record.json";
         totalTime += calcTime(fileName, 0);
     }
     cout << "WP, " << totalTime / 10.0 << endl;
@@ -109,12 +113,6 @@ double calcTime(string fileName, int which){
 
     simdjson::simdjson_result<simdjson::dom::element> query_res;
 
-    // Optional: show load time (milliseconds)
-    // double load_time_ms = duration_cast<milliseconds>(end_load - start_load).count();
-    // std::cout << "Load time: " << load_time_ms << " ms\n";
-
-    // Compute and return parsing time in milliseconds
-    // Return parsing time in milliseconds (as double)
     std::chrono::duration<double, std::milli> parse_duration = end - start;
     return parse_duration.count();
 }

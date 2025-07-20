@@ -1,24 +1,10 @@
-#!/bin/bash -l
-
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=16
-#SBATCH --output="result-GPU-gpjson-2.log"
-#SBATCH --mem=32G
-#SBATCH -p gpu
-#SBATCH --gres=gpu:a100:1
-#SBATCH --time=01:0:00
-
-module load slurm
-module unload java
-module load cuda/11.8
+#!/bin/bash
+set -e
 
 export GRAALVM_HOME=/rhome/aveda002/bigdata/gpjson/graalvm-ce-java8-21.0.0.2
 export JAVA_HOME=$GRAALVM_HOME
 export GRAALVM_DIR=$GRAALVM_HOME
 export PATH=$GRAALVM_HOME/bin:$PATH
-
-set -e
 
 echo "🚀 Running GPJSON benchmark (10× per dataset)..."
 

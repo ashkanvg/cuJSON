@@ -1,20 +1,5 @@
-#!/bin/bash -l
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --output="result-GPU-gpjson-peakmem.log"
-#SBATCH --mem=8G
-#SBATCH -p short_gpu
-#SBATCH --gres=gpu:ada6000:1
-#SBATCH --time=01:00:00
-
-# -------------------------------
-# Environment Setup
-# -------------------------------
-module load slurm
-module load cuda/11.8
-
-conda activate cuDF_env
+#!/bin/bash
+set -e
 
 export GRAALVM_HOME=/rhome/aveda002/bigdata/gpjson/graalvm-ce-java8-21.0.0.2
 export JAVA_HOME=$GRAALVM_HOME

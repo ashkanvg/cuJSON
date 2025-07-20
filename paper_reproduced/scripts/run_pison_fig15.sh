@@ -1,12 +1,5 @@
-#!/bin/bash -l
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --output="result-GPU-pison-query.log"
-#SBATCH --mem=8G
-#SBATCH -p short_gpu
-#SBATCH --gres=gpu:ada6000:1
-#SBATCH --time=01:00:00
+#!/bin/bash
+set -e
 
 # -------------------------------
 # Environment Setup

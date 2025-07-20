@@ -1,22 +1,5 @@
-#!/bin/bash -l
-
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --output="result-GPU-cuDF-2.log"
-#SBATCH --mem=8G
-#SBATCH -p short_gpu
-#SBATCH --gres=gpu:ada6000:1
-#SBATCH --time=01:00:00
-
-
-# Load needed modules
-module load slurm
-module load cuda/11.8
-
-# find . -name "json.cpython-*.so" -delete
-conda activate cuDF_env
-
+#!/bin/bash
+set -e
 
 echo "🚀 Measuring peak GPU memory usage (cuDF, 10× each)..."
 

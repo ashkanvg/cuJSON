@@ -12,7 +12,8 @@ cd ../related_works/rapidjson/  # Path to .cpp and .exe files
 TMP_FILE="../../scripts/results/rapidjson_fig9.csv"
 : > "$TMP_FILE"
 
-ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
+ORDERED_KEYS=("TT")
+# ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 
 declare -A SOURCES=(
     ["TT"]="main-twitter.cpp"
