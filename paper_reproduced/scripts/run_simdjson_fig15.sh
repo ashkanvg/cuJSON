@@ -1,17 +1,5 @@
 #!/bin/bash
-
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --output="result-simdjson-query.log"
-#SBATCH --mem=32G
-#SBATCH -p epyc # This is the default partition, you can use any of the following; intel, batch, highmem, gpu
-
-
-# -------------------------------
-# Environment Setup
-# -------------------------------
-module load slurm
+set -e
 
 # -------------------------------------
 # Step 1: Compile

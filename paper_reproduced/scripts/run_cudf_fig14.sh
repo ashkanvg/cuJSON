@@ -3,10 +3,6 @@ set -e
 
 echo "🚀 Measuring output memory usage (cuDF, 10× each)..."
 
-module load slurm
-module load cuda/11.8
-source activate cuDF_env
-
 cd ../related_works/cuDF/
 
 declare -A SCRIPTS=(

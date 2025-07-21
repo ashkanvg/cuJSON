@@ -3,26 +3,26 @@
 
 All runs were executed 10 times to calculate the average results for each method.
 
-## 📊 Fig 9 and Fig 10 (cuJSON vs CPU Methods)
+## 📊 Fig 9 and Fig 10 (cujson vs CPU Methods)
 
 To run each method separately and get the results for each dataset (executed 10 times), use the following commands:
 
-- **cuJSON**  
+- **cujson**  
   ```bash
   ./run_cujson_fig9.sh
   ```
 
-- **simdJSON**  
+- **simdjson**  
   ```bash
   ./run_simdjson_fig9.sh
   ```
 
-- **RapidJSON**  
+- **rapidjson**  
   ```bash
   ./run_rapidjson_fig9.sh
   ```
 
-- **Pison**  
+- **pison**  
   ```bash
   ./run_pison_fig9.sh
   ```
@@ -43,18 +43,18 @@ run_all_fig9.sh
 
 ---
 
-## 📈 Fig 11 (cuJSON vs GPU Methods)
+## 📈 Fig 11 (cujson vs GPU Methods)
 
 To run each method separately for Fig 11:
 
-- **GPJSON**  
+- **gpjson**  
   ```bash
   ./run_gpjson_fig11.sh
   ```
 
-- **cuDF**  
+- **cudf**  
   ```bash
-  ./run_cuDF_fig11.sh
+  ./run_cudf_fig11.sh
   ```
 
 If you'd like to run both methods together, use the following:
@@ -76,17 +76,17 @@ run_all_fig11.sh
 
 To report peak GPU memory usage for each method:
 
-- **cuJSON**  
+- **cujson**  
   ```bash
   ./run_cujson_fig12.sh
   ```
 
-- **GPJSON**  
+- **gpjson**  
   ```bash
   ./run_gpjson_fig12.sh
   ```
 
-- **cuDF**  
+- **cudf**  
   ```bash
   ./run_cudf_fig12.sh
   ```
@@ -108,9 +108,9 @@ To run all methods together:
 
 ---
 
-## ⏱️ Fig 13 and Table 8 (cuJSON only)
+## ⏱️ Fig 13 and Table 8 (cujson only)
 
-For time-breakdown reporting with **cuJSON**, execute the following:
+For time-breakdown reporting with **cujson**, execute the following:
 
 ```bash
 ./run_cujson_fig13.sh
@@ -129,32 +129,32 @@ For time-breakdown reporting with **cuJSON**, execute the following:
 
 To run each method separately and report memory usage:
 
-- **cuJSON**  
+- **cujson**  
   ```bash
   ./run_cujson_fig14.sh
   ```
 
-- **simdJSON**  
+- **simdjson**  
   ```bash
   ./run_simdjson_fig14.sh
   ```
 
-- **RapidJSON**  
+- **rapidjson**  
   ```bash
   ./run_rapidjson_fig14.sh
   ```
 
-- **Pison**  
+- **pison**  
   ```bash
   ./run_pison_fig14.sh
   ```
 
-- **cuDF/MetaJSON**  
+- **cudf/MetaJSON**  
   ```bash
   ./run_cudf_fig14.sh
   ```
 
-> **Note**: To compute results for **GPJSON**, the library requires modifications. This library lead to no output and it required to modify the source code after installation. However, Theoritcally, the best possible results of `GPJSON` will be as same as `pison`, but by modification we realize it is even worst than `pison`.
+> **Note**: To compute results for **gpjson**, the library requires modifications. This library lead to no output and it required to modify the source code after installation. However, Theoritcally, the best possible results of `gpjson` will be as same as `pison`, but by modification we realize it is even worst than `pison`.
 
 To run all methods together:
 
@@ -179,7 +179,7 @@ To run all methods together:
 
 To report the average time for running the queries, execute the scripts for each method:
 
-- **cuJSON**  
+- **cujson**  
   ```bash
   ./run_cujson_fig15.sh
   ```
@@ -189,12 +189,12 @@ To report the average time for running the queries, execute the scripts for each
   ./run_simdjson_fig15.sh
   ```
 
-- **Pison**  
+- **pison**  
   ```bash
   ./run_pison_fig15.sh
   ```
 
-- **RapidJSON**  
+- **rapidjson**  
   ```bash
   ./run_rapidjson_fig15.sh
   ```
@@ -219,14 +219,14 @@ To run all methods together:
 
 ### Middle and Right: Modifying JSON Files
 
-For these sections, you will need to modify the JSON file to contain only one record to compute the query time. Library modifications are required for **GPJSON** and **cuDF**, so ensure you install the libraries and use them accordingly.
+For these sections, you will need to modify the JSON file to contain only one record to compute the query time. Library modifications are required for **gpjson** and **cudf**, so ensure you install the libraries and use them accordingly.
 
 
 ---
 
-## 🧑‍💻 Fig 16: cuJSON Scalability
+## 🧑‍💻 Fig 16: cujson Scalability
 
-To run **cuJSON** scalability tests:
+To run **cujson** scalability tests:
 
 1. First, download the scalability data.
 2. Then, execute the following:
@@ -244,7 +244,7 @@ To run **cuJSON** scalability tests:
 ## General Notes:
 
 - All scripts assume you have the necessary dependencies installed.
-- For `GPJSON` after you install the required library files, you have to add your keys in the scripts: `scripts/run_gpjson_fig11.sh` and `scripts/run_gpjson_fig12.sh`.
+- For `gpjson` after you install the required library files, you have to add your keys in the scripts: `scripts/run_gpjson_fig11.sh` and `scripts/run_gpjson_fig12.sh`.
 - The `scripts/results` folder will contain all output files, categorized by method and csvs.
 - For specific modifications or troubleshooting, refer to the individual script files, or readme of each relarted works for more details.
 - Make sure to download all the datasets can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. `scabality` folder must place exactly like what it is in the `dataset` folder for proper experiment.

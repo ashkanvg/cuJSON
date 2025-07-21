@@ -4,14 +4,6 @@ set -e
 echo "🚀 Running cuDF benchmarks (10× each) and computing averages..."
 
 # -------------------------------
-# Environment Setup
-# -------------------------------
-module load slurm
-module load cuda/11.8
-
-source activate cuDF_env  # or: conda activate cuDF_env
-
-# -------------------------------
 # cuDF Benchmark Scripts (Python)
 # -------------------------------
 cd ../related_works/cuDF/

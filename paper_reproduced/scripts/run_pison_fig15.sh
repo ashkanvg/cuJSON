@@ -4,8 +4,6 @@ set -e
 # -------------------------------
 # Environment Setup
 # -------------------------------
-module load slurm
-module load cuda/11.8
 
 echo "🔧 Compiling Pison (with gcc-toolset)..."
 mkdir -p results
