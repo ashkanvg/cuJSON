@@ -27,7 +27,7 @@ def measure_parsing_time(json_file_path, description, query_version):
     # transfer_time = time.time_ns() - start_transfer_time
 
     # Display results
-    print(df.head())
+    # print(df.head())
     print(f"Time taken to parse: {total_time_ms:.2f} ms\n")
     # print(f"Time taken to transfer data from GPU to CPU: {transfer_time} ns\n")
 

@@ -1,0 +1,251 @@
+🚀 Running all Figure 12 benchmarks and generating merged results...
+▶️  [1/4] Running cuJSON benchmark...
+🚀 Running all query experiments (10× each) and computing averages...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+🔹 Running...
+
+📊 Group-wise Averages:
+NSPL → 67.1 ns
+BB → 476.545 ns
+WP → 330 ns
+WM → 1972.1 ns
+GMD → 127.05 ns
+TT → 806.15 ns
+
+🌐 Final overall average of all group averages: 629.823 ns
+▶️  [2/4] Running simdjson benchmark...
+🔧 Compiling simdjson...
+🚀 Running simdjson query results:...
+▶️  [3/4] Running RapidJSON benchmark...
+🔧 Compiling RapidJSON benchmarks...
+✅ RapidJSON results saved to 
+▶️  [3/4] Running pison benchmark...
+🔧 Compiling Pison (with gcc-toolset)...
+rm -f bin/bestbuy bin/google bin/nspl bin/twitter bin/walmart bin/wiki
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/bestbuy src/*.cpp example/bestbuy.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+example/bestbuy.cpp: In function ‘std::__cxx11::string query(BitmapIterator*)’:
+example/bestbuy.cpp:10:55: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (iter->isObject() && iter->moveToKey("products")) {
+                                                       ^
+example/bestbuy.cpp:15:67: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             if (iter->isObject() && iter->moveToKey("categoryPath")) {
+                                                                   ^
+example/bestbuy.cpp:21:69: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                         if (iter->isObject() && iter->moveToKey("id")) {
+                                                                     ^
+example/bestbuy.cpp: In function ‘std::__cxx11::string query2(BitmapIterator*)’:
+example/bestbuy.cpp:45:55: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (iter->isObject() && iter->moveToKey("products")) {
+                                                       ^
+example/bestbuy.cpp:50:67: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             if (iter->isObject() && iter->moveToKey("regularPrice")) {
+                                                                   ^
+example/bestbuy.cpp: In function ‘int main()’:
+example/bestbuy.cpp:70:23: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     char* file_path = "../../../../../dataset/bestbuy_large_record.json";
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/google src/*.cpp example/google.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+example/google.cpp: In function ‘std::__cxx11::string query(BitmapIterator*)’:
+example/google.cpp:12:57: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+         if (iter->isObject() && iter->moveToKey("routes")) {
+                                                         ^
+example/google.cpp:16:63: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                 if (iter->isObject() && iter->moveToKey("legs")) {
+                                                               ^
+example/google.cpp:20:72: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                         if (iter->isObject() && iter->moveToKey("steps")) {
+                                                                        ^
+example/google.cpp:24:83: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                                 if (iter->isObject() && iter->moveToKey("distance")) {
+                                                                                   ^
+example/google.cpp:26:83: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                                     if (iter->isObject() && iter->moveToKey("text")) {
+                                                                                   ^
+example/google.cpp: In function ‘int main()’:
+example/google.cpp:67:23: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     char* file_path = "../../../../../dataset/google_map_large_record.json";
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/nspl src/*.cpp example/nspl.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+example/nspl.cpp: In function ‘std::__cxx11::string query(BitmapIterator*)’:
+example/nspl.cpp:11:51: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (iter->isObject() && iter->moveToKey("meta")) {
+                                                   ^
+example/nspl.cpp:13:55: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+         if (iter->isObject() && iter->moveToKey("view")) {
+                                                       ^
+example/nspl.cpp:15:62: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             if (iter->isObject() && iter->moveToKey("columns")) {
+                                                              ^
+example/nspl.cpp:19:67: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                     if (iter->isObject() && iter->moveToKey("name")) {
+                                                                   ^
+example/nspl.cpp: In function ‘int main()’:
+example/nspl.cpp:72:23: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     char* file_path = "../../../../../dataset/nspl_large_record.json";
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/twitter src/*.cpp example/twitter.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+example/twitter.cpp: In function ‘std::__cxx11::string query(BitmapIterator*)’:
+example/twitter.cpp:12:55: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+         if (iter->isObject() && iter->moveToKey("user")) {
+                                                       ^
+example/twitter.cpp:14:57: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             if (iter->isObject() && iter->moveToKey("id")) {
+                                                         ^
+example/twitter.cpp: In function ‘std::__cxx11::string query2(BitmapIterator*)’:
+example/twitter.cpp:41:59: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+         if (iter->isObject() && iter->moveToKey("entities")) {
+                                                           ^
+example/twitter.cpp:43:59: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             if (iter->isObject() && iter->moveToKey("urls")) {
+                                                           ^
+example/twitter.cpp:47:70: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                     if (iter->isObject() && iter->moveToKey("indices")) {
+                                                                      ^
+example/twitter.cpp: In function ‘int main()’:
+example/twitter.cpp:106:23: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     char* file_path = "../../../../../dataset/twitter_large_record.json";
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/walmart src/*.cpp example/walmart.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+example/walmart.cpp: In function ‘std::__cxx11::string query(BitmapIterator*)’:
+example/walmart.cpp:12:42: warning: ISO C++ forbids converting a string constant to ‘std::unordered_set<char*>::value_type’ {aka ‘char*’} [-Wwrite-strings]
+         set.insert("bestMarketplacePrice");
+                                          ^
+example/walmart.cpp:13:26: warning: ISO C++ forbids converting a string constant to ‘std::unordered_set<char*>::value_type’ {aka ‘char*’} [-Wwrite-strings]
+         set.insert("name");
+                          ^
+example/walmart.cpp:22:64: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                 if (iter->isObject() && iter->moveToKey("price")) {
+                                                                ^
+example/walmart.cpp: In function ‘int main()’:
+example/walmart.cpp:40:23: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     char* file_path = "../../../../../dataset/walmart_large_record.json";
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/wiki src/*.cpp example/wiki.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+example/wiki.cpp: In function ‘std::__cxx11::string query(BitmapIterator*)’:
+example/wiki.cpp:46:57: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+         if (iter->isObject() && iter->moveToKey("claims")) {
+                                                         ^
+example/wiki.cpp:48:58: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             if(iter->isObject() && iter->moveToKey("P150")){
+                                                          ^
+example/wiki.cpp:52:71: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                     if (iter->isObject() && iter->moveToKey("mainsnak")) {
+                                                                       ^
+example/wiki.cpp:54:75: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                         if (iter->isObject() && iter->moveToKey("property")) {
+                                                                           ^
+example/wiki.cpp: In function ‘int main()’:
+example/wiki.cpp:113:23: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     char* file_path = "../../../../../dataset/wiki_large_record.json";
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+🚀 Benchmarking Pison parsers...
+📂 TT: twitter
+📂 BB: bestbuy
+📂 GMD: google
+📂 NSPL: nspl
+📂 WM: walmart
+📂 WP: wiki
+✅ Pison results saved to ../../../../scripts/results/pison_fig15.csv
+✅ Pison results (with overall average) saved to ../../../../scripts/results/pison_fig15.csv
+🧩 [4/4] Merging CSV files...
+✅ Combined results saved to results/fig15_data.csv
+✅ All done. Final CSV: results/fig15_data.csv

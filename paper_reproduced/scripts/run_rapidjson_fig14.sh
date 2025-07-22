@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # ------------------------------
 # Step 1: Setup
@@ -16,12 +15,12 @@ echo "Dataset,MaxMemoryUsage(MB)" > "$OUT_FILE"
 ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 
 declare -A SOURCES=(
-    ["TT"]="../related_works/rapidjson/main-twitter-memory.cpp"
-    ["BB"]="../related_works/rapidjson/main-bestbuy-memory.cpp"
-    ["GMD"]="../related_works/rapidjson/main-google-memory.cpp"
-    ["NSPL"]="../related_works/rapidjson/main-nspl-memory.cpp"
-    ["WM"]="../related_works/rapidjson/main-walmart-memory.cpp"
-    ["WP"]="../related_works/rapidjson/main-wiki-memory.cpp"
+    ["TT"]="./main-twitter-memory.cpp"
+    ["BB"]="./main-bestbuy-memory.cpp"
+    ["GMD"]="./main-google-memory.cpp"
+    ["NSPL"]="./main-nspl-memory.cpp"
+    ["WM"]="./main-walmart-memory.cpp"
+    ["WP"]="./main-wiki-memory.cpp"
 )
 
 # ------------------------------

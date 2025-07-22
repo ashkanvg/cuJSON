@@ -144,29 +144,27 @@ def measure_parsing_time(json_file_path, description, query_version):
     print(f"Time taken to execute query: {query_time} ns\n")
 
     
-
 # Paths to JSON files
-
-    
-
-# Paths to JSON files
-# json_file_path_nspl = '/rhome/aveda002/bigdata/Test-Files/nspl_small_records_remove.json'
+# json_file_path_nspl = '/rhome/aveda002/bigdata/Test-Files/wiki_small_records_remove.json'
 # json_file_path_wiki = '/rhome/aveda002/bigdata/Test-Files/wiki_small_records_remove.json'
 # json_file_path_walmart = '/rhome/aveda002/bigdata/Test-Files/walmart_small_records_remove.json'
 # json_file_path_twitter = '/rhome/aveda002/bigdata/Test-Files/twitter_small_records_remove.json'
 # json_file_path_google = '/rhome/aveda002/bigdata/Test-Files/google_map_small_records_remove.json'
 # json_file_path_bestbuy = '/rhome/aveda002/bigdata/Test-Files/bestbuy_small_records_remove.json'
-
-json_file_path_nspl = '../../../dataset/nspl_small_records_remove.json'
+# json_file_path_nspl = '../../../dataset/nspl_small_records_remove.json'
 # json_file_path_wiki = '../../../dataset/wiki_small_records_remove.json'
 # json_file_path_walmart = '../../../dataset/walmart_small_records_remove.json'
-# json_file_path_twitter = '../../../dataset/twitter_small_records_remove.json'
+json_file_path_twitter = '../../../dataset/nspl_small_records_remove.json' 
+# json_file_path_twitter = '../../../dataset/twitter_sample_small_records.json' # /rhome/aveda002/bigdata/cuJSON/dataset/twitter_sample_large_record.json
 # json_file_path_google = '../../../dataset/google_map_small_records_remove.json'
 # json_file_path_bestbuy = '../../../dataset/bestbuy_small_records_remove.json'
 
+
+
 # Measure and print the parsing times
-measure_parsing_time(json_file_path_wiki, "nspl", 0)
-# measure_parsing_time(json_file_path_twitter, "twitter", 1)
+# measure_parsing_time(json_file_path_wiki, "nspl", 0)
+
+measure_parsing_time(json_file_path_twitter, "nspl", 1)
 # measure_parsing_time(json_file_path_twitter, "twitter", 2)
 # measure_parsing_time(json_file_path_twitter, "twitter", 3)
 # measure_parsing_time(json_file_path_twitter, "twitter", 4)

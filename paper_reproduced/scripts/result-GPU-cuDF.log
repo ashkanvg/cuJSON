@@ -1,14 +1,10 @@
+🚀 Running all Figure 11 benchmarks and generating merged results...
+▶️  [2/4] Running cudf benchmark...
 🚀 Running cuDF benchmarks (10× each) and computing averages...
 ▶️  Running TT with twitter.py
-TT average: 1929.95 ms
+TT average: 3504.34 ms
 ▶️  Running BB with bestbuy.py
-BB average: 8100.19 ms
+BB average: 5624.83 ms
 ▶️  Running GMD with google.py
-GMD average: 5551.14 ms
+GMD average: 5651.06 ms
 ▶️  Running NSPL with nspl.py
-NSPL average: 16460 ms
-▶️  Running WM with walmart.py
-WM average: 5056.58 ms
-▶️  Running WP with wiki.py
-WP average: 15032.1 ms
-✅ cuDF results saved to ../../scripts/results/cudf_fig11.csv

@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 echo "🚀 Running cuDF benchmarks (10× each) and computing averages..."
 

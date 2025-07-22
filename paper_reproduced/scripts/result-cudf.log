@@ -1,0 +1,13 @@
+🚀 Running cuDF benchmarks (10× each) and computing averages...
+▶️  Running TT with twitter.py
+TT average: 888.292 ms
+▶️  Running BB with bestbuy.py
+BB average: 775.09 ms
+▶️  Running GMD with google.py
+GMD average: 617.816 ms
+▶️  Running NSPL with nspl.py
+NSPL average: 891.13 ms
+▶️  Running WM with walmart.py
+WM average: 809.158 ms
+▶️  Running WP with wiki.py
+slurmstepd-gpu09: error: *** JOB 18322583 ON gpu09 CANCELLED AT 2025-07-21T15:36:06 ***

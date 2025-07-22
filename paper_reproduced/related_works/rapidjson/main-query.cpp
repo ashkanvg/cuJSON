@@ -20,11 +20,11 @@ double calcFunction(const char* fileName, int which);
 int main() {
     map<const char*, vector<int>> files_and_queries = {
         // {"../../../dataset/nspl_large_record.json", {0}},
-        {"../../../dataset/twitter_large_record.json", {1, 2, 3, 4}},
-        {"../../../dataset/walmart_large_record.json", {5}},
-        {"../../../dataset/wiki_large_record.json", {6, 7}},
-        {"../../../dataset/google_map_large_record.json", {8, 9}},
-        {"../../../dataset/bestbuy_large_record.json", {10}}
+        {"../../dataset/twitter_large_record.json", {1, 2, 3, 4}},
+        {"../../dataset/walmart_large_record.json", {5}},
+        {"../../dataset/wiki_large_record.json", {6, 7}},
+        {"../../dataset/google_map_large_record.json", {8, 9}},
+        {"../../dataset/bestbuy_large_record.json", {10}}
     };
 
 

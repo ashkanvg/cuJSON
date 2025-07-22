@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 echo "🚀 Running all query experiments (10× each) and computing averages..."
 
@@ -12,7 +11,7 @@ OUT_FILE_FINAL="results/cujson_fig15.csv"
 echo "QueryName,AverageTime" >> "$OUT_FILE"
 
 # 🔧 Full path to directory containing query_XYZ_JSONL.cu
-SRC_DIR="/home/csgrads/aveda002/Desktop/cuJSON/paper_reproduced/src/reproduced/query_example"
+SRC_DIR="../query_example/"
 
 declare -A QUERIES=(
   ["TT1"]="query_TT1_JSONL.cu ../../dataset/twitter_small_records_remove.json"
@@ -26,7 +25,6 @@ declare -A QUERIES=(
   ["BB1"]="query_BB1_JSONL.cu ../../dataset/bestbuy_small_records_remove.json"
   ["BB2"]="query_BB2_JSONL.cu ../../dataset/bestbuy_small_records_remove.json"
   ["WP1"]="query_WP1_JSONL.cu ../../dataset/wiki_small_records_remove.json"
-  ["WP2"]="query_WP2_JSONL.cu ../../dataset/wiki_small_records_remove.json"
 )
 
 declare -A group_sums
@@ -34,10 +32,10 @@ declare -A group_counts
 
 for key in "${!QUERIES[@]}"; do
   IFS=' ' read -r cu_file json_file <<< "${QUERIES[$key]}"
-  echo "🔹 Running $key"
+  echo "🔹 Running..."
 
   # Compile from absolute path
-  nvcc -O3 -o query-experiment "$SRC_DIR/$cu_file" -w -gencode=arch=compute_61,code=sm_61
+  nvcc -O3 -o query-experiment "$SRC_DIR/$cu_file" -w -gencode=arch=compute_89,code=sm_89
 
   sum=0
   for i in {1..10}; do
@@ -46,7 +44,7 @@ for key in "${!QUERIES[@]}"; do
   done
 
   avg=$(awk "BEGIN {print $sum / 10}")
-  echo "$key average: $avg ns"
+  # echo "$key average: $avg ns"
   echo "$key,$avg" >> "$OUT_FILE"
 
   # Group accumulation
@@ -55,7 +53,6 @@ for key in "${!QUERIES[@]}"; do
   group_counts["$prefix"]=$((${group_counts[$prefix]:-0} + 1))
 done
 
-# -----------------------------
 # Group-wise summary
 # -----------------------------
 echo "" >> "$OUT_FILE"

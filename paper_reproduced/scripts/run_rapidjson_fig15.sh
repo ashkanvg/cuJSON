@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # ------------------------------
 # Step 1: Setup
@@ -7,7 +6,7 @@ set -e
 echo "🔧 Compiling RapidJSON benchmarks..."
 mkdir -p results
 
-g++ -O3 ../related_works/rapidjson/main-query.cpp -o "output-query.exe"
+g++ -O3 ../related_works/rapidjson/main-query.cpp -o ./output-query.exe
 # ------------------------------
 # Step 2: Run each binary 
 # ------------------------------
