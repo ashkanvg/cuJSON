@@ -112,7 +112,7 @@ Once `cujson_jsonlines.out` is compiled, you can execute it. We've included exam
 
 ### Notes <a name="notes"></a>:
 1. You can use any valid standard JSON or JSON Lines file as input. For more extensive testing, refer to the [datasets](#datasets) section for information on using larger 1GB JSON datasets.
-2. [-gencode=arch=compute_61,code=sm_61]: (Optional) This flag is for specifying a target GPU architecture. You should replace 61 with the compute capability of your target GPU to achieve optimal performance. For example, for a Turing GPU (RTX 20 series), it might be `compute_75,code=sm_75`. If omitted, nvcc will try to detect your GPU or compile for a generic architecture, which might result in less optimal performance. You can typically find your GPU's compute capability online [here](https://developer.nvidia.com/cuda-gpus).
+2. [-gencode=arch=compute_61,code=sm_61]: (Optional) This flag is for specifying a target GPU architecture. You should replace 61 with the compute capability of your target GPU to achieve optimal performance. For example, for a Turing GPU (RTX 20 series), it might be `compute_75,code=sm_75`. If omitted, nvcc will try to detect your GPU or compile for a generic architecture, which might result in less optimal performance. [You can typically find your GPU's compute capability online here](https://developer.nvidia.com/cuda-gpus).
 3. -w: Suppresses all warnings (useful for cleaner output, but be cautious in development).
 4. -std=c++17: You can run the compilation using the C++17 standard, which is often required for modern CUDA code.
 5. Passes the -O3 optimization flag to the host C++ compiler, ensuring highly optimized CPU code.
