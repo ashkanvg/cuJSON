@@ -1,0 +1,1874 @@
+🔧 Compiling Pison (with gcc-toolset)...
+rm -f bin/bestbuy bin/google bin/nspl bin/twitter bin/walmart bin/wiki
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/bestbuy src/*.cpp example/bestbuy.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+example/bestbuy.cpp: In function ‘std::__cxx11::string query(BitmapIterator*)’:
+example/bestbuy.cpp:13:55: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (iter->isObject() && iter->moveToKey("products")) {
+                                                       ^
+example/bestbuy.cpp:19:67: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             if (iter->isObject() && iter->moveToKey("categoryPath")) {
+                                                                   ^
+example/bestbuy.cpp:24:69: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+                         if (iter->isObject() && iter->moveToKey("id")) {
+                                                                     ^
+example/bestbuy.cpp:34:47: error: use of ‘duration’ before deduction of ‘auto’
+                 auto duration = duration_cast<duration<double, milli>>(end_query - start_query);
+                                               ^~~~~~~~
+example/bestbuy.cpp:34:47: error: use of ‘duration’ before deduction of ‘auto’
+example/bestbuy.cpp:34:47: error: use of ‘duration’ before deduction of ‘auto’
+example/bestbuy.cpp:34:33: error: parse error in template argument list
+                 auto duration = duration_cast<duration<double, milli>>(end_query - start_query);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+example/bestbuy.cpp:34:95: error: no matching function for call to ‘duration_cast<<expression error> >(std::__success_type<std::chrono::duration<long int, std::ratio<1, 1000000000> > >::type)’
+                 auto duration = duration_cast<duration<double, milli>>(end_query - start_query);
+                                                                                               ^
+In file included from /usr/include/c++/8/x86_64-redhat-linux/bits/stdc++.h:101,
+                 from example/bestbuy.cpp:1:
+/usr/include/c++/8/chrono:193:7: note: candidate: ‘template<class _ToDur, class _Rep, class _Period> constexpr std::chrono::__enable_if_is_duration<_ToDur> std::chrono::duration_cast(const std::chrono::duration<_Rep, _Period>&)’
+       duration_cast(const duration<_Rep, _Period>& __d)
+       ^~~~~~~~~~~~~
+/usr/include/c++/8/chrono:193:7: note:   template argument deduction/substitution failed:
+example/bestbuy.cpp:34:95: error: template argument 1 is invalid
+                 auto duration = duration_cast<duration<double, milli>>(end_query - start_query);
+                                                                                               ^
+example/bestbuy.cpp: In function ‘int main(int, char**)’:
+example/bestbuy.cpp:53:65: error: invalid conversion from ‘const char*’ to ‘char*’ [-fpermissive]
+     Record* rec = RecordLoader::loadSingleRecord(file_path.c_str());
+                                                  ~~~~~~~~~~~~~~~^~
+In file included from example/bestbuy.cpp:2:
+example/../src/RecordLoader.h:22:43: note:   initializing argument 1 of ‘static Record* RecordLoader::loadSingleRecord(char*)’
+     static Record* loadSingleRecord(char* file_path);
+                                     ~~~~~~^~~~~~~~~
+make: *** [makefile:23: bin/bestbuy] Error 1
+📏 Running Pison for 2MB files...
+  ▶️  Dataset: TT
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+  ▶️  Dataset: BB
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: GMD
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: NSPL
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WM
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WP
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                   ^ unexpected newline or end of string
+📏 Running Pison for 4MB files...
+  ▶️  Dataset: TT
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+  ▶️  Dataset: BB
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: GMD
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: NSPL
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WM
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WP
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                   ^ unexpected newline or end of string
+📏 Running Pison for 8MB files...
+  ▶️  Dataset: TT
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+  ▶️  Dataset: BB
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: GMD
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: NSPL
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WM
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WP
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                   ^ unexpected newline or end of string
+📏 Running Pison for 16MB files...
+  ▶️  Dataset: TT
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+  ▶️  Dataset: BB
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: GMD
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: NSPL
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WM
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WP
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                   ^ unexpected newline or end of string
+📏 Running Pison for 32MB files...
+  ▶️  Dataset: TT
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+  ▶️  Dataset: BB
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: GMD
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: NSPL
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WM
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WP
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                   ^ unexpected newline or end of string
+📏 Running Pison for 64MB files...
+  ▶️  Dataset: TT
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+  ▶️  Dataset: BB
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: GMD
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: NSPL
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WM
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WP
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                   ^ unexpected newline or end of string
+📏 Running Pison for 128MB files...
+  ▶️  Dataset: TT
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+  ▶️  Dataset: BB
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: GMD
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: NSPL
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WM
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WP
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                   ^ unexpected newline or end of string
+📏 Running Pison for 256MB files...
+  ▶️  Dataset: TT
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./twitter: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+  ▶️  Dataset: BB
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./bestbuy: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: GMD
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./google: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: NSPL
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./nspl: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WM
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./walmart: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+  ▶️  Dataset: WP
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print 0 + }
+awk: cmd. line:1:                  ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+/var/spool/slurmd/job18436310/slurm_script: line 58: ./wiki: No such file or directory
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 10}
+awk: cmd. line:1:                    ^ unexpected newline or end of string
+awk: cmd. line:1: BEGIN {print  + }
+awk: cmd. line:1:                 ^ syntax error
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                ^ unterminated regexp
+awk: cmd. line:1: BEGIN {print  / 6}
+awk: cmd. line:1:                   ^ unexpected newline or end of string
+✅ Pison scalability results saved to ../../../../scripts/results/pison_scalability.csv

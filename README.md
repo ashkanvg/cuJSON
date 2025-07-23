@@ -65,13 +65,13 @@ git clone https://github.com/ashkanvg/cuJSON
 cd cuJSON
 ```
 
-2. Compile `main.cu` (Standard JSON Parsing):
+2. Compile `main.cu` (Standard JSON Parsing), <b>check [notes](#notes) for more details</b>:
 ```
 nvcc main.cu -o cujson_standard.out -w -gencode=arch=compute_61,code=sm_61
 ```
 
 3. Run (Standard JSON Parsing):
-Once cujson_standard.out is compiled, you can execute it. We've included example JSON files in the dataset/ folder for your convenience.
+Once cujson_standard.out is compiled, you can execute it. We've included example JSON files in the dataset/ folder for your convenience, <b>check [notes](#notes) for more details about what datasets should you use</b>.
 ```
 ./cujson_standard.out ./dataset/twitter_sample_large_record.json
 ```
@@ -89,7 +89,7 @@ cd cuJSON
 
 2. We have provided multiple files for differenet APIs. We will explore more about the difference of them in the next section. 
 
-Compile `main_jsonlines.cu` for Parsing JSON Lines by splitting the data into 4 chunks:
+Compile `main_jsonlines.cu` for Parsing JSON Lines by splitting the data into 4 chunks, <b>check [notes](#notes) for more details</b>:
 ```
 nvcc main_jsonlines.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
 ```
@@ -110,9 +110,9 @@ Once `cujson_jsonlines.out` is compiled, you can execute it. We've included exam
 ```
 
 
-### Notes:
+### Notes <a name="notes"></a>:
 1. You can use any valid standard JSON or JSON Lines file as input. For more extensive testing, refer to the [datasets](#datasets) section for information on using larger 1GB JSON datasets.
-2. [-gencode=arch=compute_61,code=sm_61]: (Optional) This flag is for specifying a target GPU architecture. You should replace 61 with the compute capability of your target GPU to achieve optimal performance. For example, for a Turing GPU (RTX 20 series), it might be `compute_75,code=sm_75`. If omitted, nvcc will try to detect your GPU or compile for a generic architecture, which might result in less optimal performance. You can typically find your GPU's compute capability online.
+2. [-gencode=arch=compute_61,code=sm_61]: (Optional) This flag is for specifying a target GPU architecture. You should replace 61 with the compute capability of your target GPU to achieve optimal performance. For example, for a Turing GPU (RTX 20 series), it might be `compute_75,code=sm_75`. If omitted, nvcc will try to detect your GPU or compile for a generic architecture, which might result in less optimal performance. You can typically find your GPU's compute capability online [here](https://developer.nvidia.com/cuda-gpus).
 3. -w: Suppresses all warnings (useful for cleaner output, but be cautious in development).
 4. -std=c++17: You can run the compilation using the C++17 standard, which is often required for modern CUDA code.
 5. Passes the -O3 optimization flag to the host C++ compiler, ensuring highly optimized CPU code.

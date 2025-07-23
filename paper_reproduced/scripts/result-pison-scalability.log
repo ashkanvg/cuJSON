@@ -1,0 +1,155 @@
+🔧 Compiling Pison (with gcc-toolset)...
+rm -f bin/bestbuy bin/google bin/nspl bin/twitter bin/walmart bin/wiki
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/bestbuy src/*.cpp example/bestbuy.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/google src/*.cpp example/google.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/nspl src/*.cpp example/nspl.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/twitter src/*.cpp example/twitter.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/walmart src/*.cpp example/walmart.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/wiki src/*.cpp example/wiki.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+📏 Running Pison for 2MB files...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+📏 Running Pison for 4MB files...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+📏 Running Pison for 8MB files...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+📏 Running Pison for 16MB files...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+📏 Running Pison for 32MB files...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+📏 Running Pison for 64MB files...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+📏 Running Pison for 128MB files...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+📏 Running Pison for 256MB files...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+✅ Pison scalability results saved to ../../../../scripts/results/pison_scalability.csv
