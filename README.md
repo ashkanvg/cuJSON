@@ -67,7 +67,7 @@ cd cuJSON
 
 2. Compile `main.cu` (Standard JSON Parsing), <b>check [notes](#notes) for more details</b>:
 ```
-nvcc main.cu -o cujson_standard.out -w -gencode=arch=compute_61,code=sm_61
+nvcc -O3 main.cu -o cujson_standard.out -w -gencode=arch=compute_61,code=sm_61
 ```
 
 3. Run (Standard JSON Parsing):

@@ -39,6 +39,7 @@ class cuJSONLinesIterator{
 
         token_type nodeType = OBJECT;
         int node = 0;
+        int currArrayNode = 0;
         // int node_depth = 1;
 
         // main functions
@@ -47,13 +48,16 @@ class cuJSONLinesIterator{
         int findKey(string key);                        // this function will change the pointer of iterator to the colon that has the specific key
         int gotoKey(string key);                        // goto colon of specific key
         int gotoArrayIndex(int index);                  // goto [ or comma of specific index within an Arrat
-        int increamentIndex(int index);                       // go forward for index size
+        int increamentIndex(int index);                 // go forward for index size
+        int gotoNextSibling(int index);                 // go forward to next sibling in an array
 
         // helper functions
         char getChar(int structuralIdx);                // get real json characters according to the node idx
         char getArtificalChar(int idx);
         void reset();                                   // reset pointer iterator to the first idx of structural
         void freeJson();
+        int gotoArrayIndexSiblingHelper(int index);    
+
         
         // read file function
         bool readFile(const char* file, uint8_t*& buffer, size_t& size);
@@ -220,6 +224,7 @@ bool cuJSONLinesIterator::readFile(const char* file, uint8_t*& buffer, size_t& s
 // in order to reset the pointer to the first real position
 void cuJSONLinesIterator::reset(){
     node = 0;
+    currArrayNode = 0;
     // node_depth = 1;
     nodeType = OBJECT;
 }
@@ -243,19 +248,38 @@ int cuJSONLinesIterator::gotoArrayIndex(int index){
         if(nextNodeChar == '[' || nextNodeChar == '{'){
             // cout << "nextNodeChar: " << nextNodeChar << endl;
             nextNode = jumpOpeningForward(nextNode);
+
         }
-        if(nextNodeChar == ',' || nextNodeChar == '\n'){ // no need for \n
+        if(nextNodeChar == ',' || nextNodeChar == '\n' || nextNodeChar == ' '){ // no need for \n
+            currArrayNode = nextNode; // save the current array node
             total--; // go one node forward
         }
 
         nextNode++;
         nextNodeChar = getChar(nextNode);
     }
-    
+   
+    // cout << "total: " << total << endl;
+    // cout << "nextNode: " << nextNode << endl;
+    // cout << "node: " << node << endl;
+    // cout << "current array node: " << currArrayNode << endl;
+    // // char charrrr = getchar(currArrayNode);
+    // cout << "current array char node: " << charrrr  << endl;
     // that means we achieve to requested index
     if(total == 1){
         // cout << "curr node in total == 1 --> " << getChar(nextNode) <<endl;
         node = nextNode-1; // change the node pointer iterator to the nextNode pointer
+        // cout << "node - 2: " << node << endl;
+        // currentNodeChar = getChar(node);
+        // cout << "currentNodeChar-2: " << currentNodeChar <<endl;
+
+        // if (node != 0){
+        //     char previousNodeChar = getChar(node-1); // save the previous node char
+        //     cout << "previousNodeChar-2: " << previousNodeChar <<endl;
+        // }
+        // char nextNodeChar = getChar(nextNode); // save the next node char
+        // cout << "nextNodeChar-2: " << nextNodeChar <<endl;
+        // currArrayNode = node;
 
         // cout << "node: " << node <<endl; 
         if(nextNodeChar == '{'){
@@ -272,6 +296,94 @@ int cuJSONLinesIterator::gotoArrayIndex(int index){
     // if(toto)
     return 0; // error
 }
+
+int cuJSONLinesIterator::gotoArrayIndexSiblingHelper(int index){
+    int total = index + 1;                                // total number of index that we have to go forward to get the requested index [started from 0]
+                                                          // +1 is for handling indexes [1,2,3,...], user will use [0,1,2,...]
+    
+    char currentNodeChar = getChar(node);
+    // cout << "currNodeChar: " << currentNodeChar <<endl; 
+    // if(currentNodeChar == ',' || currentNodeChar == '\n' || currentNodeChar == ':') increamentIndex(1);
+    // next node
+    int nextNode = node+1;         
+    char nextNodeChar = getChar(nextNode);
+
+    // cout << "nextNodeChar: " << nextNodeChar <<endl; 
+
+    // total != 1 because we consider '[' as node to first index in array
+    while( total != 1 && nextNodeChar != ']' && nextNode != totalResultSize - 1){   
+        // cout << "nxt->" << nextNodeChar <<endl;     
+        if(nextNodeChar == '[' || nextNodeChar == '{'){
+            // cout << "nextNodeChar: " << nextNodeChar << endl;
+            nextNode = jumpOpeningForward(nextNode);
+
+        }
+        if(nextNodeChar == ',' || nextNodeChar == '\n' || nextNodeChar == ' '){ // no need for \n
+            total--; // go one node forward
+        }
+
+        nextNode++;
+        nextNodeChar = getChar(nextNode);
+    }
+   
+    // cout << "total: " << total << endl;
+    // cout << "nextNode: " << nextNode << endl;
+    // cout << "node: " << node << endl;
+    // cout << "current array node: " << currArrayNode << endl;
+    // // char charrrr = getchar(currArrayNode);
+    // cout << "current array char node: " << charrrr  << endl;
+    // that means we achieve to requested index
+    if(total == 1){
+        // cout << "curr node in total == 1 --> " << getChar(nextNode) <<endl;
+        node = nextNode-1; // change the node pointer iterator to the nextNode pointer
+        currArrayNode = node; // save the current array node
+        // cout << "node - 2: " << node << endl;
+        // currentNodeChar = getChar(node);
+        // cout << "currentNodeChar-2: " << currentNodeChar <<endl;
+
+        // if (node != 0){
+        //     char previousNodeChar = getChar(node-1); // save the previous node char
+        //     cout << "previousNodeChar-2: " << previousNodeChar <<endl;
+        // }
+        // char nextNodeChar = getChar(nextNode); // save the next node char
+        // cout << "nextNodeChar-2: " << nextNodeChar <<endl;
+        // currArrayNode = node;
+
+        // cout << "node: " << node <<endl; 
+        if(nextNodeChar == '{'){
+            nodeType = OBJECT;
+        }
+        else if(nextNodeChar == '['){
+            nodeType = ARRAY;
+        }
+        else if(nextNodeChar == ',' || currentNodeChar == '\n' || nextNodeChar == ']'){
+            nodeType = VALUE;
+        }
+        return node; // node
+    }
+    // if(toto)
+    return 0; // error
+}
+
+
+int cuJSONLinesIterator::gotoNextSibling(int index){
+    // cout << "go to next sibling: " << node << endl;
+    node = currArrayNode;
+    // cout << "node: " << node << endl;
+    // char currentNodeChar = getChar(node);
+    // cout << "currentNodeChar: " << currentNodeChar <<endl;
+    
+    
+    int idx = gotoArrayIndexSiblingHelper(index); // go to next sibling in array
+    // if(idx == 0)
+    //     return node; 
+    // else
+    //     return idx; // return the next node index
+    return idx;
+}
+
+
+
 
 int cuJSONLinesIterator::increamentIndex(int index){
     node = node + index;
@@ -335,53 +447,6 @@ string cuJSONLinesIterator::getString(int startPos, int endPos){ // it will use 
     return result;
 }
 
-// string cuJSONLinesIterator::getValueBackward(int startPos, int endPos, primitive_type& type){
-//     int length = 0;                                 // size of the string, object, list, and number that we have to return
-//     string result;                                  // result
-    
-//     if(endPos <= startPos){ // wrong positions, or empty output
-//         printf("no token found!\n"); 
-//         return NULL;
-//     }
-    
-    
-//     // {{{{ "a" : "b" }}}},   --> since are are in comma we have to go through back
-//     endPos = jumpBackward(endPos);
-//     startPos = jumpSpacesForward(startPos);
-   
-    
-//     length = endPos - startPos + 1;
-//     char startChar = inputJSON[startPos];
-//     char endChar = inputJSON[endPos];
-//     // printf("start_char: %c end_char: %c\n", start_char, end_char);
-//     if(endChar == startChar && endChar == '"'){                                     // both of them double-quotes
-//         result.assign((char*)(inputJSON + startPos + 1), abs(length));
-//         return result;
-//     }else if(endChar < 58 && endChar > 47 && startChar < 58 && startChar > 47){     // number
-//         result.assign((char*)(inputJSON + startPos), abs(length));                  // because there is no double-quote, we do not have +1
-//         return result;
-//     }else if(endChar == 'e' && (startChar == 't' || startChar == 'f')){             // true/false
-//         result.assign( (char*)(inputJSON + startPos ), abs(length));                // because there is no double-quote, we do not have +1
-//         if(result.compare("true") != 0 && result.compare("false") != 0){
-//             printf("not 'true' nor 'false'!\n");
-//             return NULL;
-//         }
-//         return result;
-//     }else if( endChar == 'l' && startChar == 'n'){                                  // null
-//         result.assign((char*)(inputJSON + startPos), abs(length));                  // because there is no double-quote, we do not have +1
-//         // std::cout << result << endl;
-//         if(result.compare("null") != 0){
-//             printf("not 'null'!\n");
-//             return NULL;
-//         }
-//         return result;
-//     }else{
-//         // error
-//         printf("invalid token!\n");
-//         return NULL;
-//     }
-// }
-
 int cuJSONLinesIterator::findKey(string input_key){
     char currentNodeChar = getChar(node);
     int nextNode = node;
@@ -397,7 +462,7 @@ int cuJSONLinesIterator::findKey(string input_key){
     }
 
     if(getChar(nextNode) != '{'){
-        cout << "ERROR: Node is not an object to find key!" << endl;
+        // cout << "ERROR: Node is not an object to find key!" << endl;
         return 0;
     }
 
