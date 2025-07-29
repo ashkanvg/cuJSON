@@ -91,16 +91,16 @@ cd cuJSON
 
 Compile `main_jsonlines.cu` for Parsing JSON Lines by splitting the data into 4 chunks, <b>check [notes](#notes) for more details</b>:
 ```
-nvcc main_jsonlines.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
+nvcc -O3 main_jsonlines.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
 ```
 
 Or compile `main_jsonlines_chunksize_MB.cu` or `main_jsonlines_chunksize.cu` for Parsing JSON Lines by splitting the data into chunks with size of `256MB`:
 ```
-nvcc main_jsonlines_chunksize_MB.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
+nvcc -O3 main_jsonlines_chunksize_MB.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
 ```
 Or
 ```
-nvcc main_jsonlines_chunksize.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
+nvcc -O3 main_jsonlines_chunksize.cu -o cujson_jsonlines.out -w -gencode=arch=compute_61,code=sm_61
 ```
 
 3. Run (JSON Lines Parsing):
