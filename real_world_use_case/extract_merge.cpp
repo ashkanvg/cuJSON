@@ -22,7 +22,7 @@ bool decompressGzipToFile(const fs::path& gzPath, std::ofstream& outMerged) {
 
     gzclose(inputFile);
     // Add newline to separate files if not already
-    outMerged << '\n';
+    // outMerged << '\n';
     return true;
 }
 

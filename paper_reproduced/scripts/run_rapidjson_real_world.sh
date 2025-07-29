@@ -1,13 +1,4 @@
 #!/bin/bash
-
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --output="result-rapidjson-real-world.log"
-#SBATCH --mem=32G
-#SBATCH -p epyc
-#SBATCH --time=01:00:00
-
 # ------------------------------
 # Step 1: Setup
 # ------------------------------
@@ -15,9 +6,6 @@ echo "🔧 Compiling RapidJSON benchmarks..."
 mkdir -p results
 
 cd ../related_works/rapidjson/  # Path to .cpp and .exe files
-
-TMP_FILE="../../scripts/results/rapidjson_fig9.csv"
-: > "$TMP_FILE"
 
 ORDERED_KEYS=("RW")
 # ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
@@ -60,7 +48,6 @@ for key in "${ORDERED_KEYS[@]}"; do
     done
 
     AVG=$(awk "BEGIN {print $SUM / 10}")
-    echo "$key,$AVG" >> "$TMP_FILE"
 done
 
 echo "✅ RapidJSON results saved to $TMP_FILE"
