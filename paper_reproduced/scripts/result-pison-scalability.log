@@ -96,60 +96,454 @@ src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a strin
 src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
      if (text_length <= 0) return "";
                                   ^~
-📏 Running Pison for 2MB files...
+🧵 Running with 1 threads...
   ▶️  Dataset: TT
   ▶️  Dataset: BB
   ▶️  Dataset: GMD
   ▶️  Dataset: NSPL
   ▶️  Dataset: WM
   ▶️  Dataset: WP
-📏 Running Pison for 4MB files...
+🧵 Running with 2 threads...
   ▶️  Dataset: TT
   ▶️  Dataset: BB
   ▶️  Dataset: GMD
   ▶️  Dataset: NSPL
   ▶️  Dataset: WM
   ▶️  Dataset: WP
-📏 Running Pison for 8MB files...
+🧵 Running with 3 threads...
   ▶️  Dataset: TT
   ▶️  Dataset: BB
   ▶️  Dataset: GMD
   ▶️  Dataset: NSPL
   ▶️  Dataset: WM
   ▶️  Dataset: WP
-📏 Running Pison for 16MB files...
+🧵 Running with 4 threads...
   ▶️  Dataset: TT
   ▶️  Dataset: BB
   ▶️  Dataset: GMD
   ▶️  Dataset: NSPL
   ▶️  Dataset: WM
   ▶️  Dataset: WP
-📏 Running Pison for 32MB files...
+🧵 Running with 5 threads...
   ▶️  Dataset: TT
   ▶️  Dataset: BB
   ▶️  Dataset: GMD
   ▶️  Dataset: NSPL
   ▶️  Dataset: WM
   ▶️  Dataset: WP
-📏 Running Pison for 64MB files...
+🧵 Running with 6 threads...
   ▶️  Dataset: TT
   ▶️  Dataset: BB
   ▶️  Dataset: GMD
   ▶️  Dataset: NSPL
   ▶️  Dataset: WM
   ▶️  Dataset: WP
-📏 Running Pison for 128MB files...
+🧵 Running with 7 threads...
   ▶️  Dataset: TT
   ▶️  Dataset: BB
   ▶️  Dataset: GMD
   ▶️  Dataset: NSPL
   ▶️  Dataset: WM
   ▶️  Dataset: WP
-📏 Running Pison for 256MB files...
+🧵 Running with 8 threads...
   ▶️  Dataset: TT
   ▶️  Dataset: BB
   ▶️  Dataset: GMD
   ▶️  Dataset: NSPL
   ▶️  Dataset: WM
   ▶️  Dataset: WP
-✅ Pison scalability results saved to ../../../../scripts/results/pison_scalability.csv
+🧵 Running with 9 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 10 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 11 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 12 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 13 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 14 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 15 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 16 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 17 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 18 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 19 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 20 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 21 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 22 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 23 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 24 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 25 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 26 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 27 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 28 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 29 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 30 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 31 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 32 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 33 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 34 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 35 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 36 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 37 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 38 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 39 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 40 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 41 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 42 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 43 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 44 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 45 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 46 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 47 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 48 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 49 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 50 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 51 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 52 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 53 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 54 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 55 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 56 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 57 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 58 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 59 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 60 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 61 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 62 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 63 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+🧵 Running with 64 threads...
+  ▶️  Dataset: TT
+  ▶️  Dataset: BB
+  ▶️  Dataset: GMD
+  ▶️  Dataset: NSPL
+  ▶️  Dataset: WM
+  ▶️  Dataset: WP
+✅ Pison thread scalability results saved to ../../../../scripts/results/pison_scalability_thread_vs_dataset.csv
+📉 Computing minimum times per dataset...
+✅ Minimum row added to ../../../../scripts/results/pison_scalability_thread_vs_dataset.csv

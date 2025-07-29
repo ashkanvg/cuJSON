@@ -1,0 +1,55 @@
+🔧 Compiling RapidJSON benchmarks...
+🔨 Compiling main-real-world-query.cpp -> output-real-world.exe
+🚀 Benchmarking RapidJSON parsers...
+📂 RW: output-real-world.exe
+🔁 Run #1:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1232 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1243 ms
+🔁 Run #2:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1528 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1537 ms
+🔁 Run #3:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1306 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1315 ms
+🔁 Run #4:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1291 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1300 ms
+🔁 Run #5:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1252 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1260 ms
+🔁 Run #6:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1240 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1249 ms
+🔁 Run #7:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1252 ms
+⏱️ Query time: 9 ms
+⏱️ Total time: 1261 ms
+🔁 Run #8:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1256 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1264 ms
+🔁 Run #9:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1288 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1297 ms
+🔁 Run #10:
+✅ Extracted 211237 IDs.
+⏱️ Parse time: 1232 ms
+⏱️ Query time: 8 ms
+⏱️ Total time: 1241 ms
+✅ RapidJSON results saved to ../../scripts/results/rapidjson_fig9.csv

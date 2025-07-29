@@ -62,13 +62,14 @@ double calcTime(string fileName){
     // cout << "FILE NAME:" << fileName << endl;
     ondemand::parser parser;
 
+
     // start_load = clock();
     padded_string json = padded_string::load(fileName);
     // end_load = clock();
 
-
     // Measure parse time
     auto start = high_resolution_clock::now();
+    
     simdjson::ondemand::document tweets = parser.iterate(json);
     auto end = high_resolution_clock::now();
 

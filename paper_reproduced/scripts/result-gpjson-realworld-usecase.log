@@ -1,0 +1,14 @@
+🚀 Running GPJSON benchmark (10× per dataset)...
+▶️  Running RW using ../related_works/gpjson/gpjson-real-world.js
+  Run 1 time: 6491.723484039307 ms
+  Run 2 time: 6575.817638874054 ms
+  Run 3 time: 6496.084702014923 ms
+  Run 4 time: 6507.40767288208 ms
+  Run 5 time: 6503.236062049866 ms
+  Run 6 time: 6464.259571075439 ms
+  Run 7 time: 6475.797358989716 ms
+  Run 8 time: 6483.02099609375 ms
+  Run 9 time: 6477.7734208106995 ms
+  Run 10 time: 6477.5431542396545 ms
+RW average: 6495.26 ms
+✅ GPJSON results saved

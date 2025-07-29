@@ -1,0 +1,6 @@
+🔧 Compiling simdjson...
+🚀 Running simdjson query results:...
+Processed 211237 tweets.
+Parse time: 453.212 ms
+Query time: 69.6484 ms
+Total (end-to-end),6.96489e+07

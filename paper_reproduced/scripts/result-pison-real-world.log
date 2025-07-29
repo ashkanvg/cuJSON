@@ -1,0 +1,102 @@
+🔧 Compiling Pison...
+rm -f bin/real_world 
+mkdir -p bin
+g++ -O3 -std=c++11 -mavx -mavx2 -msse -msse2 -msse4 -msse4.2 -mpclmul -o bin/real_world src/*.cpp example/real_world.cpp -lpthread -mcmodel=medium -static-libstdc++
+src/ParallelBitmapIterator.cpp: In member function ‘virtual char* ParallelBitmapIterator::getValue()’:
+src/ParallelBitmapIterator.cpp:495:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/ParallelBitmapIterator.cpp:501:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+src/SerialBitmapIterator.cpp: In member function ‘virtual char* SerialBitmapIterator::getValue()’:
+src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+             return "";
+                    ^~
+src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+     if (text_length <= 0) return "";
+                                  ^~
+example/real_world.cpp: In function ‘std::__cxx11::string query_id(BitmapIterator*)’:
+example/real_world.cpp:19:53: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+         if (iter->isObject() && iter->moveToKey("id")) {
+                                                     ^
+🚀 Finding best thread count based on parsing time...
+🔄 Testing thread count: 1
+Run 1 - Parse time: 315.431 ms
+Run 2 - Parse time: 100.746 ms
+Run 3 - Parse time: 128.494 ms
+Thread 1 - Avg parse time: 181.557 ms
+🔄 Testing thread count: 2
+Run 1 - Parse time: 113.792 ms
+Run 2 - Parse time: 149.032 ms
+Run 3 - Parse time: 105.308 ms
+Thread 2 - Avg parse time: 122.711 ms
+🔄 Testing thread count: 4
+Run 1 - Parse time: 147.028 ms
+Run 2 - Parse time: 148.079 ms
+Run 3 - Parse time: 148.609 ms
+Thread 4 - Avg parse time: 147.905 ms
+🔄 Testing thread count: 8
+Run 1 - Parse time: 148.754 ms
+Run 2 - Parse time: 122.980 ms
+Run 3 - Parse time: 145.837 ms
+Thread 8 - Avg parse time: 139.19 ms
+🔄 Testing thread count: 16
+Run 1 - Parse time: 147.932 ms
+Run 2 - Parse time: 147.161 ms
+Run 3 - Parse time: 117.836 ms
+Thread 16 - Avg parse time: 137.643 ms
+🔄 Testing thread count: 32
+Run 1 - Parse time: 149.095 ms
+Run 2 - Parse time: 145.521 ms
+Run 3 - Parse time: 146.660 ms
+Thread 32 - Avg parse time: 147.092 ms
+🔄 Testing thread count: 64
+Run 1 - Parse time: 146.134 ms
+Run 2 - Parse time: 147.654 ms
+Run 3 - Parse time: 118.283 ms
+Thread 64 - Avg parse time: 137.357 ms
+✅ Best thread count: 2 with avg parse time: 122.711 ms
+
+🚀 Running final benchmark 10× with 2 threads...
+🔁 Run 1:
+Parse time: 148.043 ms
+Query time: 60.951 ms
+Total time: 334.166 ms
+🔁 Run 2:
+Parse time: 145.064 ms
+Query time: 61.352 ms
+Total time: 332.476 ms
+🔁 Run 3:
+Parse time: 120.357 ms
+Query time: 59.656 ms
+Total time: 306.582 ms
+🔁 Run 4:
+Parse time: 104.455 ms
+Query time: 56.616 ms
+Total time: 285.140 ms
+🔁 Run 5:
+Parse time: 145.207 ms
+Query time: 56.339 ms
+Total time: 328.001 ms
+🔁 Run 6:
+Parse time: 117.243 ms
+Query time: 60.067 ms
+Total time: 303.635 ms
+🔁 Run 7:
+Parse time: 142.983 ms
+Query time: 56.927 ms
+Total time: 324.965 ms
+🔁 Run 8:
+Parse time: 148.425 ms
+Query time: 60.163 ms
+Total time: 337.027 ms
+🔁 Run 9:
+Parse time: 110.881 ms
+Query time: 56.858 ms
+Total time: 291.891 ms
+🔁 Run 10:
+Parse time: 104.540 ms
+Query time: 60.577 ms
+Total time: 288.423 ms
+📊 RW,128.72,58.9506,313.229

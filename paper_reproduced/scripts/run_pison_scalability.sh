@@ -2,33 +2,25 @@
 
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --output="result-pison-scalability.log"
-#SBATCH --mem=32G
+#SBATCH --cpus-per-task=64
+#SBATCH --output="result-pison-thread-vs-size.log"
+#SBATCH --mem=64G
 #SBATCH -p epyc
 #SBATCH --time=01:00:00
 
-# -------------------------------
-# Environment Setup
-# -------------------------------
-echo "🔧 Compiling Pison (with gcc-toolset)..."
-mkdir -p results
-
-# Compile inside GCC 13 environment
+# -------------------------------------
+# Compilation
+# -------------------------------------
+echo "🔧 Compiling Pison benchmarks..."
 cd ../related_works/pison/scalability && make clean && make all
-
 cd bin
 
-# -------------------------------
-# Output CSV
-# -------------------------------
-OUT_FILE="../../../../scripts/results/pison_scalability.csv"
-: > "$OUT_FILE"
-echo "Size,AverageTime(ms)" > "$OUT_FILE"
+# -------------------------------------
+# Configurations
+# -------------------------------------
+THREADS=(1 2 4 8 16 32 64)
+SIZES=(2 4 8 16 32 64 128 256)
 
-# -------------------------------
-# Benchmark Configuration
-# -------------------------------
 ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 declare -A BINARIES=(
     ["TT"]="twitter"
@@ -39,35 +31,58 @@ declare -A BINARIES=(
     ["WP"]="wiki"
 )
 
-SIZES=(2 4 8 16 32 64 128 256)
+OUT_DIR="../../../../scripts/results/pison_thread_vs_size"
+mkdir -p "$OUT_DIR"
 
-# -------------------------------
-# Run all benchmarks
-# -------------------------------
-for SIZE in "${SIZES[@]}"; do
-  echo "📏 Running Pison for ${SIZE}MB files..."
+# -------------------------------------
+# Run benchmarks and write CSVs
+# -------------------------------------
+for key in "${ORDERED_KEYS[@]}"; do
+  BIN="${BINARIES[$key]}"
+  OUT_FILE="${OUT_DIR}/${key}_thread_vs_size.csv"
 
-  SUM=0
-  COUNT=0
+  echo "📊 Benchmarking ${key} (${BIN})..."
+  : > "$OUT_FILE"
 
-  for key in "${ORDERED_KEYS[@]}"; do
-    BIN="${BINARIES[$key]}"
-    echo "  ▶️  Dataset: $key"
+  # Write header row
+  HEADER="Threads"
+  for SIZE in "${SIZES[@]}"; do
+    HEADER="$HEADER,${SIZE}MB"
+  done
+  echo "$HEADER" >> "$OUT_FILE"
 
-    TOTAL=0
-    for i in {1..10}; do
-      RAW=$(./"$BIN" "$SIZE" | tail -n 1)
-      TIME=$(awk "BEGIN {print $RAW}")  # validate it's a number
-      TOTAL=$(awk "BEGIN {print $TOTAL + $TIME}")
+  # Benchmark loop
+  for THREAD in "${THREADS[@]}"; do
+    echo "  🧵 Running ${key} with ${THREAD} threads..."
+    ROW="$THREAD"
+
+    for SIZE in "${SIZES[@]}"; do
+      SUM=0
+      for i in {1..5}; do
+        RAW=$(./"$BIN" "$SIZE" "$THREAD" | tail -n 1)
+        TIME=$(awk "BEGIN {print $RAW}")
+        SUM=$(awk "BEGIN {print $SUM + $TIME}")
+      done
+      AVG=$(awk "BEGIN {print $SUM / 5.0}")
+      ROW="$ROW,$AVG"
     done
 
-    AVG_DATASET=$(awk "BEGIN {print $TOTAL / 10}")
-    SUM=$(awk "BEGIN {print $SUM + $AVG_DATASET}")
-    COUNT=$((COUNT + 1))
+    echo "$ROW" >> "$OUT_FILE"
   done
 
-  AVG_TOTAL=$(awk "BEGIN {print $SUM / $COUNT}")
-  echo "${SIZE}MB,${AVG_TOTAL}" >> "$OUT_FILE"
+  # -------------------------------------
+  # Append minimums row
+  # -------------------------------------
+  echo "📉 Computing min row for $key..."
+
+  MIN_ROW="Min"
+  for COL in $(seq 2 $((${#SIZES[@]} + 1))); do
+    MIN_VAL=$(awk -F',' -v col=$COL 'NR==2 {min=$col} NR>2 {if ($col < min) min=$col} END {print min}' "$OUT_FILE")
+    MIN_ROW="$MIN_ROW,$MIN_VAL"
+  done
+
+  echo "$MIN_ROW" >> "$OUT_FILE"
+  echo "✅ Saved to $OUT_FILE"
 done
 
-echo "✅ Pison scalability results saved to $OUT_FILE"
+echo "🎉 All Pison thread-vs-size benchmarks completed!"

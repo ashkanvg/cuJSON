@@ -7,25 +7,25 @@ using namespace std;
 using namespace std::chrono;
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        cerr << "Usage: ./bestbuy SIZE_MB" << endl;
+    if (argc < 3) {
+        cerr << "Usage: ./bestbuy SIZE_MB THREAD_NUM" << endl;
         return 1;
     }
 
     string size_mb = argv[1];
+    int thread_num = stoi(argv[2]);  // 🧵 Get thread count from argv
+
     string file_path = "/rhome/aveda002/bigdata/Test-Files/scalability/wp/output_" + size_mb + "MB_large.json";
 
     auto start = high_resolution_clock::now();
-    
-    // 👇 CAST const char* to char* to match legacy API
+
     Record* rec = RecordLoader::loadSingleRecord(const_cast<char*>(file_path.c_str()));
     if (!rec) {
         cerr << "❌ Failed to load record: " << file_path << endl;
         return 1;
     }
 
-    int thread_num = 1;
-    int level_num = 12;
+    int level_num = 12;  // you may adjust this depending on dataset
     Bitmap* bm = BitmapConstructor::construct(rec, thread_num, level_num);
     BitmapIterator* iter = BitmapConstructor::getIterator(bm);
 

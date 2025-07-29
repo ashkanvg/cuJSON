@@ -1,0 +1,84 @@
+🚀 Running cuDF benchmarks (10× each) and printing full output...
+▶️  Running RW with real-world.py
+🔁 Run #1:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1824.68 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 105755335 ns
+🔁 Run #2:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1581.28 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 107111865 ns
+🔁 Run #3:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1352.71 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 108473776 ns
+🔁 Run #4:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1333.59 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 105052923 ns
+🔁 Run #5:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1354.10 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 102695222 ns
+🔁 Run #6:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1323.46 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 108426176 ns
+🔁 Run #7:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1360.35 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 105802854 ns
+🔁 Run #8:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1320.79 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 106351015 ns
+🔁 Run #9:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1378.44 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 105633334 ns
+🔁 Run #10:
+real-world:
+
+DataFrame Size: 805.00
+Time taken to parse: 1302.25 ms
+
+Extracted 211237 IDs.
+Time taken to execute query: 105203504 ns
+📊 RW average parse time: 1413.16 ms
+✅ cuDF full output printed. Done!
