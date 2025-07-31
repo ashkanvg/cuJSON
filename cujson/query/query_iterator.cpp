@@ -50,6 +50,7 @@ class cuJSONLinesIterator{
         int gotoArrayIndex(int index);                  // goto [ or comma of specific index within an Arrat
         int increamentIndex(int index);                 // go forward for index size
         int gotoNextSibling(int index);                 // go forward to next sibling in an array
+        bool checkKeyValue(string key, string value);   // check if the current object has the key-value pair
 
         // helper functions
         char getChar(int structuralIdx);                // get real json characters according to the node idx
@@ -382,9 +383,6 @@ int cuJSONLinesIterator::gotoNextSibling(int index){
     return idx;
 }
 
-
-
-
 int cuJSONLinesIterator::increamentIndex(int index){
     node = node + index;
     char currentNodeChar = getChar(node);
@@ -609,8 +607,27 @@ string cuJSONLinesIterator::getValue(){
     // return value;
 } // we have to change the place of idx and pos with each other
 
-
 int cuJSONLinesIterator::gotoKey(string key){
     int index1 = findKey(key);
     return increamentIndex(index1);
+}
+
+
+
+bool cuJSONLinesIterator::checkKeyValue(string key, string value){
+    int index1 = findKey(key);
+    if(index1 == 0){
+        return false; // key not found
+    }
+    int currentNode = node;
+    increamentIndex(index1); // go to the colon of the key
+    string currentValue = getValue(); // get the value of the key
+    if(currentValue.compare(value) == 0){
+        node = currentNode; // reset the node pointer to the previous position
+        // cout << "key: " << key << ", value: " << currentValue << endl;
+        return true; // key-value pair found
+    }else{
+        node = currentNode; // reset the node pointer to the previous position
+        return false;
+    }
 }

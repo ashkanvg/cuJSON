@@ -1,0 +1,17 @@
+
+Sitemap: https://archive.org/sitemap/sitemap.xml
+
+##############################################
+#
+# Welcome to the Archive!
+#
+##############################################
+# Please crawl our files.
+# We appreciate if you can crawl responsibly.
+# Stay open!
+##############################################
+
+
+User-agent: *
+Disallow: /control/
+Disallow: /report/

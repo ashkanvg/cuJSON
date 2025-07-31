@@ -1,7 +1,7 @@
 #include "../cujson/include_jsonlines.h"
 
 int main(int argc, char **argv) {
-    std::string filePath = "./merged_output.json";
+    std::string filePath = "../dataset/merged_output.json";
     // Check command-line arguments
     if (argc >= 2) {
         filePath = argv[1];  // XML file path
@@ -69,21 +69,42 @@ int main(int argc, char **argv) {
     // //TT1
     int index0;
     index0 = itr.gotoArrayIndex(0);
-        
+    int count = 0;
     for(int i = 0; i < 211259; i++) {
     // for(int i = 0; i < 5; i++) {
-        index0 = itr.gotoKey("id");
+        bool condition = itr.checkKeyValue("type", "PushEvent");
+        if(condition == true){
+            index0 = itr.gotoKey("id");
+            count++;
+            // std::cout << "\033[1;32m[RESULT]\033[0m Query Value of $[i].id: " << itr.getValue() << "\n";
+        }
+        // index0 = itr.gotoKey("id");
         // index0 = itr.gotoKey("repo");
         // index0 = itr.gotoKey("name");
         // itr.reset();
-        // std::cout << "\033[1;32m[RESULT]\033[0m Query Value of $[i].repo.name: " << itr.getValue() << "\n";
         index0 = itr.gotoNextSibling(1);
 
     } 
+    // int fileLines = 2111259;
+
+    // cuJSONLinesIterator itr = cuJSONLinesIterator(&parsed_tree, filePath.c_str());
+    // int index0 = itr.gotoArrayIndex(0);
+    // int count = 0;
+    // for(int i = 0; i < fileLines; i++) {
+    //     bool condition = itr.checkKeyValue("type", "PushEvent");
+    //     if(condition == true){
+    //         index0 = itr.gotoKey("repo");
+    //         index0 = itr.gotoKey("name");            
+    //         count++;
+            
+    //     }
+    //     index0 = itr.gotoNextSibling(1);
+    // } 
 
     auto end_itr = std::chrono::high_resolution_clock::now();
     auto duration_itr = std::chrono::duration_cast<std::chrono::nanoseconds>(end_itr - start_itr);
 
+    cout << "\033[1;32m[RESULT]\033[0m Total CreateEvent count: " << count << "\n";
 
     // std::cout << "\033[1;32m[RESULT]\033[0m Query Value of $[0].repo.name: " << itr.getValue() << "\n";
 
