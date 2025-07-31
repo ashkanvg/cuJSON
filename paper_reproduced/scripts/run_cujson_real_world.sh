@@ -20,11 +20,13 @@ module load cuda/11.8
 mkdir -p results
 mkdir -p cujson_results
 
-# SRC="../src/reproduced/cuJSON-standardjson-total-parsing-2.cu"
-SRC="../../real_world_use_case/main.cu"
+SRC="../src/reproduced/cuJSON-standardjson-total-parsing-2.cu"
+# SRC="../../real_world_use_case/main.cu"
 BINARY="./cujson_results/output_large.exe"
 
-BASE_DIR="../../dataset/merged_output.json"
+# BASE_DIR="../../dataset/merged_output.json"
+BASE_DIR="../../dataset/github_archive_large_record.json"
+# BASE_DIR="../../dataset/github_archive_small_records.json"
 # BASE_DIR="../../dataset/merged_output_large.json"
 
 # ------------------------------
@@ -32,6 +34,7 @@ BASE_DIR="../../dataset/merged_output.json"
 # ------------------------------
 echo "🔧 Compiling cuJSON..."
 nvcc -O3 "$SRC" -o "$BINARY" -w -gencode=arch=compute_80,code=sm_80
+# nvcc -O3 "$SRC" -o "$BINARY" -w -gencode=arch=compute_80,code=sm_80
 
 
 # ------------------------------
@@ -39,5 +42,5 @@ nvcc -O3 "$SRC" -o "$BINARY" -w -gencode=arch=compute_80,code=sm_80
 # ------------------------------
 echo "🚀 Benchmarking r (cuJSON parsing time)..."
 
-"$BINARY" "$BASE_DIR" 
-# "$BINARY" -b "$BASE_DIR" 
+# "$BINARY" "$BASE_DIR" 
+"$BINARY" -b "$BASE_DIR" 
