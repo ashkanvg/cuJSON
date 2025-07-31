@@ -27,8 +27,8 @@ bool decompressGzipToFile(const fs::path& gzPath, std::ofstream& outMerged) {
 }
 
 int main() {
-    std::string folder = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/use-case/1_1_2025"; // Change this to your folder path
-    std::string outputPath = "merged_output.json";
+    std::string folder = "/home/csgrads/aveda002/Desktop/CUDA-Test/JSONPARSING/Test-Files/use-case/1_1_2025_to_1_2_2025"; // Change this to your folder path
+    std::string outputPath = "github_archive_small_records.json";
     std::ofstream outMerged(outputPath, std::ios::binary);
     if (!outMerged) {
         std::cerr << "Failed to open " << outputPath << " for writing.\n";
