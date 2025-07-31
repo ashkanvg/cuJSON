@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
     auto end_itr = std::chrono::high_resolution_clock::now();
     auto duration_itr = std::chrono::duration_cast<std::chrono::nanoseconds>(end_itr - start_itr);
 
-    cout << "\033[1;32m[RESULT]\033[0m Total CreateEvent count: " << count << "\n";
+    cout << "\033[1;32m[RESULT]\033[0m Total PushEvent count: " << count << "\n";
 
     // std::cout << "\033[1;32m[RESULT]\033[0m Query Value of $[0].repo.name: " << itr.getValue() << "\n";
 
