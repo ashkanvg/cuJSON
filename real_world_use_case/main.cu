@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
 
 
     // Load File
-    size_t maxChunkSizeMB = 512; // 256MB
+    size_t maxChunkSizeMB = 2048; // 256MB
     cuJSONLinesInput input = loadJSONLines_chunkSizeMegaBytes(filePath, maxChunkSizeMB);
     if (!input.data) {
         std::cout << "\033[1;31m[ERR]\033[0m File loading failed. Please check the file path.\n";
@@ -70,7 +70,8 @@ int main(int argc, char **argv) {
     int index0;
     index0 = itr.gotoArrayIndex(0);
     int count = 0;
-    for(int i = 0; i < 211259; i++) {
+    for(int i = 0; i < 554617; i++) {
+    // for(int i = 0; i < 211259; i++) {
     // for(int i = 0; i < 5; i++) {
         bool condition = itr.checkKeyValue("type", "PushEvent");
         if(condition == true){
