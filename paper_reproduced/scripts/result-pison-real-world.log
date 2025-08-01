@@ -16,87 +16,147 @@ src/SerialBitmapIterator.cpp:277:20: warning: ISO C++ forbids converting a strin
 src/SerialBitmapIterator.cpp:283:34: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
      if (text_length <= 0) return "";
                                   ^~
-example/real_world.cpp: In function ‘std::__cxx11::string query_id(BitmapIterator*)’:
-example/real_world.cpp:19:53: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
-         if (iter->isObject() && iter->moveToKey("id")) {
-                                                     ^
 🚀 Finding best thread count based on parsing time...
 🔄 Testing thread count: 1
-Run 1 - Parse time: 315.431 ms
-Run 2 - Parse time: 100.746 ms
-Run 3 - Parse time: 128.494 ms
-Thread 1 - Avg parse time: 181.557 ms
+Run 1 - Parse time: 976.959 ms
+Run 2 - Parse time: 928.225 ms
+Run 3 - Parse time: 390.184 ms
+Thread 1 - Avg parse time: 765.12 ms
 🔄 Testing thread count: 2
-Run 1 - Parse time: 113.792 ms
-Run 2 - Parse time: 149.032 ms
-Run 3 - Parse time: 105.308 ms
-Thread 2 - Avg parse time: 122.711 ms
+Run 1 - Parse time: 412.910 ms
+Run 2 - Parse time: 290.838 ms
+Run 3 - Parse time: 279.518 ms
+Thread 2 - Avg parse time: 327.755 ms
 🔄 Testing thread count: 4
-Run 1 - Parse time: 147.028 ms
-Run 2 - Parse time: 148.079 ms
-Run 3 - Parse time: 148.609 ms
-Thread 4 - Avg parse time: 147.905 ms
+Run 1 - Parse time: 654.524 ms
+Run 2 - Parse time: 373.328 ms
+Run 3 - Parse time: 386.019 ms
+Thread 4 - Avg parse time: 471.29 ms
 🔄 Testing thread count: 8
-Run 1 - Parse time: 148.754 ms
-Run 2 - Parse time: 122.980 ms
-Run 3 - Parse time: 145.837 ms
-Thread 8 - Avg parse time: 139.19 ms
+Run 1 - Parse time: 420.457 ms
+Run 2 - Parse time: 383.212 ms
+Run 3 - Parse time: 279.871 ms
+Thread 8 - Avg parse time: 361.18 ms
 🔄 Testing thread count: 16
-Run 1 - Parse time: 147.932 ms
-Run 2 - Parse time: 147.161 ms
-Run 3 - Parse time: 117.836 ms
-Thread 16 - Avg parse time: 137.643 ms
-🔄 Testing thread count: 32
-Run 1 - Parse time: 149.095 ms
-Run 2 - Parse time: 145.521 ms
-Run 3 - Parse time: 146.660 ms
-Thread 32 - Avg parse time: 147.092 ms
-🔄 Testing thread count: 64
-Run 1 - Parse time: 146.134 ms
-Run 2 - Parse time: 147.654 ms
-Run 3 - Parse time: 118.283 ms
-Thread 64 - Avg parse time: 137.357 ms
-✅ Best thread count: 2 with avg parse time: 122.711 ms
+Run 1 - Parse time: 414.886 ms
+Run 2 - Parse time: 622.666 ms
+Run 3 - Parse time: 453.028 ms
+Thread 16 - Avg parse time: 496.86 ms
+✅ Best thread count: 2 with avg parse time: 327.755 ms
 
 🚀 Running final benchmark 10× with 2 threads...
 🔁 Run 1:
-Parse time: 148.043 ms
-Query time: 60.951 ms
-Total time: 334.166 ms
+Parse time: 494.002 ms
+Query time: 317.125 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1173.746 ms
 🔁 Run 2:
-Parse time: 145.064 ms
-Query time: 61.352 ms
-Total time: 332.476 ms
+Parse time: 358.530 ms
+Query time: 293.682 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1014.106 ms
 🔁 Run 3:
-Parse time: 120.357 ms
-Query time: 59.656 ms
-Total time: 306.582 ms
+Parse time: 341.599 ms
+Query time: 295.694 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1001.461 ms
 🔁 Run 4:
-Parse time: 104.455 ms
-Query time: 56.616 ms
-Total time: 285.140 ms
+Parse time: 418.446 ms
+Query time: 295.855 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1078.642 ms
 🔁 Run 5:
-Parse time: 145.207 ms
-Query time: 56.339 ms
-Total time: 328.001 ms
+Parse time: 415.887 ms
+Query time: 292.102 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1071.920 ms
 🔁 Run 6:
-Parse time: 117.243 ms
-Query time: 60.067 ms
-Total time: 303.635 ms
+Parse time: 753.381 ms
+Query time: 295.756 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1408.485 ms
 🔁 Run 7:
-Parse time: 142.983 ms
-Query time: 56.927 ms
-Total time: 324.965 ms
+Parse time: 590.848 ms
+Query time: 298.740 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1249.718 ms
 🔁 Run 8:
-Parse time: 148.425 ms
-Query time: 60.163 ms
-Total time: 337.027 ms
+Parse time: 272.937 ms
+Query time: 292.277 ms
+Matched PushEvent repo.name count: 289117
+Total time: 927.573 ms
 🔁 Run 9:
-Parse time: 110.881 ms
-Query time: 56.858 ms
-Total time: 291.891 ms
+Parse time: 692.103 ms
+Query time: 297.846 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1349.725 ms
 🔁 Run 10:
-Parse time: 104.540 ms
-Query time: 60.577 ms
-Total time: 288.423 ms
-📊 RW,128.72,58.9506,313.229
+Parse time: 497.076 ms
+Query time: 298.468 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1156.802 ms
+
+📊 RW,483.482,297.756,1143.22
+
+🖨️ Full output of all 10 runs:
+🔁 Run 1:
+Parse time: 494.002 ms
+Query time: 317.125 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1173.746 ms
+
+🔁 Run 2:
+Parse time: 358.530 ms
+Query time: 293.682 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1014.106 ms
+
+🔁 Run 3:
+Parse time: 341.599 ms
+Query time: 295.694 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1001.461 ms
+
+🔁 Run 4:
+Parse time: 418.446 ms
+Query time: 295.855 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1078.642 ms
+
+🔁 Run 5:
+Parse time: 415.887 ms
+Query time: 292.102 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1071.920 ms
+
+🔁 Run 6:
+Parse time: 753.381 ms
+Query time: 295.756 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1408.485 ms
+
+🔁 Run 7:
+Parse time: 590.848 ms
+Query time: 298.740 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1249.718 ms
+
+🔁 Run 8:
+Parse time: 272.937 ms
+Query time: 292.277 ms
+Matched PushEvent repo.name count: 289117
+Total time: 927.573 ms
+
+🔁 Run 9:
+Parse time: 692.103 ms
+Query time: 297.846 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1349.725 ms
+
+🔁 Run 10:
+Parse time: 497.076 ms
+Query time: 298.468 ms
+Matched PushEvent repo.name count: 289117
+Total time: 1156.802 ms
+
+

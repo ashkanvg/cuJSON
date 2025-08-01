@@ -1,55 +1,55 @@
 🔧 Compiling RapidJSON benchmarks...
-🔨 Compiling main-real-world-query.cpp -> output-real-world.exe
+🔨 Compiling main-real-world-query-2.cpp -> output-real-world.exe
 🚀 Benchmarking RapidJSON parsers...
 📂 RW: output-real-world.exe
 🔁 Run #1:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1232 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1243 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4641 ms
+⏱️ Query time: 164 ms
+⏱️ Total time: 4807 ms
 🔁 Run #2:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1528 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1537 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4721 ms
+⏱️ Query time: 141 ms
+⏱️ Total time: 4863 ms
 🔁 Run #3:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1306 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1315 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4707 ms
+⏱️ Query time: 139 ms
+⏱️ Total time: 4846 ms
 🔁 Run #4:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1291 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1300 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4699 ms
+⏱️ Query time: 142 ms
+⏱️ Total time: 4841 ms
 🔁 Run #5:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1252 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1260 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4684 ms
+⏱️ Query time: 141 ms
+⏱️ Total time: 4825 ms
 🔁 Run #6:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1240 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1249 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4668 ms
+⏱️ Query time: 148 ms
+⏱️ Total time: 4817 ms
 🔁 Run #7:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1252 ms
-⏱️ Query time: 9 ms
-⏱️ Total time: 1261 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4682 ms
+⏱️ Query time: 141 ms
+⏱️ Total time: 4824 ms
 🔁 Run #8:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1256 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1264 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4644 ms
+⏱️ Query time: 144 ms
+⏱️ Total time: 4789 ms
 🔁 Run #9:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1288 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1297 ms
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4715 ms
+⏱️ Query time: 144 ms
+⏱️ Total time: 4860 ms
 🔁 Run #10:
-✅ Extracted 211237 IDs.
-⏱️ Parse time: 1232 ms
-⏱️ Query time: 8 ms
-⏱️ Total time: 1241 ms
-✅ RapidJSON results saved to ../../scripts/results/rapidjson_fig9.csv
+✅ Matched PushEvent repo.name count: 289117
+⏱️ Parse time: 4676 ms
+⏱️ Query time: 141 ms
+⏱️ Total time: 4817 ms
+✅ RapidJSON results saved to 

@@ -1,6 +1,6 @@
 🔧 Compiling simdjson...
 🚀 Running simdjson query results:...
-Processed 211237 tweets.
-Parse time: 453.212 ms
-Query time: 69.6484 ms
-Total (end-to-end),6.96489e+07
+Matched PushEvent repo.name count: 289117
+Parse time: 1180.87 ms
+Query time: 152.861 ms
+Total (end-to-end),1.52863e+08
