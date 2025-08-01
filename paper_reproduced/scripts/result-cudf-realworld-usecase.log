@@ -4,81 +4,81 @@
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 3583.98 ms
+Time taken to parse: 3159.88 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1501953154 ns
+Time taken to execute query: 1712586752 ns
 🔁 Run #2:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 1850.44 ms
+Time taken to parse: 2631.38 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1374422446 ns
+Time taken to execute query: 1675856850 ns
 🔁 Run #3:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 1827.06 ms
+Time taken to parse: 2510.03 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1380904205 ns
+Time taken to execute query: 1642489167 ns
 🔁 Run #4:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 2635.91 ms
+Time taken to parse: 2438.59 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1391140725 ns
+Time taken to execute query: 1723035898 ns
 🔁 Run #5:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 1675.96 ms
+Time taken to parse: 2261.83 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1393449020 ns
+Time taken to execute query: 1699255215 ns
 🔁 Run #6:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 1542.28 ms
+Time taken to parse: 2393.73 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1384573888 ns
+Time taken to execute query: 1630938765 ns
 🔁 Run #7:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 1540.47 ms
+Time taken to parse: 2362.70 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1389763457 ns
+Time taken to execute query: 1651404499 ns
 🔁 Run #8:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 1491.48 ms
+Time taken to parse: 2256.59 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1396958185 ns
+Time taken to execute query: 1630334936 ns
 🔁 Run #9:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 1530.80 ms
+Time taken to parse: 2374.16 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1406672932 ns
+Time taken to execute query: 1707707278 ns
 🔁 Run #10:
 real-world:
 
 DataFrame Size: 2183.66
-Time taken to parse: 1489.49 ms
+Time taken to parse: 2035.28 ms
 
 Count of PushEvent rows with repo.name: 289117
-Time taken to execute query: 1432559369 ns
-📊 RW average parse time: 1916.79 ms
+Time taken to execute query: 1648894767 ns
+📊 RW average parse time: 2442.42 ms
 ✅ cuDF full output printed. Done!
