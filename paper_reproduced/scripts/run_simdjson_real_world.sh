@@ -1,13 +1,5 @@
 #!/bin/bash 
 
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=64
-#SBATCH --output="result-simdjson-real-world.log"
-#SBATCH --mem=32G
-#SBATCH -p epyc
-#SBATCH --time=01:00:00
-
 # -------------------------------------
 # Step 1: Compile
 # -------------------------------------

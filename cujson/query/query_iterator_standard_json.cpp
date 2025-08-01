@@ -49,12 +49,15 @@ class cuJSONIterator{
         int gotoKey(string key);                        // goto colon of specific key
         int gotoArrayIndex(int index);                  // goto [ or comma of specific index within an Arrat
         int increamentIndex(int index);                       // go forward for index size
+        int gotoNextSibling(int index);                 // go forward to next sibling in an array
+        bool checkKeyValue(string key, string value);   // check if the current object has the key-value pair
 
         // helper functions
         char getChar(int structuralIdx);                // get real json characters according to the node idx
         char getArtificalChar(int idx);
         void reset();                                   // reset pointer iterator to the first idx of structural
         void freeJson();
+        int gotoArrayIndexSiblingHelper(int index);    
         
         // read file function
         bool readFile(const char* file, uint8_t*& buffer, size_t& size);
@@ -572,4 +575,107 @@ string cuJSONIterator::getValue(){
 int cuJSONIterator::gotoKey(string key){
     int index1 = findKey(key);
     return increamentIndex(index1);
+}
+
+int cuJSONIterator::gotoArrayIndexSiblingHelper(int index){
+    int total = index + 1;                                // total number of index that we have to go forward to get the requested index [started from 0]
+                                                          // +1 is for handling indexes [1,2,3,...], user will use [0,1,2,...]
+    
+    char currentNodeChar = getChar(node);
+    // cout << "currNodeChar: " << currentNodeChar <<endl; 
+    // if(currentNodeChar == ',' || currentNodeChar == '\n' || currentNodeChar == ':') increamentIndex(1);
+    // next node
+    int nextNode = node+1;         
+    char nextNodeChar = getChar(nextNode);
+
+    // cout << "nextNodeChar: " << nextNodeChar <<endl; 
+
+    // total != 1 because we consider '[' as node to first index in array
+    while( total != 1 && nextNodeChar != ']' && nextNode != totalResultSize - 1){   
+        // cout << "nxt->" << nextNodeChar <<endl;     
+        if(nextNodeChar == '[' || nextNodeChar == '{'){
+            // cout << "nextNodeChar: " << nextNodeChar << endl;
+            nextNode = jumpOpeningForward(nextNode);
+
+        }
+        if(nextNodeChar == ',' || nextNodeChar == '\n' || nextNodeChar == ' '){ // no need for \n
+            total--; // go one node forward
+        }
+
+        nextNode++;
+        nextNodeChar = getChar(nextNode);
+    }
+   
+    // cout << "total: " << total << endl;
+    // cout << "nextNode: " << nextNode << endl;
+    // cout << "node: " << node << endl;
+    // cout << "current array node: " << currArrayNode << endl;
+    // // char charrrr = getchar(currArrayNode);
+    // cout << "current array char node: " << charrrr  << endl;
+    // that means we achieve to requested index
+    if(total == 1){
+        // cout << "curr node in total == 1 --> " << getChar(nextNode) <<endl;
+        node = nextNode-1; // change the node pointer iterator to the nextNode pointer
+        currArrayNode = node; // save the current array node
+        // cout << "node - 2: " << node << endl;
+        // currentNodeChar = getChar(node);
+        // cout << "currentNodeChar-2: " << currentNodeChar <<endl;
+
+        // if (node != 0){
+        //     char previousNodeChar = getChar(node-1); // save the previous node char
+        //     cout << "previousNodeChar-2: " << previousNodeChar <<endl;
+        // }
+        // char nextNodeChar = getChar(nextNode); // save the next node char
+        // cout << "nextNodeChar-2: " << nextNodeChar <<endl;
+        // currArrayNode = node;
+
+        // cout << "node: " << node <<endl; 
+        if(nextNodeChar == '{'){
+            nodeType = OBJECT;
+        }
+        else if(nextNodeChar == '['){
+            nodeType = ARRAY;
+        }
+        else if(nextNodeChar == ',' || currentNodeChar == '\n' || nextNodeChar == ']'){
+            nodeType = VALUE;
+        }
+        return node; // node
+    }
+    // if(toto)
+    return 0; // error
+}
+
+int cuJSONIterator::gotoNextSibling(int index){
+    // cout << "go to next sibling: " << node << endl;
+    node = currArrayNode;
+    // cout << "node: " << node << endl;
+    // char currentNodeChar = getChar(node);
+    // cout << "currentNodeChar: " << currentNodeChar <<endl;
+    
+    
+    int idx = gotoArrayIndexSiblingHelper(index); // go to next sibling in array
+    // if(idx == 0)
+    //     return node; 
+    // else
+    //     return idx; // return the next node index
+    return idx;
+}
+
+
+bool cuJSONIterator::checkKeyValue(string key, string value){
+    int index1 = findKey(key);
+    if(index1 == 0){
+        return false; // key not found
+    }
+    int currentNode = node;
+    increamentIndex(index1); // go to the colon of the key
+    string currentValue = getValue(); // get the value of the key
+    if(currentValue.compare(value) == 0){
+        node = currentNode; // reset the node pointer to the previous position
+        // cout << "key: " << key << ", value: " << currentValue << endl;
+        return true; // key-value pair found
+    }else{
+        node = currentNode; // reset the node pointer to the previous position
+        return false;
+    }
 }

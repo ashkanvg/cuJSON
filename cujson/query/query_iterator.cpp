@@ -366,7 +366,6 @@ int cuJSONLinesIterator::gotoArrayIndexSiblingHelper(int index){
     return 0; // error
 }
 
-
 int cuJSONLinesIterator::gotoNextSibling(int index){
     // cout << "go to next sibling: " << node << endl;
     node = currArrayNode;
@@ -382,6 +381,7 @@ int cuJSONLinesIterator::gotoNextSibling(int index){
     //     return idx; // return the next node index
     return idx;
 }
+
 
 int cuJSONLinesIterator::increamentIndex(int index){
     node = node + index;

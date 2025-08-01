@@ -2,6 +2,7 @@
 #include "../src/RecordLoader.h"
 #include "../src/BitmapIterator.h"
 #include "../src/BitmapConstructor.h"
+#include <cstdint>
 
 using namespace std;
 using namespace chrono;
