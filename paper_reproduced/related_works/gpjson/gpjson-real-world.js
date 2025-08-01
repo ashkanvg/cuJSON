@@ -10,7 +10,9 @@ function printMemoryUsageCPU(message) {
 const start = performance.now(); // Start time
 
 const gpjson = Polyglot.eval('gpjson', 'jsonpath');
-const result = gpjson.query('../../dataset/merged_output.json', '$.id');
+const result = gpjson.query('../../dataset/github_archive_small_records.json', ['$.type[?(@ == "PushEvent")]', '$.repo.name']);
+// const result = gpjson.query('../../dataset/github_archive_small_records.json', '$.repo.name');
+// const result = gpjson.query('../../dataset/github_archive_small_records.json', '$.[?(@.type == "PushEvent")].repo.name');
 
 const end = performance.now(); // End time
 

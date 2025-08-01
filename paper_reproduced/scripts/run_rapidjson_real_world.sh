@@ -1,4 +1,13 @@
 #!/bin/bash
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=64
+#SBATCH --output="result-rapidjson-real-world.log"
+#SBATCH --mem=32G
+#SBATCH -p epyc
+#SBATCH --time=01:00:00
+
 # ------------------------------
 # Step 1: Setup
 # ------------------------------
@@ -11,7 +20,7 @@ ORDERED_KEYS=("RW")
 # ORDERED_KEYS=("TT" "BB" "GMD" "NSPL" "WM" "WP")
 
 declare -A SOURCES=(
-    ["RW"]="main-real-world-query.cpp"
+    ["RW"]="main-real-world-query-2.cpp"
 )
 
 declare -A BINARIES=(

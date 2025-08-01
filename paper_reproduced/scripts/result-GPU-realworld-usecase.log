@@ -1,10 +1,3 @@
 🔧 Compiling cuJSON...
 🚀 Benchmarking r (cuJSON parsing time)...
-[1;36m[INFORM][0m Using custom JSON file from command line: ../../dataset/merged_output.json
-[1;32m[INFORM][0m File loaded successfully. Size: 484473600 bytes
-[1;32m[INFORM][0m Number of chunks: 1
-[1;32m[INFORM][0m Chunk sizes: 484473600 
-[1;32m[RESULT][0m Parsed tree size: 24751868 elements
-[1;32m[RESULT][0m Parsing time: 178.175 ms
-[1;32m[RESULT][0m Query time: 42.5025 ms
-[1;32m[RESULT][0m Total time: 220.677 ms
+258.954

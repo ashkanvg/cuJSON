@@ -149,6 +149,22 @@ def measure_parsing_time(json_file_path, description, query_version):
 
         # Print extracted value
         # print(f"Category IDs of the second and third elements: {category_ids}\n")
+    elif query_version == 13:
+        # Filter rows where type == "PushEvent"
+        if 'type' in df.columns:
+            push_df = df[df['type'] == 'PushEvent']
+
+            # Convert to pandas to handle nested structure
+            push_pandas = push_df['repo'].to_pandas()
+
+            count_with_repo_name = 0
+            for item in push_pandas:
+                if isinstance(item, dict) and 'name' in item and item['name'] is not None:
+                    count_with_repo_name += 1
+
+            print(f"Count of PushEvent rows with repo.name: {count_with_repo_name}")
+        else:
+            print("No 'type' field found in the data.")
 
 
     else:
@@ -173,7 +189,7 @@ def measure_parsing_time(json_file_path, description, query_version):
 # json_file_path_bestbuy = '/rhome/aveda002/bigdata/Test-Files/bestbuy_small_records_remove.json'
 
 # json_file_path_nspl = '../../../dataset/nspl_small_records_remove.json'
-json_file_path_wiki = '../../../dataset/merged_output.json'
+json_file_path_wiki = '../../../dataset/github_archive_small_records.json'
 # json_file_path_walmart = '../../../dataset/walmart_small_records_remove.json'
 # json_file_path_twitter = '../../../dataset/twitter_small_records_remove.json'
 # json_file_path_google = '../../../dataset/google_map_small_records_remove.json'
@@ -188,7 +204,7 @@ json_file_path_wiki = '../../../dataset/merged_output.json'
 # measure_parsing_time(json_file_path_twitter, "twitter", 3)
 # measure_parsing_time(json_file_path_twitter, "twitter", 4)
 # measure_parsing_time(json_file_path_walmart, "walmart", 5)
-measure_parsing_time(json_file_path_wiki, "real-world", 12)
+measure_parsing_time(json_file_path_wiki, "real-world", 13)
 # measure_parsing_time(json_file_path_wiki, "wiki", 7)
 # measure_parsing_time(json_file_path_google, "google", 8)
 # measure_parsing_time(json_file_path_google, "google", 9)

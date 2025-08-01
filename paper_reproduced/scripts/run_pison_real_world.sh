@@ -11,21 +11,19 @@
 echo "🔧 Compiling Pison..."
 mkdir -p results
 
-cd ../related_works/pison/real_world
+cd ../related_works/pison/real_world_2
 make clean 
 make all
 
 cd ./bin
-
-# TMP_FILE="../../../../scripts/results/pison_fig9.csv"
-# : > "$TMP_FILE"
 
 ORDERED_KEYS=("RW")
 declare -A BINARIES=(
     ["RW"]="real_world"
 )
 
-THREADS_LIST=(1 2 4 8 16 32 64)
+THREADS_LIST=(1 2 4 8 16)
+# THREADS_LIST=(1 2 4 8 16 32 64)
 
 echo "🚀 Finding best thread count based on parsing time..."
 BEST_THREAD=-1
@@ -65,10 +63,15 @@ SUM_PARSE=0
 SUM_QUERY=0
 SUM_TOTAL=0
 
+ALL_OUTPUTS=""  # Collect all output here
+
 for i in {1..10}; do
     echo "🔁 Run $i:"
     OUTPUT=$(./real_world "$BEST_THREAD")
     echo "$OUTPUT"
+    
+    # Append to full output
+    ALL_OUTPUTS+="🔁 Run $i:\n$OUTPUT\n\n"
 
     PARSE=$(echo "$OUTPUT" | grep "Parse time" | grep -Eo '[0-9]+\.[0-9]+' | head -1)
     QUERY=$(echo "$OUTPUT" | grep "Query time" | grep -Eo '[0-9]+\.[0-9]+' | head -1)
@@ -83,5 +86,8 @@ AVG_PARSE=$(awk "BEGIN {print $SUM_PARSE / 10}")
 AVG_QUERY=$(awk "BEGIN {print $SUM_QUERY / 10}")
 AVG_TOTAL=$(awk "BEGIN {print $SUM_TOTAL / 10}")
 
+echo ""
 echo "📊 RW,$AVG_PARSE,$AVG_QUERY,$AVG_TOTAL"
-# echo "✅ Final averaged results written to $TMP_FILE"
+echo ""
+echo "🖨️ Full output of all 10 runs:"
+echo -e "$ALL_OUTPUTS"
