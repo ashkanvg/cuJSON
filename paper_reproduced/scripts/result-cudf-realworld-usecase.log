@@ -3,82 +3,82 @@
 🔁 Run #1:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1824.68 ms
+DataFrame Size: 2183.66
+Time taken to parse: 3583.98 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 105755335 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1501953154 ns
 🔁 Run #2:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1581.28 ms
+DataFrame Size: 2183.66
+Time taken to parse: 1850.44 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 107111865 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1374422446 ns
 🔁 Run #3:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1352.71 ms
+DataFrame Size: 2183.66
+Time taken to parse: 1827.06 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 108473776 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1380904205 ns
 🔁 Run #4:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1333.59 ms
+DataFrame Size: 2183.66
+Time taken to parse: 2635.91 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 105052923 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1391140725 ns
 🔁 Run #5:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1354.10 ms
+DataFrame Size: 2183.66
+Time taken to parse: 1675.96 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 102695222 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1393449020 ns
 🔁 Run #6:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1323.46 ms
+DataFrame Size: 2183.66
+Time taken to parse: 1542.28 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 108426176 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1384573888 ns
 🔁 Run #7:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1360.35 ms
+DataFrame Size: 2183.66
+Time taken to parse: 1540.47 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 105802854 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1389763457 ns
 🔁 Run #8:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1320.79 ms
+DataFrame Size: 2183.66
+Time taken to parse: 1491.48 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 106351015 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1396958185 ns
 🔁 Run #9:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1378.44 ms
+DataFrame Size: 2183.66
+Time taken to parse: 1530.80 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 105633334 ns
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1406672932 ns
 🔁 Run #10:
 real-world:
 
-DataFrame Size: 805.00
-Time taken to parse: 1302.25 ms
+DataFrame Size: 2183.66
+Time taken to parse: 1489.49 ms
 
-Extracted 211237 IDs.
-Time taken to execute query: 105203504 ns
-📊 RW average parse time: 1413.16 ms
+Count of PushEvent rows with repo.name: 289117
+Time taken to execute query: 1432559369 ns
+📊 RW average parse time: 1916.79 ms
 ✅ cuDF full output printed. Done!

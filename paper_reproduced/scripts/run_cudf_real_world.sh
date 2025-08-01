@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --output="result-cudf-realworld-usecase.log"
 #SBATCH --mem=16G
-#SBATCH -p gpu
-#SBATCH --gres=gpu:a100:1
+#SBATCH -p short_gpu
+#SBATCH --gres=gpu:ada6000:1
 #SBATCH --time=00:10:00
 
 # Load needed modules
