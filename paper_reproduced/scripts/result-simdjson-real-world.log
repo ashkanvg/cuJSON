@@ -1,6 +1,43 @@
 🔧 Compiling simdjson...
-🚀 Running simdjson query results:...
-Matched PushEvent repo.name count: 289117
-Parse time: 1180.87 ms
-Query time: 152.861 ms
-Total (end-to-end),1.52863e+08
+🚀 Running simdjson query 20 times...
+Run 1:
+Load time: 343.177 ms
+Run 2:
+Load time: 366.976 ms
+Run 3:
+Load time: 316.491 ms
+Run 4:
+Load time: 245.14 ms
+Run 5:
+Load time: 244.43 ms
+Run 6:
+Load time: 248.298 ms
+Run 7:
+Load time: 245.1 ms
+Run 8:
+Load time: 268.204 ms
+Run 9:
+Load time: 251.113 ms
+Run 10:
+Load time: 254.154 ms
+Run 11:
+Load time: 244.135 ms
+Run 12:
+Load time: 252.367 ms
+Run 13:
+Load time: 250.943 ms
+Run 14:
+Load time: 251.231 ms
+Run 15:
+Load time: 243.909 ms
+Run 16:
+Load time: 312.735 ms
+Run 17:
+Load time: 249.203 ms
+Run 18:
+Load time: 241.289 ms
+Run 19:
+Load time: 245.144 ms
+Run 20:
+Load time: 250.903 ms
+📊 Average Load Time (runs 2-20): 262.198 ms
