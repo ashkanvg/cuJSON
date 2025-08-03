@@ -262,7 +262,9 @@ cuJSONIterator itr = cuJSONIterator(&parsed_array, filePath);
 | :-------------------------------------------- |:------------------------- |
 | `int gotoKey(string key)`       | Attempts to move the iterator's position to the value associated with the specified `key` within the current JSON object. Returns `structural` index on success.
 | `int gotoArrayIndex(int index)` | Attempts to move the iterator's position to the element at the specified `index` within the current JSON array. Returns `structural` index on success.|
-| `int incrementIndex(int index)` | Advances the iterator's current position forward by `index` steps along the `structural` array. This is useful for sequential traversal within objects or elements within arrays. Returns `structural` index on success. |
+| `int incrementIndex(int index)` | Advances the iterator's current position forward by `index` steps along the `structural` array. This is useful for sequential traversal within structural array. Returns `structural` index on success. |
+| `int gotoNextSibling(int index)` | Advances the iterator's current position forward by `index` steps along the `structural` array. This is useful for sequential traversal within **only** JSON arrays. Returns `structural` index on success. |
+| `bool checkKeyValue(string key, string value)` | check if the current object has the key-value pair. Returns `true` on success and `false` on failure. |
 | `string getKey()`               | When positioned at a key-value pair within a JSON object, this returns the `string` representation of the current key.|
 | `string getValue()`             | When positioned at a value, this returns its `string` representation. |
 | `void reset()`                  | Resets the iterator's internal pointer back to the very first structural character of the parsed JSON array, allowing you to re-traverse from the beginning.|
