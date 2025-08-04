@@ -1,4 +1,4 @@
-# rapidJSON
+# cuDF
 Here are instructions on running cuDF for JSON Lines.
 
 ## Prerequisites: 
