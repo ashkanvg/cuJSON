@@ -34,4 +34,14 @@ python ./walmart.py;
 python ./wiki.py;
 ```
 
+## Notes:
+Regarding the issue you encountered with cuDF. In our setup, cuDF was installed through a Conda environment managed by our server administrator, so we didn’t install it manually ourselves. That said, we know cuDF and its dependencies (like pyarrow and protobuf) can be a bit sensitive to environment differences.
+
+- From our experience and what others have reported, we recommend installing cuDF via Conda using the official RAPIDS instructions: https://docs.rapids.ai/install/
+- For example:
+```
+conda create -n rapids-23.12 -c rapidsai -c nvidia -c conda-forge cudf=23.12 python=3.10 cudatoolkit=11.8
+```
+- Also, it helps to avoid installing pyarrow separately via pip, as that can lead to conflicts.
+
 
