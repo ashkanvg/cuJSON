@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "/bigdata/zhaolab/aveda002/cuJSON/paper_reproduced/related_works/cuDF/nspl.py", line 163, in <module>
-    measure_parsing_time(json_file_path_wiki, "nspl", 1)
-NameError: name 'json_file_path_wiki' is not defined

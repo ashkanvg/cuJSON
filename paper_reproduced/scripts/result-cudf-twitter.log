@@ -1,3 +1,6 @@
+# packages in environment at /opt/linux/rhel/8.x/x86_64/pkgs/miniconda3/py39_4.12.0:
+#
+# Name                    Version                   Build  Channel
 🚀 Running cuDF benchmarks (10× each) and printing full output...
 ▶️  Running RW with twitter.py
 🔁 Run #1:
@@ -12,9 +15,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 2300.14 ms
+Time taken to parse: 1703.09 ms
 
-Time taken to execute query: 96729344 ns
+Time taken to execute query: 46381638 ns
+
+24.06.01
 🔁 Run #2:
 twitter:
 
@@ -27,9 +32,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 2122.26 ms
+Time taken to parse: 1289.06 ms
 
-Time taken to execute query: 52212983 ns
+Time taken to execute query: 47911976 ns
+
+24.06.01
 🔁 Run #3:
 twitter:
 
@@ -42,9 +49,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 1872.68 ms
+Time taken to parse: 1188.18 ms
 
-Time taken to execute query: 49051228 ns
+Time taken to execute query: 46019295 ns
+
+24.06.01
 🔁 Run #4:
 twitter:
 
@@ -57,9 +66,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 1829.09 ms
+Time taken to parse: 1135.99 ms
 
-Time taken to execute query: 46004264 ns
+Time taken to execute query: 45279438 ns
+
+24.06.01
 🔁 Run #5:
 twitter:
 
@@ -72,9 +83,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 2175.00 ms
+Time taken to parse: 1171.08 ms
 
-Time taken to execute query: 47066785 ns
+Time taken to execute query: 47816935 ns
+
+24.06.01
 🔁 Run #6:
 twitter:
 
@@ -87,9 +100,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 1681.84 ms
+Time taken to parse: 1167.63 ms
 
-Time taken to execute query: 44153421 ns
+Time taken to execute query: 46372165 ns
+
+24.06.01
 🔁 Run #7:
 twitter:
 
@@ -102,9 +117,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 1883.11 ms
+Time taken to parse: 1132.99 ms
 
-Time taken to execute query: 46366984 ns
+Time taken to execute query: 47181290 ns
+
+24.06.01
 🔁 Run #8:
 twitter:
 
@@ -117,9 +134,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 1770.61 ms
+Time taken to parse: 1210.10 ms
 
-Time taken to execute query: 47042516 ns
+Time taken to execute query: 46879888 ns
+
+24.06.01
 🔁 Run #9:
 twitter:
 
@@ -132,9 +151,11 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 1676.39 ms
+Time taken to parse: 1302.17 ms
 
-Time taken to execute query: 44933652 ns
+Time taken to execute query: 46629706 ns
+
+24.06.01
 🔁 Run #10:
 twitter:
 
@@ -147,8 +168,10 @@ DataFrame Size: 494.32
 4  Mon Oct 17 11:56:58 +0000 2016  787985755192889344  ...           None  None
 
 [5 rows x 34 columns]
-Time taken to parse: 1571.60 ms
+Time taken to parse: 1238.29 ms
 
-Time taken to execute query: 49858329 ns
-📊 RW average parse time: 1888.27 ms
+Time taken to execute query: 46280094 ns
+
+24.06.01
+📊 RW average parse time: 1253.86 ms
 ✅ cuDF full output printed. Done!
