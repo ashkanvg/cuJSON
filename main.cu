@@ -1,4 +1,4 @@
-#include "cujson/include.h"
+#include "cujson/cujson.h"
 
 
 int main(int argc, char **argv) {

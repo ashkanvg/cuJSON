@@ -134,12 +134,12 @@ Copy the entire `cujson/` directory from this repository into your project's sou
 In your source files where you intend to use cuJSON, include its primary header:
 - For Standard JSON:
 ```
-#include "cujson/include.h"
+#include "cujson/cujson.h"
 ```
 
 - For JSON Lines:
 ```
-#include "cujson/include_jsonlines.h"
+#include "cujson/cujsonlines.h"
 ```
 
 

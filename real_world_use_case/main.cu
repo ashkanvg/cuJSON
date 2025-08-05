@@ -1,4 +1,4 @@
-#include "../cujson/include_jsonlines.h"
+#include "../cujson/cujsonlines.h"
 
 int main(int argc, char **argv) {
     std::string filePath = "../dataset/merged_output.json";
