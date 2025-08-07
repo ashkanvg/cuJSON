@@ -156,7 +156,7 @@ def measure_parsing_time(json_file_path, description, query_version):
 # json_file_path_bestbuy = '/rhome/aveda002/bigdata/Test-Files/bestbuy_small_records_remove.json'
 
 # json_file_path_nspl = '../../../dataset/nspl_small_records_remove.json'
-json_file_path_wiki = '../../../dataset/wiki_small_records_remove.json'
+json_file_path_wiki = '../../../dataset/wiki_small_records.json'
 # json_file_path_walmart = '../../../dataset/walmart_small_records_remove.json'
 # json_file_path_twitter = '../../../dataset/twitter_small_records_remove.json'
 # json_file_path_google = '../../../dataset/google_map_small_records_remove.json'

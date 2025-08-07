@@ -10,7 +10,7 @@ function printMemoryUsageCPU(message) {
 const start = performance.now(); // Start time
 
 const gpjson = Polyglot.eval('gpjson', 'jsonpath');
-const result = gpjson.query('../../dataset/twitter_large_record.json', '$.test.test.test.test.test');
+const result = gpjson.query('../../dataset/twitter_large.json', '$.test.test.test.test.test');
 
 const end = performance.now(); // End time
 

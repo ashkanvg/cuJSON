@@ -14,17 +14,17 @@ echo "QueryName,AverageTime" >> "$OUT_FILE"
 SRC_DIR="../query_example/"
 
 declare -A QUERIES=(
-  ["TT1"]="query_TT1_JSONL.cu ../../dataset/twitter_small_records_remove.json"
-  ["TT2"]="query_TT2_JSONL.cu ../../dataset/twitter_small_records_remove.json"
-  ["TT3"]="query_TT3_JSONL.cu ../../dataset/twitter_small_records_remove.json"
-  ["TT4"]="query_TT4_JSONL.cu ../../dataset/twitter_small_records_remove.json"
-  ["WM"]="query_WM_JSONL.cu ../../dataset/walmart_small_records_remove.json"
-  ["GMD1"]="query_GMD1_JSONL.cu ../../dataset/google_map_small_records_remove.json"
-  ["GMD2"]="query_GMD2_JSONL.cu ../../dataset/google_map_small_records_remove.json"
-  ["NSPL"]="query_NSPL_JSONL.cu ../../dataset/nspl_small_records_remove.json"
-  ["BB1"]="query_BB1_JSONL.cu ../../dataset/bestbuy_small_records_remove.json"
-  ["BB2"]="query_BB2_JSONL.cu ../../dataset/bestbuy_small_records_remove.json"
-  ["WP1"]="query_WP1_JSONL.cu ../../dataset/wiki_small_records_remove.json"
+  ["TT1"]="query_TT1_JSONL.cu ../../dataset/twitter_small_records.json"
+  ["TT2"]="query_TT2_JSONL.cu ../../dataset/twitter_small_records.json"
+  ["TT3"]="query_TT3_JSONL.cu ../../dataset/twitter_small_records.json"
+  ["TT4"]="query_TT4_JSONL.cu ../../dataset/twitter_small_records.json"
+  ["WM"]="query_WM_JSONL.cu ../../dataset/walmart_small_records.json"
+  ["GMD1"]="query_GMD1_JSONL.cu ../../dataset/google_map_small_records.json"
+  ["GMD2"]="query_GMD2_JSONL.cu ../../dataset/google_map_small_records.json"
+  ["NSPL"]="query_NSPL_JSONL.cu ../../dataset/nspl_small_records.json"
+  ["BB1"]="query_BB1_JSONL.cu ../../dataset/bestbuy_small_records.json"
+  ["BB2"]="query_BB2_JSONL.cu ../../dataset/bestbuy_small_records.json"
+  ["WP1"]="query_WP1_JSONL.cu ../../dataset/wiki_small_records.json"
 )
 
 declare -A group_sums

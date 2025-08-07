@@ -148,7 +148,7 @@ def measure_parsing_time(json_file_path, description, query_version):
     
 # Paths to JSON files
 # json_file_path_twitter = '../../../dataset/twitter_small_records.json' 
-json_file_path_twitter = '../../../dataset/twitter_small_records_remove.json' 
+json_file_path_twitter = '../../../dataset/twitter_small_records.json' 
 
 measure_parsing_time(json_file_path_twitter, "twitter", 1)
 
