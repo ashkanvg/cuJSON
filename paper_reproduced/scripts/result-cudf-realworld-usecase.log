@@ -1,13 +1,3 @@
 🚀 Running cuDF benchmarks (10× each) and computing averages...
-▶️  Running TT with twitter.py
-TT average: 850.349 ms
-▶️  Running BB with bestbuy.py
-BB average: 775.037 ms
-▶️  Running GMD with google.py
-GMD average: 647.532 ms
-▶️  Running NSPL with nspl.py
-NSPL average: 825.501 ms
-▶️  Running WM with walmart.py
-WM average: 796.812 ms
-▶️  Running WP with wiki_2.py
-slurmstepd-gpu10: error: *** JOB 18892026 ON gpu10 CANCELLED AT 2025-08-06T19:21:27 DUE TO TIME LIMIT ***
+24.06.01
+cat: /opt/conda/meta/pinned: No such file or directory
