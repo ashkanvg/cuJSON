@@ -1,9 +1,4 @@
-# cuJSON: A Highly Parallel JSON Parser for GPUs
-JSON (JavaScript Object Notation) data is widely used in modern computing, yet its parsing performance can be a major bottleneck. Conventional wisdom suggests that GPUs are ill-suited for parsing due to the branch-heavy nature of parsing algorithms. This work challenges that notion by presenting cuJSON, a novel JSON parser built on a redesigned parsing algorithm, specifically tailored for GPU architectures with minimal branching and maximal parallelism.
-
-cuJSON offloads all three key phases of JSON parsing to the GPU: (i) UTF validation, (ii) JSON tokenization, and (iii) nesting structure recognition. Each phase is powered by a highly parallel algorithm optimized for GPUs, effectively leveraging intrinsic GPU functions and high-performance CUDA libraries for acceleration. 
-To maximize the parsing speed, the output of cuJSON is also specially designed in a non-conventional way. Finally, cuJSON is able to break key dependencies in the parsing process, making it possible to accelerate the parsing of a single large JSON file effectively. Evaluation shows that cuJSON not only outperforms highly optimized CPU-based parsers like simdjson and Pison but also surpasses existing GPU-based parsers like cuDF and GPJSON, in terms of both functionality and performance.
-<hr>
+# cuJSON: A Highly Parallel JSON Parser for GPUs [Paper Reproduced]
 
 ## Important Notes for Paper Reproducibility
 This readme is for use of paper reproduce manually, but in the case if you want to use the codes with automatic scripts and all the related compile and run codes in the `scripts` folder (with its own `readme.md`). All the information of reporducing all the figures are existed in that directory.
@@ -46,7 +41,7 @@ nvcc -O3 -o output_large.exe ./src/cuJSON-standardjson.cu -w [-gencode=arch=comp
 3. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder. Then, use this command line to parse it (default version).
 
 ```
-output_large.exe -b ../dataset/[dataset name]_small_records_remove.json
+output_large.exe -b ../dataset/[dataset name]_small_records.json
 ```
 
 **NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
@@ -143,7 +138,7 @@ done &
 logging_pid=$!
 
 
-output_small.exe -b ./dataset/[dataset name]_small_records_remove.json
+output_small.exe -b ./dataset/[dataset name]_small_records.json
 
 kill $logging_pid
 ```
@@ -162,51 +157,51 @@ In order to run all of the queries, please follow the following steps. We are re
 ```
 echo 'TT1:';
 nvcc -O3 -o query-experiment ./example/query_TT1_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/twitter_small_records_remove.json;
+./query-experiment -b ./dataset/twitter_small_records.json;
 
 echo 'TT2:';
 nvcc -O3 -o query-experiment ./example/query_TT2_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/twitter_small_records_remove.json;
+./query-experiment -b ./dataset/twitter_small_records.json;
 
 echo 'TT3:';
 nvcc -O3 -o query-experiment ./example/query_TT3_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/twitter_small_records_remove.json;
+./query-experiment -b ./dataset/twitter_small_records.json;
 
 echo 'TT4:';
 nvcc -O3 -o query-experiment ./example/query_TT4_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/twitter_small_records_remove.json;
+./query-experiment -b ./dataset/twitter_small_records.json;
 
 echo 'WM:';
 nvcc -O3 -o query-experiment ./example/query_WM_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/walmart_small_records_remove.json ;
+./query-experiment -b ./dataset/walmart_small_records.json ;
 
 echo 'GMD1:';
 nvcc -O3 -o query-experiment ./example/query_GMD1_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/google_map_small_records_remove.json ;
+./query-experiment -b ./dataset/google_map_small_records.json ;
 
 echo 'GMD2:';
 nvcc -O3 -o query-experiment ./example/query_GMD2_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/google_map_small_records_remove.json ;
+./query-experiment -b ./dataset/google_map_small_records.json ;
 
 echo 'nspl:';
 nvcc -O3 -o query-experiment ./example/query_NSPL_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/nspl_small_records_remove.json;
+./query-experiment -b ./dataset/nspl_small_records.json;
 
 echo 'BB1:';
 nvcc -O3 -o query-experiment ./example/query_BB1_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/bestbuy_small_records_remove.json ;
+./query-experiment -b ./dataset/bestbuy_small_records.json ;
 
 echo 'BB2:';
 nvcc -O3 -o query-experiment ./example/query_BB2_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/bestbuy_small_records_remove.json ;
+./query-experiment -b ./dataset/bestbuy_small_records.json ;
 
 echo 'WP1:';
 nvcc -O3 -o query-experiment ./example/query_WP1_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/wiki_small_records_remove.json ;
+./query-experiment -b ./dataset/wiki_small_records.json ;
 
 echo 'WP2:';
 nvcc -O3 -o query-experiment ./example/query_WP2_JSONL.cu -w -gencode=arch=compute_61,code=sm_61;
-./query-experiment -b ./dataset/wiki_small_records_remove.json ;
+./query-experiment -b ./dataset/wiki_small_records.json ;
 
 ```
 
