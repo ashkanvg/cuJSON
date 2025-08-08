@@ -89,6 +89,9 @@ If you'd like to run both methods together, use the following:
 run_all_fig11.sh
 ```
 
+> **Note**: MetaJSON is not included in performance tests as it requires very huge compile time and only works for a few simplified test cases without branches. We include it only to show that our proposed method outperforms it. MetaJSON discusses how to parse JSON objects with a fixed JSON schema, which greatly simplifies the task of data de-serialization. However, if you want to test meta-json, you can follow their github repository: https://github.com/mis-wut/meta-json-parser . For datasets, please refer to our `dataset` folder and its corresponding `readme` since we have specific json files the preprocessed for `meta-json`.
+
+
 #### Results Location:
 - All method results are stored in `scripts/results/fig11_data.csv`.
 - Individual results can be found in `scripts/results/` under:
@@ -124,7 +127,7 @@ To run all methods together:
 ./run_all_fig12.sh
 ```
 
-> **Note**: MetaJSON is not included in performance tests as it requires very huge compile time and only works for a few simplified test cases without branches. We include it only to show that our proposed method outperforms it.
+> **Note**: MetaJSON is not included in performance tests as it requires very huge compile time and only works for a few simplified test cases without branches. We include it only to show that our proposed method outperforms it. MetaJSON discusses how to parse JSON objects with a fixed JSON schema, which greatly simplifies the task of data de-serialization. However, if you want to test meta-json, you can follow their github repository: https://github.com/mis-wut/meta-json-parser . For datasets, please refer to our `dataset` folder and its corresponding `readme` since we have specific json files the preprocessed for `meta-json`.
 
 #### Results Location:
 - All method results are stored in `scripts/results/fig12_data.csv`.
@@ -282,7 +285,6 @@ For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_6
 - For specific modifications or troubleshooting, refer to the individual script files, or readme of each relarted works for more details.
 - Make sure to download all the datasets can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. `scabality` folder must place exactly like what it is in the `dataset` folder for proper experiment.
 - For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
-
 
 
 ---
