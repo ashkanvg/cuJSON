@@ -12,6 +12,13 @@ Two sample datasets are included in the `dataset` folder. Large datasets (used i
 ## Setup:
 **RapidJSON**, **simdjson**, **cuJSON**, and **pison** are already available in the related_works directory. No need for further installation. For **cudf** and **GPJSON**, it requires to install their library and create their enviroment to be used which are also explained in the `related_works/gpjson` and `related_works/cudf`'s `readme.md` section. 
 
+We provide a script to setup gpjson and cudf too. You can use:
+```
+./setup.sh
+```
+
+It contains three scripts, `./setup/install_gpjson.sh` will download GraalVM (a dependency for gpjson) as well as clone and build gpjson. It's output also advises on what environment variables need to be set. `./setup/setup_cudf_env.sh` will setup cudf within a conda environment following steps from their documentation (https://github.com/rapidsai/cudf). `./setup/clean.sh` will just clean up the installation of gpjson, graalvm, and remove the cudf_env conda environment.
+
 ## 📊 Run all experiments
 We have added a new script called `run_experiments.sh`, which executes all experiments and generates the final figures and tables presented in the paper. For other methods, their libraries are already included in the `related_works` folder. If you need for further manually scritps checking and runnign per each figure you can follow the following subsections.
 
