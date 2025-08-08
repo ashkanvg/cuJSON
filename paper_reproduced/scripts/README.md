@@ -10,7 +10,7 @@ Two sample datasets are included in the `dataset` folder. Large datasets (used i
 - For Standard JSON, use those datasets that end in `_large_record.json`.
  
 ## Setup:
-RapidJSON, simdjson, cuJSON, and pison are already available in the related_works directory. No need for further installation. For cudf and GPJSON, it requires to install their library and create their enviroment to be used which are also explained in the related_works/gpjson and related_works/cudf readme.md section. 
+**RapidJSON**, **simdjson**, **cuJSON**, and **pison** are already available in the related_works directory. No need for further installation. For **cudf** and **GPJSON**, it requires to install their library and create their enviroment to be used which are also explained in the `related_works/gpjson` and `related_works/cudf`'s `readme.md` section. 
 
 ## 📊 Run all experiments
 We have added a new script called `run_experiments.sh`, which executes all experiments and generates the final figures and tables presented in the paper. For other methods, their libraries are already included in the `related_works` folder. If you need for further manually scritps checking and runnign per each figure you can follow the following subsections.
