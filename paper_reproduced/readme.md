@@ -5,8 +5,11 @@ cuJSON offloads all three key phases of JSON parsing to the GPU: (i) UTF validat
 To maximize the parsing speed, the output of cuJSON is also specially designed in a non-conventional way. Finally, cuJSON is able to break key dependencies in the parsing process, making it possible to accelerate the parsing of a single large JSON file effectively. Evaluation shows that cuJSON not only outperforms highly optimized CPU-based parsers like simdjson and Pison but also surpasses existing GPU-based parsers like cuDF and GPJSON, in terms of both functionality and performance.
 <hr>
 
+## Important Notes for Paper Reproducibility
+This readme is for use of paper reproduce manually, but in the case if you want to use the codes with automatic scripts and all the related compile and run codes in the `scripts` folder (with its own `readme.md`). All the information of reporducing all the figures are existed in that directory.
+
 ## Datasets
-Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. For JSON Lines, use those datasets that end in `_small_records.json`. Each dataset comes with two formats:
+Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. 
 
 - For JSON Lines, use those datasets that end in `_small_records.json`. 
 - For Standard JSON, use those datasets that end in `_large_record.json`.
@@ -27,7 +30,6 @@ Here, we provided all results of all figures by direct compile and run our code 
 4. Figure 13/ Table 8:    Time Breakdown of cuJSON
 5. Figure 14:             Space Cost of Parsing Output
 6. Figure 15:             Querying Cost 
-<!-- 8. Figure 16:             Scalability -->
 
 
 ### [1, 4, and 5] - Standard JSON (One Large JSON Record)
@@ -78,7 +80,7 @@ nvcc -O3 -o output_small.exe ./src/cuJSON-jsonlines.cu -w [-gencode=arch=compute
 3. Download the corresponding JSON files from the provided dataset URL and copy the downloaded file to the `dataset` folder. Then, use this command line to parse it (default version).
 
 ```
-output_small.exe -b ../dataset/[dataset name]_small_records_remove.json
+output_small.exe -b ../dataset/[dataset name]_small_records.json
 ```
 
 **NOTE**: Possible [dataset name]s are {`nspl`, `wiki`, `walmart`, `google_map`, `twitter`, `bestbuy`}.
