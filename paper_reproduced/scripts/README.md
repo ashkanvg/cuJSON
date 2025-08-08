@@ -17,7 +17,11 @@ We provide a script to setup gpjson and cudf too. You can use:
 ./setup.sh
 ```
 
-It contains three scripts, `./setup/install_gpjson.sh` will download GraalVM (a dependency for gpjson) as well as clone and build gpjson. It's output also advises on what environment variables need to be set. `./setup/setup_cudf_env.sh` will setup cudf within a conda environment following steps from their documentation (https://github.com/rapidsai/cudf). `./setup/clean.sh` will just clean up the installation of gpjson, graalvm, and remove the cudf_env conda environment.
+> **Note**: It contains three scripts, `./setup/install_gpjson.sh` will download GraalVM (a dependency for gpjson) as well as clone and build gpjson. It's output also advises on what environment variables need to be set. `./setup/setup_cudf_env.sh` will setup cudf within a conda environment following steps from their documentation (https://github.com/rapidsai/cudf). `./setup/clean.sh` will just clean up the installation of gpjson, graalvm, and remove the cudf_env conda environment.
+
+> **Note**: MetaJSON is not included in performance tests as it requires very huge compile time and only works for a few simplified test cases without branches. We include it only to show that our proposed method outperforms it. MetaJSON discusses how to parse JSON objects with a fixed JSON schema, which greatly simplifies the task of data de-serialization. However, if you want to test meta-json, you can follow their github repository: https://github.com/mis-wut/meta-json-parser . For datasets, please refer to our `dataset` folder and its corresponding `readme` since we have specific json files the preprocessed for `meta-json`. 
+Per each dataset, you should manually replace the `data_def.cuh` (from the metaJSON files) with the requested dataset .cuh file (from google drive), later follow the running and compiling commands of meta-json repository (https://github.com/mis-wut/meta-json-parser).
+
 
 ## 📊 Run all experiments
 We have added a new script called `run_experiments.sh`, which executes all experiments and generates the final figures and tables presented in the paper. For other methods, their libraries are already included in the `related_works` folder. If you need for further manually scritps checking and runnign per each figure you can follow the following subsections.
@@ -279,12 +283,17 @@ For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_6
 
 ## General Notes:
 
-- All scripts assume you have the necessary dependencies installed.
-- For `gpjson` after you install the required library files, you have to add your keys in the scripts: `scripts/run_gpjson_fig11.sh` and `scripts/run_gpjson_fig12.sh`.
-- The `scripts/results` folder will contain all output files, categorized by method and csvs.
-- For specific modifications or troubleshooting, refer to the individual script files, or readme of each relarted works for more details.
-- Make sure to download all the datasets can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. `scabality` folder must place exactly like what it is in the `dataset` folder for proper experiment.
-- For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
+> **Note 1:** All scripts assume you have the necessary dependencies installed.
+
+> **Note 2:** For `gpjson` after you install the required library files, you have to add your keys in the scripts: `scripts/run_gpjson_fig11.sh` and `scripts/run_gpjson_fig12.sh`.
+
+> **Note 3:** The `scripts/results` folder will contain all output files, categorized by method and csvs.
+
+> **Note 4:** For specific modifications or troubleshooting, refer to the individual script files, or readme of each relarted works for more details.
+
+> **Note 5:** Make sure to download all the datasets can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. `scabality` folder must place exactly like what it is in the `dataset` folder for proper experiment.
+
+> **Note 6:** For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
 
 
 ---
