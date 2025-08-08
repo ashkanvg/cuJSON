@@ -27,6 +27,9 @@ Here, we provided all results of all figures by direct compile and run our code 
 6. Figure 15:             Querying Cost 
 
 
+- Notes: Figure numbers are based on the papers figure numbers. In `scripts` directory we provide the python code to generate the figures. 
+
+
 ### [1, 4, and 5] - Standard JSON (One Large JSON Record)
 The cuJSON library is easily consumable. 
 1. clone the repo in your directory and move to `paper_reproduced/` directory.
@@ -204,6 +207,14 @@ nvcc -O3 -o query-experiment ./example/query_WP2_JSONL.cu -w -gencode=arch=compu
 ./query-experiment -b ./dataset/wiki_small_records.json ;
 
 ```
+
+
+## Generate Figures
+In order to generate the figures we use python codes that are located in `scripts` directory. Our pipelines is contains:
+1. run the scripts to generate .csv files 
+2. run python code over those .csv to generate those pictures.
+
+
 
 
 ## Related Works

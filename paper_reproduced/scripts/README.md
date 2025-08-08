@@ -3,11 +3,25 @@
 
 All runs were executed 10 times to calculate the average results for each method.
 
-## 📊 Fig 9 and Fig 10 (cujson vs CPU Methods)
+## Datasets
+Two sample datasets are included in the `dataset` folder. Large datasets (used in performance evaluation) can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. 
+
+- For JSON Lines, use those datasets that end in `_small_records.json`. 
+- For Standard JSON, use those datasets that end in `_large_record.json`.
+ 
+## Setup:
+RapidJSON, simdjson, cuJSON, and pison are already available in the related_works directory. No need for further installation. For cudf and GPJSON, it requires to install their library and create their enviroment to be used which are also explained in the related_works/gpjson and related_works/cudf readme.md section. 
+
+## 📊 Run all experiments
+We have added a new script called `run_experiments.sh`, which executes all experiments and generates the final figures and tables presented in the paper. For other methods, their libraries are already included in the `related_works` folder. If you need for further manually scritps checking and runnign per each figure you can follow the following subsections.
+
+
+### 📊 Fig 9 and Fig 10 (cujson vs CPU Methods)
 
 To run each method separately and get the results for each dataset (executed 10 times), use the following commands:
 
 - **cujson**  
+For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
   ```bash
   ./run_cujson_fig9.sh
   ```
@@ -33,7 +47,7 @@ If you'd like to run all methods together, simply execute:
 run_all_fig9.sh
 ```
 
-### Results Location:
+#### Results Location:
 - All method results can be found in `scripts/results/fig9_data.csv`.
 - Individual method results are saved in `scripts/results/` under:
   - `cujson_fig9.csv`
@@ -43,9 +57,14 @@ run_all_fig9.sh
 
 ---
 
-## 📈 Fig 11 (cujson vs GPU Methods)
+### 📈 Fig 11 (cujson vs GPU Methods)
 
 To run each method separately for Fig 11:
+- **cujson**  
+For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
+  ```bash
+  ./run_cujson_fig9.sh
+  ```
 
 - **gpjson**  
   ```bash
@@ -63,7 +82,7 @@ If you'd like to run both methods together, use the following:
 run_all_fig11.sh
 ```
 
-### Results Location:
+#### Results Location:
 - All method results are stored in `scripts/results/fig11_data.csv`.
 - Individual results can be found in `scripts/results/` under:
   - `cujson_fig9.csv`
@@ -72,11 +91,12 @@ run_all_fig11.sh
 
 ---
 
-## 💻 Fig 12: Peak GPU Memory
+### 💻 Fig 12: Peak GPU Memory
 
 To report peak GPU memory usage for each method:
 
 - **cujson**  
+For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
   ```bash
   ./run_cujson_fig12.sh
   ```
@@ -99,7 +119,7 @@ To run all methods together:
 
 > **Note**: MetaJSON is not included in performance tests as it requires very huge compile time and only works for a few simplified test cases without branches. We include it only to show that our proposed method outperforms it.
 
-### Results Location:
+#### Results Location:
 - All method results are stored in `scripts/results/fig12_data.csv`.
 - Individual results can be found in `scripts/results/` under:
   - `cujson_fig12.csv`
@@ -108,9 +128,11 @@ To run all methods together:
 
 ---
 
-## ⏱️ Fig 13 and Table 8 (cujson only)
+### ⏱️ Fig 13 and Table 8 (cujson only)
 
 For time-breakdown reporting with **cujson**, execute the following:
+
+For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
 
 ```bash
 ./run_cujson_fig13.sh
@@ -118,18 +140,19 @@ For time-breakdown reporting with **cujson**, execute the following:
 
 > **Note**: We are unable to provide scripts for other methods' time-breakdowns due to the need for code modifications after compilation and library installation. 
 
-### Results Location:
+#### Results Location:
 - All method results are stored in `scripts/results/fig13_data.csv`.
 
 
 
 ---
 
-## 🧠 Fig 14: Reporting Output Memory
+### 🧠 Fig 14: Reporting Output Memory
 
 To run each method separately and report memory usage:
 
 - **cujson**  
+For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
   ```bash
   ./run_cujson_fig14.sh
   ```
@@ -162,7 +185,7 @@ To run all methods together:
 ./run_all_fig14.sh
 ```
 
-### Results Location:
+#### Results Location:
 - All method results are stored in `scripts/results/fig14_data.csv`.
 - Individual results can be found in `scripts/results/` under:
   - `cujson_fig14.csv`
@@ -173,13 +196,15 @@ To run all methods together:
 
 ---
 
-## 🕒 Fig 15: Running Query Timings
+### 🕒 Fig 15: Running Query Timings
 
-### Left: Average Query Time
+#### Left: Average Query Time
 
 To report the average time for running the queries, execute the scripts for each method:
 
 - **cujson**  
+For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
+
   ```bash
   ./run_cujson_fig15.sh
   ```
@@ -207,7 +232,7 @@ To run all methods together:
 ./run_all_fig15.sh
 ```
 
-### Results Location:
+#### Results Location:
 - All method results are stored in `scripts/results/fig15_data.csv`.
 - Individual results can be found in `scripts/results/` under:
   - `cujson_fig15.csv`
@@ -217,14 +242,14 @@ To run all methods together:
 
 ---
 
-### Middle and Right: Modifying JSON Files
+#### Middle and Right: Modifying JSON Files
 
 For these sections, you will need to modify the JSON file to contain only one record to compute the query time. Library modifications are required for **gpjson** and **cudf**, so ensure you install the libraries and use them accordingly.
 
 
 ---
 
-## 🧑‍💻 Fig 16: cujson Scalability
+### 🧑‍💻 Fig 16: cujson Scalability
 
 To run **cujson** scalability tests:
 
@@ -234,8 +259,9 @@ To run **cujson** scalability tests:
 ```bash
 ./run_cujson_fig16.sh
 ```
+For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
 
-### Results Location:
+#### Results Location:
 - All method results are stored in `scripts/results/fig16_data.csv`.
 
 
@@ -248,6 +274,8 @@ To run **cujson** scalability tests:
 - The `scripts/results` folder will contain all output files, categorized by method and csvs.
 - For specific modifications or troubleshooting, refer to the individual script files, or readme of each relarted works for more details.
 - Make sure to download all the datasets can be downloaded from https://drive.google.com/drive/folders/1PkDEy0zWOkVREfL7VuINI-m9wJe45P2Q?usp=sharing and placed into the `dataset` folder. `scabality` folder must place exactly like what it is in the `dataset` folder for proper experiment.
+- For running the cuJSON make sure to edit the `-gencode=arch=compute_61,code=sm_61` in the compile line of the scripts based on your GPU compatibilty version.
+
 
 
 ---
